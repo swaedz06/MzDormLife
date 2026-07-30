@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Smart Hostel 360 | Laundry Management</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<!-- ========================= -->
+<!-- Top Navigation -->
+<!-- ========================= -->
+
+<header class="topbar">
+
+<div class="logo">
+
+<img src="C:\Users\adith\OneDrive\Pictures\mzlogo.jpg" alt="logo">
+
+<div>
+
+<h2>Smart Hostel 360</h2>
+
+<p>Mount Zion College of Engineering & Technology</p>
+
+</div>
+
+</div>
+
+<div class="top-right">
+
+<div class="search-box">
+
+<i class="fa fa-search"></i>
+
+<input
+type="text"
+placeholder="Search Student..."
+id="searchStudent">
+
+</div>
+
+<button id="themeBtn">
+
+🌙
+
+</button>
+
+<i class="fa-solid fa-bell notification"></i>
+
+<div class="profile">
+
+<img src="avatar.png">
+
+</div>
+
+</div>
+
+</header>
+
+
+
+<!-- ========================= -->
+<!-- Hero -->
+<!-- ========================= -->
+
+<section class="hero">
+
+<h1>
+
+🧺 Laundry Management
+
+</h1>
+
+<p>
+
+Manage Student Laundry Efficiently
+
+</p>
+
+</section>
+
+
+
+<!-- ========================= -->
+<!-- Statistics -->
+<!-- ========================= -->
+
+<section class="cards">
+
+<div class="card received">
+
+<h3>Received</h3>
+
+<h1 class="count" data-target="54">0</h1>
+
+<p>Today's Collection</p>
+
+</div>
+
+<div class="card washing">
+
+<h3>Washing</h3>
+
+<h1 class="count" data-target="18">0</h1>
+
+<p>In Progress</p>
+
+</div>
+
+<div class="card drying">
+
+<h3>Drying</h3>
+
+<h1 class="count" data-target="12">0</h1>
+
+<p>Drying Area</p>
+
+</div>
+
+<div class="card ready">
+
+<h3>Ready</h3>
+
+<h1 class="count" data-target="26">0</h1>
+
+<p>Waiting Collection</p>
+
+</div>
+
+<div class="card collected">
+
+<h3>Collected</h3>
+
+<h1 class="count" data-target="41">0</h1>
+
+<p>Completed</p>
+
+</div>
+
+</section>
+
+
+
+<!-- ========================= -->
+<!-- Laundry Schedule -->
+<!-- ========================= -->
+
+<section class="schedule">
+
+<h2>
+
+Today's Laundry Schedule
+
+</h2>
+
+<div class="day-box active">
+
+<h3>
+
+Monday
+
+</h3>
+
+<p>
+
+👦 Boys Hostel
+
+</p>
+
+<span>
+
+OPEN
+
+</span>
+
+</div>
+
+</section>
+
+
+
+<!-- ========================= -->
+<!-- Scanner -->
+<!-- ========================= -->
+
+<section class="scanner">
+
+<h2>
+
+Scan Student ID Card
+
+</h2>
+
+<div class="scanner-box">
+
+<div class="scan-line"></div>
+
+<p>
+
+Place Barcode Inside Frame
+
+</p>
+
+</div>
+
+<button id="scanBtn">
+
+Start Scanner
+
+</button>
+
+<!-- ================= STUDENT & LAUNDRY SECTION ================= -->
+
+<section class="laundry-container">
+
+    <!-- STUDENT INFORMATION -->
+    <div class="student-card" id="studentPanel">
+
+        <div class="student-header">
+            <h2>👤 Student Information</h2>
+            <span class="verified">✔ ID Verified</span>
+        </div>
+
+        <div class="student-body">
+
+            <div class="student-photo">
+                <img src="student.png" alt="Student">
+            </div>
+
+            <div class="student-details">
+
+                <div class="detail">
+                    <label>Name</label>
+                    <span>Daniel S</span>
+                </div>
+
+                <div class="detail">
+                    <label>Register No</label>
+                    <span>22CSE1054</span>
+                </div>
+
+                <div class="detail">
+                    <label>Department</label>
+                    <span>CSE</span>
+                </div>
+
+                <div class="detail">
+                    <label>Year</label>
+                    <span>III Year</span>
+                </div>
+
+                <div class="detail">
+                    <label>Room No</label>
+                    <span>A203</span>
+                </div>
+
+                <div class="detail">
+                    <label>Hostel</label>
+                    <span>Boys Hostel</span>
+                </div>
+
+                <div class="detail">
+                    <label>Laundry Day</label>
+                    <span>Monday</span>
+                </div>
+
+                <div class="detail">
+                    <label>Pending Laundry</label>
+                    <span>0</span>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="status-box">
+
+            <h3>Eligibility Check</h3>
+
+            <p>✅ Active Student</p>
+            <p>✅ Hostel ID Verified</p>
+            <p>✅ Laundry Day Today</p>
+            <p>✅ No Pending Collection</p>
+
+            <div class="eligible-box">
+
+                🟢 ELIGIBLE FOR LAUNDRY
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- LAUNDRY DETAILS -->
+
+    <div class="laundry-card">
+
+        <h2>🧺 Laundry Details</h2>
+
+        <div class="cloth-grid">
+
+            <div class="cloth-item">
+                👕 Shirts
+                <div class="counter">
+                    <button class="minus">-</button>
+                    <input value="0">
+                    <button class="plus">+</button>
+                </div>
+            </div>
+
+            <div class="cloth-item">
+                👕 T-Shirts
+                <div class="counter">
+                    <button class="minus">-</button>
+                    <input value="0">
+                    <button class="plus">+</button>
+                </div>
+            </div>
+
+            <div class="cloth-item">
+                👖 Pants
+                <div class="counter">
+                    <button class="minus">-</button>
+                    <input value="0">
+                    <button class="plus">+</button>
+                </div>
+            </div>
+
+            <div class="cloth-item">
+                🩳 Shorts
+                <div class="counter">
+                    <button class="minus">-</button>
+                    <input value="0">
+                    <button class="plus">+</button>
+                </div>
+            </div>
+
+            <div class="cloth-item">
+                🧦 Socks
+                <div class="counter">
+                    <button class="minus">-</button>
+                    <input value="0">
+                    <button class="plus">+</button>
+                </div>
+            </div>
+
+            <div class="cloth-item">
+                🛏 Bedsheet
+                <div class="counter">
+                    <button class="minus">-</button>
+                    <input value="0">
+                    <button class="plus">+</button>
+                </div>
+            </div>
+
+            <div class="cloth-item">
+                🧺 Towel
+                <div class="counter">
+                    <button class="minus">-</button>
+                    <input value="0">
+                    <button class="plus">+</button>
+                </div>
+            </div>
+
+            <div class="cloth-item">
+                🎓 Uniform
+                <div class="counter">
+                    <button class="minus">-</button>
+                    <input value="0">
+                    <button class="plus">+</button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="summary">
+
+            <h3>Total Clothes :
+                <span id="totalClothes">0</span>
+            </h3>
+
+            <label>Laundry Type</label>
+
+     <label>Laundry Status</label>
+
+<select id="laundryStatus">
+    <option value="received">🟡 Received</option>
+    <option value="washing">🟠 Washing</option>
+    <option value="completed">🟢 Completed</option>
+</select>
+
+<label>Pickup Date</label>
+
+<input type="date" id="pickupDate">
+
+<label>Pickup Time</label>
+
+<input type="time" id="pickupTime">
+
+            <label>Expected Ready Date</label>
+
+            <input type="date">
+
+            <label>Remarks</label>
+
+            <textarea rows="4"></textarea>
+
+            <div class="button-group">
+
+<button class="save-btn" id="acceptLaundry">
+✔ Accept Laundry
+</button>
+
+<button class="washing-btn" id="startWashing">
+🧺 Start Washing
+</button>
+
+<button class="complete-btn" id="completeLaundry">
+✅ Completed
+</button>
+
+<button class="print-btn">
+🖨 Print Receipt
+</button>
+
+</div>
+            <div class="token-box">
+
+                Laundry Token :
+                <span id="token">---</span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+<script src="script.js"></script>
+<div class="notification-popup" id="notificationPopup">
+
+<div class="popup-content">
+
+<h2>🎉 Laundry Completed</h2>
+
+<p>
+
+Student has been notified successfully.
+
+</p>
+
+<p>
+
+Pickup Time
+
+</p>
+
+<h3 id="pickupDisplay"></h3>
+
+<button onclick="closePopup()">
+
+OK
+
+</button>
+
+</div>
+
+</div>
+
+</body>
+</html>
