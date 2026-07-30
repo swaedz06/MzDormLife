@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin Mess Management | Smart Hostel 360</title>
+
+<link rel="stylesheet" href="adminmess.css">
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
+
+</head>
+
+
+<body>
+
+
+<!-- ================= HEADER ================= -->
+
+
+<header class="topbar">
+
+
+<div class="logo">
+
+<img src="C:\Users\adith\OneDrive\Pictures\mzlogo.jpg">
+
+
+<div>
+
+<h2>SMART HOSTEL 360</h2>
+
+<p>Administrator Panel</p>
+
+</div>
+
+
+</div>
+
+
+</header>
+
+
+
+
+
+
+<!-- ================= HERO ================= -->
+
+
+<section class="hero">
+
+
+<h1>
+
+<i class="fa-solid fa-utensils"></i>
+
+Mess Menu Management
+
+</h1>
+
+
+<p>
+
+Manage hostel food schedule and attendance
+
+</p>
+
+
+</section>
+
+
+
+
+
+
+
+<!-- ================= MENU ================= -->
+
+
+<section class="menu">
+
+
+<h2>
+🍽 Mess Menu
+</h2>
+
+
+
+<table>
+
+
+<thead>
+
+<tr>
+
+<th>Day</th>
+
+<th>Breakfast</th>
+
+<th>Lunch</th>
+
+<th>Dinner</th>
+
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+
+
+
+<tbody>
+
+
+
+<tr>
+
+<td>Monday</td>
+
+<td contenteditable="false">
+Idly, Kesari, Chutney, Sambar
+</td>
+
+<td contenteditable="false">
+Rice, Sambar, Rasam, Poriyal, Curd
+</td>
+
+<td contenteditable="false">
+Chapathi, Kurma
+</td>
+
+<td>
+<button class="edit">
+<i class="fa-solid fa-pen"></i>
+Edit
+</button>
+</td>
+
+</tr>
+
+
+
+
+
+<tr>
+
+<td>Tuesday</td>
+
+<td contenteditable="false">
+Dosa, Chutney, Sambar, Egg
+</td>
+
+<td contenteditable="false">
+Rice, Chicken Curry, Curd
+</td>
+
+<td contenteditable="false">
+Parotta, Kurma
+</td>
+
+<td>
+<button class="edit">
+<i class="fa-solid fa-pen"></i>
+Edit
+</button>
+</td>
+
+</tr>
+
+
+
+
+
+<tr>
+
+<td>Wednesday</td>
+
+<td contenteditable="false">
+Pongal, Vada, Chutney, Sambar
+</td>
+
+<td contenteditable="false">
+Rice, Dal, Rasam, Poriyal
+</td>
+
+<td contenteditable="false">
+Chapathi, Paneer Curry
+</td>
+
+<td>
+<button class="edit">
+<i class="fa-solid fa-pen"></i>
+Edit
+</button>
+</td>
+
+</tr>
+
+
+
+
+
+<tr>
+
+<td>Thursday</td>
+
+<td contenteditable="false">
+Poori, Masala, Chutney
+</td>
+
+<td contenteditable="false">
+Rice, Chicken Gravy, Curd
+</td>
+
+<td contenteditable="false">
+Dosa, Chutney
+</td>
+
+<td>
+<button class="edit">
+<i class="fa-solid fa-pen"></i>
+Edit
+</button>
+</td>
+
+</tr>
+
+
+
+
+
+<tr>
+
+<td>Friday</td>
+
+<td contenteditable="false">
+Idiyappam, Coconut Milk
+</td>
+
+<td contenteditable="false">
+Rice, Fish Curry, Rasam
+</td>
+
+<td contenteditable="false">
+Chapathi, Veg Curry
+</td>
+
+<td>
+<button class="edit">
+<i class="fa-solid fa-pen"></i>
+Edit
+</button>
+</td>
+
+</tr>
+
+
+
+
+
+<tr>
+
+<td>Saturday</td>
+
+<td contenteditable="false">
+Upma, Chutney, Sambar
+</td>
+
+<td contenteditable="false">
+Rice, Egg Curry, Curd
+</td>
+
+<td contenteditable="false">
+Parotta, Chicken Gravy
+</td>
+
+<td>
+<button class="edit">
+<i class="fa-solid fa-pen"></i>
+Edit
+</button>
+</td>
+
+</tr>
+
+
+
+
+
+<tr>
+
+<td>Sunday</td>
+
+<td contenteditable="false">
+Bread, Jam, Egg, Tea
+</td>
+
+<td contenteditable="false">
+Chicken Biriyani, Raita
+</td>
+
+<td contenteditable="false">
+Fried Rice, Chicken 65
+</td>
+
+<td>
+<button class="edit">
+<i class="fa-solid fa-pen"></i>
+Edit
+</button>
+
+</td>
+
+</tr>
+
+
+
+
+</tbody>
+
+
+</table>
+
+
+
+<button class="save">
+
+<i class="fa-solid fa-save"></i>
+
+Save Changes
+
+</button>
+
+
+</section>
+
+
+
+
+
+
+
+
+<!-- ================= ATTENDANCE ================= -->
+
+
+<section class="attendance">
+
+
+<h2>
+
+<i class="fa-solid fa-user-check"></i>
+
+Today's Mess Attendance
+
+</h2>
+
+
+
+
+<div class="attendance-box">
+
+
+
+<div>
+
+<h3>Full Day Students</h3>
+
+<p id="fullDay">350</p>
+
+<span>
+Breakfast + Lunch + Dinner
+</span>
+
+</div>
+
+
+
+
+
+<div>
+
+<h3>Up to Lunch Students</h3>
+
+<p id="lunchOnly">120</p>
+
+<span>
+Breakfast + Lunch
+</span>
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+
+
+<h2>
+🍚 Total Food Required
+</h2>
+
+
+
+<div class="food-box">
+
+
+<div>
+
+<h3>Breakfast</h3>
+
+<p id="breakfast">
+470 Students
+</p>
+
+</div>
+
+
+
+<div>
+
+<h3>Lunch</h3>
+
+<p id="lunch">
+470 Students
+</p>
+
+</div>
+
+
+
+<div>
+
+<h3>Dinner</h3>
+
+<p id="dinner">
+350 Students
+</p>
+
+</div>
+
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+
+
+
+<footer>
+
+Smart Hostel 360 © 2026
+
+</footer>
+
+
+
+
+<script src="adminmess.js"></script>
+
+
+</body>
+
+</html>
