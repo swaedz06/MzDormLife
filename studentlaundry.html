@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Student Laundry | Smart Hostel 360</title>
+
+<link rel="stylesheet" href="studentlaundry.css">
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+
+<!-- ================= TOP BAR ================= -->
+
+<header class="topbar">
+
+<div class="logo">
+
+<img src="C:\Users\adith\OneDrive\Pictures\mzlogo.jpg" alt="College Logo">
+
+<div>
+
+<h2>SMART HOSTEL 360</h2>
+
+<p>Mount Zion College of Engineering & Technology</p>
+
+</div>
+
+</div>
+
+
+<div class="top-icons">
+
+<button id="themeBtn">
+
+<i class="fa-solid fa-moon"></i>
+
+</button>
+
+</div>
+
+</header>
+
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+<h1>
+
+<i class="fa-solid fa-shirt"></i>
+
+Laundry Management
+
+</h1>
+
+<p>
+
+Track your laundry status in real time
+
+</p>
+
+</section>
+
+
+
+<!-- ================= DASHBOARD ================= -->
+
+<section class="dashboard">
+
+
+<div class="card blue">
+
+<i class="fa-solid fa-basket-shopping"></i>
+
+<h2 id="totalClothes">7</h2>
+
+<p>Total Clothes</p>
+
+</div>
+
+
+
+<div class="card orange">
+
+<i class="fa-solid fa-clock"></i>
+
+<h2 id="statusText">Waiting to Receive</h2>
+
+<p>Current Status</p>
+
+</div>
+
+
+
+<div class="card green">
+
+<i class="fa-solid fa-calendar"></i>
+
+<h2>31 Jul</h2>
+
+<p>Pickup Date</p>
+
+</div>
+
+
+
+<div class="card purple">
+
+<i class="fa-solid fa-clock"></i>
+
+<h2>4 PM</h2>
+
+<p>Pickup Time</p>
+
+</div>
+
+
+</section>
+
+
+
+
+<!-- ================= STUDENT CARD ================= -->
+
+<section class="student-card">
+
+
+<div class="profile">
+
+<img src="images/student.jpg">
+
+</div>
+
+
+<div class="details">
+
+<h2>Daniel S</h2>
+
+<p><strong>Register No :</strong> 22CSE1054</p>
+
+<p><strong>Department :</strong> CSE</p>
+
+<p><strong>Year :</strong> III</p>
+
+<p><strong>Room :</strong> A203</p>
+
+<p><strong>Hostel :</strong> Boys Hostel</p>
+
+</div>
+
+
+</section>
+
+
+
+
+<!-- ================= CURRENT REQUEST ================= -->
+
+<section class="request-card">
+
+
+<h2>
+
+<i class="fa-solid fa-box"></i>
+
+Current Laundry
+
+</h2>
+
+
+
+<div class="token">
+
+Token No
+
+<span>LDR-1025</span>
+
+</div>
+
+
+
+<div class="status">
+
+Status
+
+<span class="waiting">
+
+🕒 Waiting to Receive
+
+</span>
+
+</div>
+
+
+
+<div class="cloth-grid">
+
+
+<div class="cloth">
+
+👕 Shirts
+
+<span>3</span>
+
+</div>
+
+
+<div class="cloth">
+
+👖 Pants
+
+<span>2</span>
+
+</div>
+
+
+<div class="cloth">
+
+🧺 Towels
+
+<span>1</span>
+
+</div>
+
+
+<div class="cloth">
+
+🛏 Bedsheets
+
+<span>1</span>
+
+</div>
+
+
+</div>
+
+
+
+<div class="total">
+
+Total Clothes
+
+<strong>7</strong>
+
+</div>
+
+
+</section>
+
+
+
+
+<!-- ================= PROGRESS ================= -->
+
+
+<section class="progress-card">
+
+
+<h2>
+
+Laundry Progress
+
+</h2>
+
+
+
+<div class="progress-line">
+
+
+
+<div class="step completed">
+
+<div class="circle">
+
+✓
+
+</div>
+
+<p>Completed</p>
+
+</div>
+
+
+
+<div class="line active"></div>
+
+
+
+
+<div class="step active">
+
+<div class="circle">
+
+🕒
+
+</div>
+
+<p>Waiting to Receive</p>
+
+</div>
+
+
+
+<div class="line"></div>
+
+
+
+
+<div class="step">
+
+<div class="circle">
+
+📦
+
+</div>
+
+<p>Received</p>
+
+</div>
+
+
+
+</div>
+
+
+</section>
+<!-- ================= NOTIFICATION ================= -->
+
+<section class="notification-card">
+
+<h2>
+
+🔔 Notification
+
+</h2>
+
+
+<div class="notification success">
+
+
+<i class="fa-solid fa-bell"></i>
+
+
+<div>
+
+
+<h3>
+
+Laundry Completed
+
+</h3>
+
+
+<p>
+
+Your clothes are ready for pickup.
+
+Please collect your laundry from the counter.
+
+<br>
+
+Expected pickup time:
+
+<strong>
+
+31 Jul | 4 PM - 6 PM
+
+</strong>
+
+</p>
+
+
+</div>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+<!-- ================= PICKUP ================= -->
+
+
+<section class="pickup-card">
+
+
+<h2>
+
+Pickup Information
+
+</h2>
+
+
+
+<div class="pickup-details">
+
+
+<p>
+
+📅
+
+<b>Date :</b>
+
+31 Jul 2026
+
+</p>
+
+
+
+<p>
+
+🕓
+
+<b>Time :</b>
+
+4 PM - 6 PM
+
+</p>
+
+
+
+<p>
+
+📍
+
+<b>Location :</b>
+
+Laundry Counter
+
+</p>
+
+
+
+<p>
+
+🪪
+
+Bring your Hostel ID Card while collecting.
+
+</p>
+
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+<!-- ================= HISTORY ================= -->
+
+
+<section class="history">
+
+
+<h2>
+
+Laundry History
+
+</h2>
+
+
+
+<table>
+
+
+<thead>
+
+
+<tr>
+
+<th>Token</th>
+
+<th>Date</th>
+
+<th>Clothes</th>
+
+<th>Status</th>
+
+</tr>
+
+
+</thead>
+
+
+
+
+<tbody>
+
+
+
+<tr>
+
+
+<td>
+
+LDR1001
+
+</td>
+
+
+<td>
+
+10 Jul
+
+</td>
+
+
+<td>
+
+8
+
+</td>
+
+
+<td class="completed">
+
+Completed
+
+</td>
+
+
+</tr>
+
+
+
+
+
+<tr>
+
+
+<td>
+
+LDR1015
+
+</td>
+
+
+<td>
+
+18 Jul
+
+</td>
+
+
+<td>
+
+6
+
+</td>
+
+
+<td class="completed">
+
+Completed
+
+</td>
+
+
+</tr>
+
+
+
+
+
+
+<tr>
+
+
+<td>
+
+LDR1025
+
+</td>
+
+
+<td>
+
+Today
+
+</td>
+
+
+<td>
+
+7
+
+</td>
+
+
+<td class="waiting">
+
+Waiting to Receive
+
+</td>
+
+
+</tr>
+
+
+
+
+</tbody>
+
+
+</table>
+
+
+</section>
+
+
+
+
+
+
+<!-- ================= FOOTER ================= -->
+
+
+<footer>
+
+
+Smart Hostel 360 © 2026
+
+
+</footer>
+
+
+
+
+
+<script src="studentlaundry.js"></script>
+
+
+</body>
+
+</html>
