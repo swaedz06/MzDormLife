@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Attendance | Smart Hostel 360</title>
+
+<link rel="stylesheet" href="attendance.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+
+<!-- Mobile Menu -->
+
+<button class="menu-btn" id="menuBtn">
+    <i class="fa-solid fa-bars"></i>
+</button>
+
+<div class="overlay" id="overlay"></div>
+
+<div class="container">
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar" id="sidebar">
+
+        <button class="close-btn" id="closeBtn">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <div class="logo">
+
+            <img src="images/mzcet-logo.png" alt="Logo">
+
+            <h2>SMART HOSTEL 360</h2>
+
+            <p>Student Portal</p>
+
+        </div>
+
+        <ul>
+
+            <li>
+                <i class="fa-solid fa-house"></i>
+                <span>Dashboard</span>
+            </li>
+
+            <li class="active">
+                <i class="fa-solid fa-calendar-check"></i>
+                <span>Attendance</span>
+            </li>
+
+            <li>
+                <i class="fa-solid fa-id-card"></i>
+                <span>Digital ID</span>
+            </li>
+
+            <li>
+                <i class="fa-solid fa-bed"></i>
+                <span>Room</span>
+            </li>
+
+            <li>
+                <i class="fa-solid fa-person-walking"></i>
+                <span>Outpass</span>
+            </li>
+
+            <li>
+                <i class="fa-solid fa-house-user"></i>
+                <span>Home Leave</span>
+            </li>
+
+            <li>
+                <i class="fa-solid fa-shirt"></i>
+                <span>Laundry</span>
+            </li>
+
+            <li>
+                <i class="fa-solid fa-utensils"></i>
+                <span>Food Orders</span>
+            </li>
+
+            <li>
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <span>Complaints</span>
+            </li>
+
+            <li>
+                <i class="fa-solid fa-bell"></i>
+                <span>Notifications</span>
+            </li>
+
+            <li>
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <span>Emergency SOS</span>
+            </li>
+
+            <li>
+                <i class="fa-solid fa-gear"></i>
+                <span>Settings</span>
+            </li>
+
+            <li>
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Logout</span>
+            </li>
+
+        </ul>
+
+    </aside>
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main">
+
+        <!-- ================= TOP BAR ================= -->
+
+        <header class="topbar">
+
+            <div class="page-title">
+
+                <h1>Attendance Details</h1>
+
+                <p>Track your hostel attendance</p>
+
+            </div>
+
+            <div class="top-right">
+
+                <div class="search-box">
+
+                    <i class="fa-solid fa-search"></i>
+
+                    <input
+                    type="text"
+                    placeholder="Search attendance...">
+
+                </div>
+
+                <div class="notification">
+
+                    <i class="fa-solid fa-bell"></i>
+
+                    <span>4</span>
+
+                </div>
+
+                <div class="clock" id="clock">
+
+                    08:30 AM
+
+                </div>
+
+                <div class="profile">
+
+                    <img src="images/student.png">
+
+                    <div>
+
+                        <h4>Adhi</h4>
+
+                        <p>III Year CSE</p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+        <!-- ================= WELCOME ================= -->
+
+        <section class="welcome">
+
+            <div>
+
+                <h2>Attendance Overview</h2>
+
+                <p>
+
+                    Mark your attendance only within the hostel campus.
+                    GPS verification is mandatory for every attendance session.
+
+                </p>
+
+            </div>
+
+            <button id="markAttendance">
+
+                <i class="fa-solid fa-location-dot"></i>
+
+                Mark Attendance (GPS)
+
+            </button>
+
+        </section>
+
+        <!-- ================= PART 2 STARTS HERE ================= -->
+        <!-- ================= ATTENDANCE SUMMARY ================= -->
+
+<section class="summary-grid">
+
+    <div class="summary-card percentage">
+
+        <i class="fa-solid fa-chart-pie"></i>
+
+        <div>
+
+            <h4>Attendance Percentage</h4>
+
+            <h2>96%</h2>
+
+            <div class="progress-bar">
+
+                <div class="progress" style="width:96%"></div>
+
+            </div>
+
+            <small>Excellent Attendance</small>
+
+        </div>
+
+    </div>
+
+    <div class="summary-card present">
+
+        <i class="fa-solid fa-circle-check"></i>
+
+        <div>
+
+            <h4>Present</h4>
+
+            <h2>142</h2>
+
+            <small>Total Present Days</small>
+
+        </div>
+
+    </div>
+
+    <div class="summary-card absent">
+
+        <i class="fa-solid fa-circle-xmark"></i>
+
+        <div>
+
+            <h4>Absent</h4>
+
+            <h2>4</h2>
+
+            <small>Total Absent Days</small>
+
+        </div>
+
+    </div>
+
+    <div class="summary-card leave">
+
+        <i class="fa-solid fa-calendar-minus"></i>
+
+        <div>
+
+            <h4>Leave</h4>
+
+            <h2>3</h2>
+
+            <small>Approved Leaves</small>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= TODAY STATUS ================= -->
+
+<section class="today-grid">
+
+    <div class="today-card">
+
+        <h3>Today's Attendance</h3>
+
+        <div class="today-status present-status">
+
+            <i class="fa-solid fa-circle-check"></i>
+
+            <div>
+
+                <h2>Present</h2>
+
+                <p>Morning Session</p>
+
+            </div>
+
+        </div>
+
+        <div class="today-info">
+
+            <p><strong>Check-in :</strong> 07:55 AM</p>
+
+            <p><strong>Check-out :</strong> Pending</p>
+
+            <p><strong>Verification :</strong> GPS Verified</p>
+
+        </div>
+
+    </div>
+
+    <div class="today-card">
+
+        <h3>Current Attendance Session</h3>
+
+        <h2>Morning Session</h2>
+
+        <p>08:00 AM - 09:00 AM</p>
+
+        <div class="countdown">
+
+            <h4>Next Attendance</h4>
+
+            <span id="countdownTimer">11:42:18</span>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= GPS STATUS ================= -->
+
+<section class="gps-card">
+
+    <div class="section-header">
+
+        <h2>GPS Verification Status</h2>
+
+    </div>
+
+    <div class="gps-grid">
+
+        <div class="gps-item">
+
+            <h4>GPS Status</h4>
+
+            <span class="success">Connected</span>
+
+        </div>
+
+        <div class="gps-item">
+
+            <h4>Current Location</h4>
+
+            <p>Mount Zion Hostel Campus</p>
+
+        </div>
+
+        <div class="gps-item">
+
+            <h4>Hostel Geofence</h4>
+
+            <span class="success">Inside</span>
+
+        </div>
+
+        <div class="gps-item">
+
+            <h4>Distance</h4>
+
+            <p>18 meters</p>
+
+        </div>
+
+        <div class="gps-item">
+
+            <h4>GPS Accuracy</h4>
+
+            <p>±4 meters</p>
+
+        </div>
+
+        <div class="gps-item">
+
+            <h4>Verification</h4>
+
+            <span class="success">Verified</span>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= ATTENDANCE ANALYTICS ================= -->
+
+<section class="chart-section">
+
+    <div class="chart-card">
+
+        <div class="section-header">
+
+            <h2>Monthly Attendance</h2>
+
+        </div>
+
+        <canvas id="attendanceChart"></canvas>
+
+    </div>
+
+</section>
+
+<!-- ================= QUICK ACTIONS ================= -->
+
+<section class="quick-actions">
+
+    <h2>Quick Actions</h2>
+
+    <div class="action-grid">
+
+        <div class="action-card">
+            <i class="fa-solid fa-location-dot"></i>
+            <h4>Mark Attendance</h4>
+        </div>
+
+        <div class="action-card">
+            <i class="fa-solid fa-clock-rotate-left"></i>
+            <h4>Attendance History</h4>
+        </div>
+
+
+        <div class="action-card">
+            <i class="fa-solid fa-pen-to-square"></i>
+            <h4>Attendance Correction</h4>
+        </div>
+
+        <div class="action-card">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <h4>Raise Issue</h4>
+        </div>
+
+        <div class="action-card">
+            <i class="fa-solid fa-book"></i>
+            <h4>Attendance Rules</h4>
+        </div>
+
+        <div class="action-card">
+            <i class="fa-solid fa-bell"></i>
+            <h4>Reminder Info</h4>
+        </div>
+
+        <div class="action-card">
+            <i class="fa-solid fa-volume-high"></i>
+            <h4>Test Reminder</h4>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= ATTENDANCE CALENDAR ================= -->
+
+<section class="calendar-section">
+
+    <div class="section-header">
+
+        <h2>Attendance Calendar</h2>
+
+        <select>
+
+            <option>July 2026</option>
+            <option>June 2026</option>
+            <option>May 2026</option>
+
+        </select>
+
+    </div>
+
+    <div class="calendar-grid">
+
+        <div class="day-title">Mon</div>
+        <div class="day-title">Tue</div>
+        <div class="day-title">Wed</div>
+        <div class="day-title">Thu</div>
+        <div class="day-title">Fri</div>
+        <div class="day-title">Sat</div>
+        <div class="day-title">Sun</div>
+
+        <div class="day present">1</div>
+        <div class="day present">2</div>
+        <div class="day present">3</div>
+        <div class="day absent">4</div>
+        <div class="day present">5</div>
+        <div class="day leave">6</div>
+        <div class="day holiday">7</div>
+
+        <div class="day present">8</div>
+        <div class="day present">9</div>
+        <div class="day present">10</div>
+        <div class="day present">11</div>
+        <div class="day present">12</div>
+        <div class="day present">13</div>
+        <div class="day holiday">14</div>
+
+        <div class="day present">15</div>
+        <div class="day absent">16</div>
+        <div class="day present">17</div>
+        <div class="day present">18</div>
+        <div class="day present">19</div>
+        <div class="day leave">20</div>
+        <div class="day holiday">21</div>
+
+        <div class="day present">22</div>
+        <div class="day present">23</div>
+        <div class="day present">24</div>
+        <div class="day present">25</div>
+        <div class="day present">26</div>
+        <div class="day present">27</div>
+        <div class="day holiday">28</div>
+
+        <div class="day present">29</div>
+        <div class="day present">30</div>
+        <div class="day present">31</div>
+
+    </div>
+
+    <div class="calendar-legend">
+
+        <span><div class="legend present"></div>Present</span>
+
+        <span><div class="legend absent"></div>Absent</span>
+
+        <span><div class="legend leave"></div>Leave</span>
+
+        <span><div class="legend holiday"></div>Holiday</span>
+
+    </div>
+
+</section>
+
+<!-- ================= ATTENDANCE HISTORY ================= -->
+
+<section class="history-section">
+
+    <div class="section-header">
+
+        <h2>Attendance History</h2>
+
+        <div class="filters">
+
+            <input
+            type="text"
+            placeholder="Search Date">
+
+            <select>
+
+                <option>All Sessions</option>
+                <option>Morning</option>
+                <option>Night</option>
+
+            </select>
+
+            <select>
+
+                <option>All Status</option>
+                <option>Present</option>
+                <option>Absent</option>
+                <option>Leave</option>
+
+            </select>
+
+        </div>
+
+    </div>
+
+    <div class="table-responsive">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Date</th>
+                    <th>Day</th>
+                    <th>Session</th>
+                    <th>Check-in</th>
+                    <th>Check-out</th>
+                    <th>Status</th>
+                    <th>GPS</th>
+                    <th>Location</th>
+                    <th>Remarks</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr>
+
+                    <td>31 Jul</td>
+                    <td>Friday</td>
+                    <td>Morning</td>
+                    <td>07:55 AM</td>
+                    <td>08:02 AM</td>
+                    <td><span class="success">Present</span></td>
+                    <td><span class="success">Verified</span></td>
+                    <td>Hostel Gate</td>
+                    <td>On Time</td>
+
+                </tr>
+
+                <tr>
+
+                    <td>30 Jul</td>
+                    <td>Thursday</td>
+                    <td>Night</td>
+                    <td>07:57 PM</td>
+                    <td>08:04 PM</td>
+                    <td><span class="success">Present</span></td>
+                    <td><span class="success">Verified</span></td>
+                    <td>Hostel</td>
+                    <td>Verified</td>
+
+                </tr>
+
+                <tr>
+
+                    <td>29 Jul</td>
+                    <td>Wednesday</td>
+                    <td>Morning</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td><span class="pending">Leave</span></td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>Medical Leave</td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+<!-- ================= ATTENDANCE CORRECTION ================= -->
+
+<section class="correction-section">
+
+    <div class="section-header">
+
+        <h2>Attendance Correction Request</h2>
+
+    </div>
+
+    <form class="correction-form">
+
+        <div class="form-grid">
+
+            <div class="form-group">
+
+                <label>Attendance Date</label>
+
+                <input type="date">
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Session</label>
+
+                <select>
+
+                    <option>Morning</option>
+                    <option>Night</option>
+
+                </select>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Reason</label>
+
+                <select>
+
+                    <option>GPS Issue</option>
+                    <option>Network Issue</option>
+                    <option>Technical Error</option>
+                    <option>Other</option>
+
+                </select>
+
+            </div>
+
+            <div class="form-group full-width">
+
+                <label>Description</label>
+
+                <textarea rows="5"
+                placeholder="Describe your attendance issue..."></textarea>
+
+            </div>
+
+            <div class="form-group full-width">
+
+                <label>Upload Proof</label>
+
+                <input type="file">
+
+            </div>
+
+        </div>
+
+        <button class="submit-btn">
+
+            Submit Request
+
+        </button>
+
+    </form>
+
+</section>
+
+<!-- ================= REMINDER INFORMATION ================= -->
+
+<section class="reminder-section">
+
+    <div class="section-header">
+
+        <h2>Attendance Reminder Information</h2>
+
+    </div>
+
+    <div class="reminder-card">
+
+        <div class="reminder-item">
+
+            <i class="fa-solid fa-sun"></i>
+
+            <div>
+
+                <h4>Morning Attendance</h4>
+
+                <p>08:00 AM (Mandatory)</p>
+
+            </div>
+
+        </div>
+
+        <div class="reminder-item">
+
+            <i class="fa-solid fa-moon"></i>
+
+            <div>
+
+                <h4>Night Attendance</h4>
+
+                <p>08:00 PM (Mandatory)</p>
+
+            </div>
+
+        </div>
+
+        <div class="info-box">
+
+            Attendance reminders are controlled by the hostel administration.
+
+            Students cannot modify or disable reminder timings.
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= NOTIFICATION CENTER ================= -->
+
+<section class="notification-section">
+
+    <div class="section-header">
+
+        <h2>Attendance Notifications</h2>
+
+    </div>
+
+    <div class="notification-list">
+
+        <div class="notify success">
+
+            <i class="fa-solid fa-circle-check"></i>
+
+            <div>
+
+                <h4>Attendance Recorded</h4>
+
+                <p>Morning attendance successfully recorded.</p>
+
+                <small>Today • 07:55 AM</small>
+
+            </div>
+
+        </div>
+
+        <div class="notify warning">
+
+            <i class="fa-solid fa-bell"></i>
+
+            <div>
+
+                <h4>Night Attendance Reminder</h4>
+
+                <p>Attendance starts at 08:00 PM.</p>
+
+                <small>Today</small>
+
+            </div>
+
+        </div>
+
+        <div class="notify info">
+
+            <i class="fa-solid fa-pen"></i>
+
+            <div>
+
+                <h4>Correction Request</h4>
+
+                <p>Your previous request is under review.</p>
+
+                <small>Yesterday</small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= FOOTER ================= -->
+
+<footer class="footer">
+
+    <p>
+
+        © 2026 Smart Hostel 360 | Mount Zion College of Engineering & Technology
+
+    </p>
+
+</footer>
+
+<!-- ================= MODALS START HERE ================= -->
+
+<!-- We'll paste Download Report Modal here -->
+<!-- Then Attendance Rules -->
+<!-- Then Reminder -->
+<!-- Then Raise Issue -->
+<!-- Then GPS -->
+<!-- etc... -->
+
+<!-- ================= MODALS END HERE ================= -->
+
+</main>
+
+</div>
+
+<script src="attendance.js"></script>
+
+</body>
+
+</html>
