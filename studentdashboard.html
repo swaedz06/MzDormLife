@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Student Dashboard | Smart Hostel 360</title>
+
+<link rel="stylesheet" href="studentdashboard.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+</head>
+
+<body>
+
+<!-- Mobile Menu -->
+
+<button class="menu-btn" id="menuBtn">
+
+<i class="fa-solid fa-bars"></i>
+
+</button>
+
+<!-- Overlay -->
+
+<div class="overlay" id="overlay"></div>
+
+<div class="dashboard">
+
+<!-- ================= SIDEBAR ================= -->
+
+<aside class="sidebar" id="sidebar">
+
+<button class="close-btn" id="closeBtn">
+
+<i class="fa-solid fa-xmark"></i>
+
+</button>
+
+<div class="logo">
+
+<img src="images/mzcet-logo.png" alt="Logo">
+
+<h2>SMART HOSTEL 360</h2>
+
+<p>Student Portal</p>
+
+</div>
+
+<ul>
+
+<li class="active">
+
+<i class="fa-solid fa-house"></i>
+
+<span>Dashboard</span>
+
+</li>
+
+<li>
+
+<i class="fa-solid fa-calendar-check"></i>
+
+<span>Attendance</span>
+
+</li>
+
+<li>
+
+<i class="fa-solid fa-id-card"></i>
+
+<span>Digital ID</span>
+
+</li>
+
+<li>
+
+<i class="fa-solid fa-bed"></i>
+
+<span>Room</span>
+
+</li>
+
+<li>
+
+<i class="fa-solid fa-person-walking"></i>
+
+<span>Outpass</span>
+
+</li>
+
+<li>
+
+<i class="fa-solid fa-house-user"></i>
+
+<span>Home Leave</span>
+
+</li>
+
+<li>
+
+<i class="fa-solid fa-shirt"></i>
+
+<span>Laundry</span>
+
+</li>
+
+<li>
+
+<i class="fa-solid fa-utensils"></i>
+
+<span>Food Orders</span>
+
+</li>
+
+<li>
+
+<i class="fa-solid fa-circle-exclamation"></i>
+
+<span>Complaints</span>
+
+</li>
+
+<li>
+
+<i class="fa-solid fa-bell"></i>
+
+<span>Notifications</span>
+
+</li>
+
+<li>
+
+<i class="fa-solid fa-triangle-exclamation"></i>
+
+<span>Emergency SOS</span>
+
+</li>
+
+<li>
+
+<i class="fa-solid fa-gear"></i>
+
+<span>Settings</span>
+
+</li>
+
+<li>
+
+<i class="fa-solid fa-right-from-bracket"></i>
+
+<span>Logout</span>
+
+</li>
+
+</ul>
+
+</aside>
+
+<!-- ================= MAIN ================= -->
+
+<main class="main">
+
+<!-- ================= TOPBAR ================= -->
+
+<header class="topbar">
+
+<div class="search">
+
+<i class="fa-solid fa-search"></i>
+
+<input
+type="text"
+placeholder="Search services...">
+
+</div>
+
+<div class="top-right">
+
+<div class="notification">
+
+<i class="fa-solid fa-bell"></i>
+
+<span>3</span>
+
+</div>
+
+<div class="clock" id="clock">
+
+09:30 AM
+
+</div>
+
+<div class="profile">
+
+<img src="images/student.png">
+
+<div>
+
+<h4>Adhi</h4>
+
+<p>III Year CSE</p>
+
+</div>
+
+</div>
+
+</div>
+
+</header>
+
+<!-- ================= IMPORTANT NOTICE ================= -->
+
+<section class="notice">
+
+<div class="notice-title">
+
+<i class="fa-solid fa-bullhorn"></i>
+
+Important Notifications
+
+</div>
+
+<div class="notice-list">
+
+<p>✔ Laundry Ready for Pickup (4 PM)</p>
+
+<p>✔ Outpass Approved</p>
+
+<p>✔ Tomorrow Breakfast 7:00 AM</p>
+
+</div>
+
+</section>
+
+<!-- ================= WELCOME ================= -->
+
+<section class="welcome">
+
+<div>
+
+<h2>Welcome Back 👋</h2>
+
+<p>
+
+Have a great day! You can access all hostel services from your dashboard.
+
+</p>
+
+</div>
+
+<div class="student-short">
+
+<h3>Room B-204</h3>
+
+<p>Attendance : 96%</p>
+
+</div>
+
+</section>
+
+<!-- PART 2 STARTS HERE -->
+
+<!-- ================= QUICK STATUS ================= -->
+
+<section class="status-grid">
+
+    <div class="status-card attendance">
+
+        <div class="icon">
+            <i class="fa-solid fa-calendar-check"></i>
+        </div>
+
+        <div class="details">
+            <h3>Attendance</h3>
+            <h2>96%</h2>
+            <p>Present : 142 Days</p>
+        </div>
+
+    </div>
+
+    <div class="status-card room">
+
+        <div class="icon">
+            <i class="fa-solid fa-bed"></i>
+        </div>
+
+        <div class="details">
+            <h3>Room</h3>
+            <h2>B-204</h2>
+            <p>Boys Block - A</p>
+        </div>
+
+    </div>
+
+    <div class="status-card laundry">
+
+        <div class="icon">
+            <i class="fa-solid fa-shirt"></i>
+        </div>
+
+        <div class="details">
+            <h3>Laundry</h3>
+            <h2>Ready</h2>
+            <p>Pickup : 4:00 PM</p>
+        </div>
+
+    </div>
+
+    <div class="status-card id">
+
+        <div class="icon">
+            <i class="fa-solid fa-id-card"></i>
+        </div>
+
+        <div class="details">
+            <h3>Digital ID</h3>
+            <h2>Active</h2>
+            <p>Tap to View</p>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= QUICK ACTIONS ================= -->
+
+<section class="quick-actions">
+
+    <h2>Quick Actions</h2>
+
+    <div class="action-grid">
+
+        <div class="action-card">
+            <i class="fa-solid fa-id-card"></i>
+            <h4>Digital ID</h4>
+        </div>
+
+        <div class="action-card">
+            <i class="fa-solid fa-person-walking"></i>
+            <h4>Outpass</h4>
+        </div>
+
+        <div class="action-card">
+            <i class="fa-solid fa-house-user"></i>
+            <h4>Home Leave</h4>
+        </div>
+
+        <div class="action-card">
+            <i class="fa-solid fa-shirt"></i>
+            <h4>Laundry</h4>
+        </div>
+
+        <div class="action-card">
+            <i class="fa-solid fa-utensils"></i>
+            <h4>Food Orders</h4>
+        </div>
+
+        <div class="action-card">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <h4>Complaint</h4>
+        </div>
+
+        <div class="action-card">
+            <i class="fa-solid fa-bell"></i>
+            <h4>Notifications</h4>
+        </div>
+
+        <div class="action-card emergency">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <h4>Emergency SOS</h4>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= RECENT ACTIVITY ================= -->
+
+<section class="recent-section">
+
+    <div class="activity-card">
+
+        <div class="section-title">
+
+            <h2>Recent Activity</h2>
+
+            <a href="#">View All</a>
+
+        </div>
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Date</th>
+
+                    <th>Activity</th>
+
+                    <th>Status</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr>
+
+                    <td>30 Jul</td>
+
+                    <td>Attendance Marked</td>
+
+                    <td><span class="success">Completed</span></td>
+
+                </tr>
+
+                <tr>
+
+                    <td>30 Jul</td>
+
+                    <td>Laundry Submitted</td>
+
+                    <td><span class="pending">Processing</span></td>
+
+                </tr>
+
+                <tr>
+
+                    <td>29 Jul</td>
+
+                    <td>Outpass Request</td>
+
+                    <td><span class="approved">Approved</span></td>
+
+                </tr>
+
+                <tr>
+
+                    <td>28 Jul</td>
+
+                    <td>Complaint Submitted</td>
+
+                    <td><span class="pending">Open</span></td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <!-- Emergency Contacts -->
+
+    <div class="contact-card">
+
+        <h2>Emergency Contacts</h2>
+
+        <div class="contact">
+
+            <div>
+
+                <h4>Hostel Warden</h4>
+
+                <p>+91 9876543210</p>
+
+            </div>
+
+            <button>Call</button>
+
+        </div>
+
+        <div class="contact">
+
+            <div>
+
+                <h4>Security</h4>
+
+                <p>+91 9876543211</p>
+
+            </div>
+
+            <button>Call</button>
+
+        </div>
+
+        <div class="contact">
+
+            <div>
+
+                <h4>Medical Officer</h4>
+
+                <p>+91 9876543212</p>
+
+            </div>
+
+            <button>Call</button>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= FOOD HISTORY ================= -->
+
+<section class="food-history">
+
+    <div class="section-title">
+
+        <h2>Food Order History</h2>
+
+        <a href="#">View All</a>
+
+    </div>
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>Date</th>
+                <th>Breakfast</th>
+                <th>Lunch</th>
+                <th>Dinner</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            <tr>
+
+                <td>30 Jul</td>
+                <td>✔</td>
+                <td>✔</td>
+                <td>✔</td>
+
+            </tr>
+
+            <tr>
+
+                <td>29 Jul</td>
+                <td>✔</td>
+                <td>✔</td>
+                <td>❌</td>
+
+            </tr>
+
+            <tr>
+
+                <td>28 Jul</td>
+                <td>✔</td>
+                <td>✔</td>
+                <td>✔</td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</section>
+
+<!-- ================= FOOTER ================= -->
+
+<footer class="footer">
+
+    <p>
+
+        © 2026 Smart Hostel 360 | Mount Zion College of Engineering & Technology
+
+    </p>
+
+</footer>
+
+</main>
+
+</div>
+
+<script src="studentdashboard.js"></script>
+
+</body>
+
+</html>
+</main>
+
+</div>
+
+<script src="studentdashboard.js"></script>
+
+</body>
+
+</html>

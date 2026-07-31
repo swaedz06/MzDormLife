@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Smart Hostel 360 | Admin Dashboard</title>
+
+    <link rel="stylesheet" href="admindashboard.css">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+</head>
+
+<body>
+
+    <!-- Mobile Menu Button -->
+    <button class="menu-btn" id="menuBtn">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <!-- Overlay -->
+    <div class="sidebar-overlay" id="overlay"></div>
+
+    <div class="dashboard">
+
+        <!-- ================= SIDEBAR ================= -->
+
+        <aside class="sidebar" id="sidebar">
+
+            <!-- Close Button (Mobile) -->
+            <button class="close-btn" id="closeBtn">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <!-- Logo -->
+
+            <div class="brand">
+
+                <img src="images/mzcet-logo.png" alt="MZCET Logo">
+
+                <div>
+
+                    <h2>SMART HOSTEL 360</h2>
+
+                    <p>Mount Zion College of Engineering & Technology</p>
+
+                </div>
+
+            </div>
+
+            <!-- Menu -->
+
+            <ul class="menu">
+
+                <li class="active">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Dashboard</span>
+                </li>
+
+                <li>
+                    <i class="fa-solid fa-user-graduate"></i>
+                    <span>Students</span>
+                </li>
+
+                <li>
+                    <i class="fa-solid fa-id-card"></i>
+                    <span>Student Profile</span>
+                </li>
+
+                <li>
+                    <i class="fa-solid fa-file-signature"></i>
+                    <span>Leave Requests</span>
+                </li>
+
+                <li>
+                    <i class="fa-solid fa-bullhorn"></i>
+                    <span>Announcements</span>
+                </li>
+
+                <li>
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <span>Complaints</span>
+                </li>
+
+                <li>
+                    <i class="fa-solid fa-bed"></i>
+                    <span>Room Management</span>
+                </li>
+
+                <li>
+                    <i class="fa-solid fa-utensils"></i>
+                    <span>Mess</span>
+                </li>
+
+                <li>
+                    <i class="fa-solid fa-shirt"></i>
+                    <span>Laundry</span>
+                </li>
+
+                <li>
+                    <i class="fa-solid fa-bell"></i>
+                    <span>Emergency SOS</span>
+                </li>
+
+                <li>
+                    <i class="fa-solid fa-money-bill-wave"></i>
+                    <span>Fees</span>
+                </li>
+
+                <li>
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span>Reports</span>
+                </li>
+
+                <li>
+                    <i class="fa-solid fa-gear"></i>
+                    <span>Settings</span>
+                </li>
+
+                <li>
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Logout</span>
+                </li>
+
+            </ul>
+
+        </aside>
+
+        <!-- ================= MAIN ================= -->
+
+        <main class="main">
+
+            <!-- ================= TOPBAR ================= -->
+
+            <header class="topbar">
+
+                <div class="page-title">
+
+                    <h1>Admin Dashboard</h1>
+
+                    <p>Smart Hostel 360 Management System</p>
+
+                </div>
+
+                <div class="top-actions">
+
+                    <div class="search-box">
+
+                        <i class="fa-solid fa-search"></i>
+
+                        <input type="text"
+                            placeholder="Search Student Name, Department, Room">
+
+                    </div>
+
+                    <div class="notification">
+
+                        <i class="fa-solid fa-bell"></i>
+
+                        <span>5</span>
+
+                    </div>
+
+                    <div class="profile">
+
+                        <img src="images/admin.png" alt="Admin">
+
+                        <div>
+
+                            <h4>Mr. Suresh Kumar</h4>
+
+                            <p>Hostel Administrator</p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </header>
+
+            <!-- ================= WELCOME ================= -->
+
+            <section class="welcome">
+
+                <div>
+
+                    <h2>Welcome Administrator 👋</h2>
+
+                    <p>
+
+                        Manage Students, Hostel Activities, Complaints,
+                        Leave Requests, Laundry, Mess, Attendance,
+                        Emergency SOS and Hostel Operations from one dashboard.
+
+                    </p>
+
+                </div>
+
+                <div class="today">
+
+                    <h3 id="currentDate">
+
+                        31 July 2026
+
+                    </h3>
+
+                    <span id="currentTime">
+
+                        09:30 AM
+
+                    </span>
+
+                </div>
+
+            </section>
+
+            <!-- ===================================
+                 PART 2 STARTS HERE
+            =================================== -->
+
+            <!-- ================= DASHBOARD CARDS ================= -->
+
+<section class="dashboard-cards">
+
+    <div class="card blue">
+        <div class="card-content">
+            <h4>Total Students</h4>
+            <h2 id="students">1240</h2>
+            <p>Students in Hostel</p>
+        </div>
+        <i class="fa-solid fa-user-graduate"></i>
+    </div>
+
+    <div class="card green">
+        <div class="card-content">
+            <h4>Present Today</h4>
+            <h2 id="present">1182</h2>
+            <p>95% Attendance</p>
+        </div>
+        <i class="fa-solid fa-user-check"></i>
+    </div>
+
+    <div class="card orange">
+        <div class="card-content">
+            <h4>Leave Requests</h4>
+            <h2 id="leave">15</h2>
+            <p>Pending Approval</p>
+        </div>
+        <i class="fa-solid fa-file-signature"></i>
+    </div>
+
+    <div class="card red">
+        <div class="card-content">
+            <h4>Complaints</h4>
+            <h2 id="complaints">8</h2>
+            <p>Awaiting Response</p>
+        </div>
+        <i class="fa-solid fa-triangle-exclamation"></i>
+    </div>
+
+    <div class="card purple">
+        <div class="card-content">
+            <h4>Emergency SOS</h4>
+            <h2>2</h2>
+            <p>Active Alerts</p>
+        </div>
+        <i class="fa-solid fa-bell"></i>
+    </div>
+
+    <div class="card cyan">
+        <div class="card-content">
+            <h4>Laundry</h4>
+            <h2>47</h2>
+            <p>Today's Clothes</p>
+        </div>
+        <i class="fa-solid fa-shirt"></i>
+    </div>
+
+    <div class="card dark">
+        <div class="card-content">
+            <h4>Mess Attendance</h4>
+            <h2>470</h2>
+            <p>Food Count</p>
+        </div>
+        <i class="fa-solid fa-utensils"></i>
+    </div>
+
+   
+
+</section>
+
+<!-- ================= CHARTS ================= -->
+
+<section class="charts">
+
+    <div class="chart-card">
+
+        <div class="title-row">
+
+            <h3>Attendance Overview</h3>
+
+            <button>This Month</button>
+
+        </div>
+
+        <canvas id="attendanceChart"></canvas>
+
+    </div>
+
+    <div class="chart-card">
+
+        <div class="title-row">
+
+            <h3>Department Strength</h3>
+
+        </div>
+
+        <canvas id="departmentChart"></canvas>
+
+    </div>
+
+</section>
+
+<!-- ================= QUICK ACTIONS ================= -->
+
+<section class="quick-actions">
+
+    <h2>Quick Actions</h2>
+
+    <div class="action-grid">
+
+        <div class="action-card">
+            <i class="fa-solid fa-user-plus"></i>
+            <span>Add Student</span>
+        </div>
+
+        <div class="action-card">
+            <i class="fa-solid fa-bed"></i>
+            <span>Room Allocation</span>
+        </div>
+
+        <div class="action-card">
+            <i class="fa-solid fa-file-signature"></i>
+            <span>Approve Leave</span>
+        </div>
+
+        <div class="action-card">
+            <i class="fa-solid fa-bullhorn"></i>
+            <span>Announcement</span>
+        </div>
+
+        <div class="action-card">
+            <i class="fa-solid fa-shirt"></i>
+            <span>Laundry</span>
+        </div>
+
+        <div class="action-card">
+            <i class="fa-solid fa-utensils"></i>
+            <span>Mess</span>
+        </div>
+
+        <div class="action-card">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span>Complaints</span>
+        </div>
+
+        <div class="action-card">
+            <i class="fa-solid fa-chart-line"></i>
+            <span>Reports</span>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= RECENT ACTIVITIES ================= -->
+
+<section class="dashboard-bottom">
+
+    <!-- Leave Requests -->
+
+    <div class="table-card">
+
+        <div class="table-header">
+
+            <h3>Recent Leave Requests</h3>
+
+            <a href="#">View All</a>
+
+        </div>
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Name</th>
+
+                    <th>Department</th>
+
+                    <th>Reason</th>
+
+                    <th>Status</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr>
+
+                    <td>Arun Kumar</td>
+
+                    <td>CSE</td>
+
+                    <td>Medical Leave</td>
+
+                    <td><span class="pending">Pending</span></td>
+
+                </tr>
+
+                <tr>
+
+                    <td>Priya</td>
+
+                    <td>ECE</td>
+
+                    <td>Family Function</td>
+
+                    <td><span class="approved">Approved</span></td>
+
+                </tr>
+
+                <tr>
+
+                    <td>Daniel</td>
+
+                    <td>AI & DS</td>
+
+                    <td>Personal Work</td>
+
+                    <td><span class="pending">Pending</span></td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <!-- SOS Panel -->
+
+    <div class="sos-panel">
+
+        <h3>Emergency SOS</h3>
+
+        <div class="sos-box">
+
+            <h4>🚨 Medical Emergency</h4>
+
+            <p><strong>Name :</strong> Daniel S</p>
+
+            <p><strong>Year :</strong> III Year</p>
+
+            <p><strong>Department :</strong> CSE</p>
+
+            <p><strong>Room :</strong> A-203</p>
+
+            <button>View Student</button>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= FOOTER ================= -->
+
+<footer class="footer">
+
+    <p>
+
+        © 2026 Smart Hostel 360 |
+        Mount Zion College of Engineering & Technology
+
+    </p>
+
+</footer>
+
+</main>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="admindashboard.js"></script>
+
+</body>
+</html>
+
+        </main>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="dashboard.js"></script>
+
+</body>
+
+</html>
