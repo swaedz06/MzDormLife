@@ -1,0 +1,1393 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Attendance Details | Smart Hostel 360</title>
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- Admin Attendance CSS -->
+    <link rel="stylesheet" href="admin-attendance.css">
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     MOBILE OVERLAY
+===================================================== -->
+
+<div class="sidebar-overlay" id="overlay"></div>
+
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside class="sidebar" id="sidebar">
+
+
+    <!-- SIDEBAR HEADER -->
+
+    <div class="sidebar-header">
+
+        <button class="close-sidebar"
+                id="closeBtn">
+
+            <i class="fa-solid fa-xmark"></i>
+
+        </button>
+
+
+        <div class="college-logo">
+
+            <!-- Replace with your actual MZ logo -->
+
+            <img src="/images/mzcetlogo.png"
+                 alt="MZ College Logo"
+                 onerror="this.style.display='none'">
+
+        </div>
+
+
+        <h1>
+            SMART HOSTEL 360
+        </h1>
+
+        <p>
+            Admin Portal
+        </p>
+
+    </div>
+
+
+
+    <!-- =================================================
+         NAVIGATION
+    ================================================= -->
+
+    <nav class="sidebar-nav">
+
+
+        <a href="admin-dashboard.html"
+           class="nav-item">
+
+            <i class="fa-solid fa-house"></i>
+
+            <span>
+                Dashboard
+            </span>
+
+        </a>
+
+
+        <a href="admin-attendance.html"
+           class="nav-item active">
+
+            <i class="fa-solid fa-calendar-check"></i>
+
+            <span>
+                Attendance
+            </span>
+
+        </a>
+
+
+        <a href="#students"
+           class="nav-item">
+
+            <i class="fa-solid fa-users"></i>
+
+            <span>
+                Students
+            </span>
+
+        </a>
+
+
+        <a href="#leave"
+           class="nav-item">
+
+            <i class="fa-solid fa-file-circle-check"></i>
+
+            <span>
+                Leave Requests
+            </span>
+
+            <span class="nav-badge">
+                5
+            </span>
+
+        </a>
+
+
+        <a href="#complaints"
+           class="nav-item">
+
+            <i class="fa-solid fa-message"></i>
+
+            <span>
+                Complaints
+            </span>
+
+        </a>
+
+
+        <a href="#announcements"
+           class="nav-item">
+
+            <i class="fa-solid fa-bullhorn"></i>
+
+            <span>
+                Announcements
+            </span>
+
+        </a>
+
+
+        <a href="#mess"
+           class="nav-item">
+
+            <i class="fa-solid fa-utensils"></i>
+
+            <span>
+                Mess
+            </span>
+
+        </a>
+
+
+        <a href="#laundry"
+           class="nav-item">
+
+            <i class="fa-solid fa-shirt"></i>
+
+            <span>
+                Laundry
+            </span>
+
+        </a>
+
+
+        <a href="#emergency"
+           class="nav-item emergency-nav">
+
+            <i class="fa-solid fa-triangle-exclamation"></i>
+
+            <span>
+                Emergency SOS
+            </span>
+
+            <span class="nav-badge sos-badge">
+                2
+            </span>
+
+        </a>
+
+
+        <a href="#settings"
+           class="nav-item">
+
+            <i class="fa-solid fa-gear"></i>
+
+            <span>
+                Settings
+            </span>
+
+        </a>
+
+
+    </nav>
+
+
+
+    <!-- SIDEBAR FOOTER -->
+
+    <div class="sidebar-footer">
+
+        <a href="login.html"
+           class="nav-item logout">
+
+            <i class="fa-solid fa-right-from-bracket"></i>
+
+            <span>
+                Logout
+            </span>
+
+        </a>
+
+    </div>
+
+
+</aside>
+
+
+
+<!-- =====================================================
+     MAIN AREA
+===================================================== -->
+
+<main class="main-content">
+
+
+    <!-- =================================================
+         TOP BAR
+    ================================================= -->
+
+    <header class="topbar">
+
+
+        <div class="topbar-left">
+
+
+            <!-- MOBILE MENU -->
+
+            <button class="menu-toggle"
+                    id="menuBtn">
+
+                <i class="fa-solid fa-bars"></i>
+
+            </button>
+
+
+            <div>
+
+                <h1>
+                    Attendance Details
+                </h1>
+
+                <p>
+                    Monitor and manage hostel attendance
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- TOPBAR RIGHT -->
+
+        <div class="topbar-right">
+
+
+            <!-- SEARCH -->
+
+            <div class="top-search">
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                <input
+                    type="text"
+                    id="topSearch"
+                    placeholder="Search attendance...">
+
+            </div>
+
+
+            <!-- NOTIFICATION -->
+
+            <button class="notification-btn">
+
+                <i class="fa-solid fa-bell"></i>
+
+                <span>
+                    4
+                </span>
+
+            </button>
+
+
+            <!-- CLOCK -->
+
+            <div class="clock-box">
+
+                <i class="fa-regular fa-clock"></i>
+
+                <span id="clock">
+                    00:00:00
+                </span>
+
+            </div>
+
+
+            <!-- ADMIN PROFILE -->
+
+            <div class="profile-box">
+
+
+                <div class="profile-image">
+
+                    <img
+                        src="admin-profile.jpg"
+                        alt="Admin"
+                        onerror="this.style.display='none'">
+
+                </div>
+
+
+                <div class="profile-info">
+
+                    <strong>
+                        Admin
+                    </strong>
+
+                    <span>
+                        Hostel Administration
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </header>
+
+
+
+    <!-- =================================================
+         PAGE CONTENT
+    ================================================= -->
+
+    <section class="page-content">
+
+
+        <!-- =================================================
+             ATTENDANCE OVERVIEW
+        ================================================= -->
+
+        <section class="attendance-banner">
+
+
+            <div class="banner-content">
+
+                <span class="section-label">
+
+                    <i class="fa-solid fa-chart-line"></i>
+
+                    ATTENDANCE MANAGEMENT
+
+                </span>
+
+
+                <h2>
+                    Hostel Attendance Overview
+                </h2>
+
+
+                <p>
+                    Monitor student attendance, GPS verification,
+                    leave records and attendance sessions.
+                </p>
+
+            </div>
+
+
+            <div class="banner-date">
+
+                <i class="fa-regular fa-calendar"></i>
+
+                <div>
+
+                    <span>
+                        Today's Date
+                    </span>
+
+                    <strong id="currentDate">
+                        --
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             STATISTICS
+        ================================================= -->
+
+        <section class="statistics-grid">
+
+
+            <!-- TOTAL STUDENTS -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon blue">
+
+                    <i class="fa-solid fa-users"></i>
+
+                </div>
+
+
+                <div class="stat-info">
+
+                    <span>
+                        Total Students
+                    </span>
+
+                    <strong id="totalStudents">
+                        0
+                    </strong>
+
+                    <small>
+                        Hostel residents
+                    </small>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PRESENT -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon green">
+
+                    <i class="fa-solid fa-circle-check"></i>
+
+                </div>
+
+
+                <div class="stat-info">
+
+                    <span>
+                        Present
+                    </span>
+
+                    <strong id="presentCount">
+                        0
+                    </strong>
+
+                    <small>
+                        Attendance marked
+                    </small>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ABSENT -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon red">
+
+                    <i class="fa-solid fa-circle-xmark"></i>
+
+                </div>
+
+
+                <div class="stat-info">
+
+                    <span>
+                        Absent
+                    </span>
+
+                    <strong id="absentCount">
+                        0
+                    </strong>
+
+                    <small>
+                        Attendance missed
+                    </small>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- LEAVE -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon orange">
+
+                    <i class="fa-solid fa-calendar-minus"></i>
+
+                </div>
+
+
+                <div class="stat-info">
+
+                    <span>
+                        On Leave
+                    </span>
+
+                    <strong id="leaveCount">
+                        0
+                    </strong>
+
+                    <small>
+                        Approved leave
+                    </small>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ATTENDANCE PERCENTAGE -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon purple">
+
+                    <i class="fa-solid fa-chart-pie"></i>
+
+                </div>
+
+
+                <div class="stat-info">
+
+                    <span>
+                        Attendance Rate
+                    </span>
+
+                    <strong id="attendancePercentage">
+                        0%
+                    </strong>
+
+                    <small>
+                        Overall attendance
+                    </small>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             SESSION CONTROL
+        ================================================= -->
+
+        <section class="session-section">
+
+
+            <div class="section-heading">
+
+                <div>
+
+                    <h2>
+                        Today's Attendance
+                    </h2>
+
+                    <p>
+                        View attendance status for current sessions
+                    </p>
+
+                </div>
+
+
+                <div class="session-buttons">
+
+
+                    <button
+                        class="session-btn active"
+                        data-session="Morning">
+
+                        <i class="fa-solid fa-sun"></i>
+
+                        Morning
+
+                    </button>
+
+
+                    <button
+                        class="session-btn"
+                        data-session="Night">
+
+                        <i class="fa-solid fa-moon"></i>
+
+                        Night
+
+                    </button>
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- SESSION CARDS -->
+
+            <div class="session-cards">
+
+
+                <!-- MORNING -->
+
+                <div class="session-card">
+
+                    <div class="session-card-top">
+
+                        <div class="session-icon morning">
+
+                            <i class="fa-solid fa-sun"></i>
+
+                        </div>
+
+
+                        <span class="session-status active-status">
+
+                            Active
+
+                        </span>
+
+                    </div>
+
+
+                    <h3>
+                        Morning Attendance
+                    </h3>
+
+
+                    <p>
+                        8:00 AM Attendance Session
+                    </p>
+
+
+                    <div class="session-progress">
+
+                        <div class="progress-label">
+
+                            <span>
+                                Attendance Progress
+                            </span>
+
+                            <strong>
+                                86%
+                            </strong>
+
+                        </div>
+
+
+                        <div class="progress-bar">
+
+                            <span style="width:86%"></span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="session-meta">
+
+                        <span>
+
+                            <i class="fa-solid fa-circle-check"></i>
+
+                            172 Present
+
+                        </span>
+
+
+                        <span>
+
+                            <i class="fa-solid fa-circle-xmark"></i>
+
+                            18 Pending
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- NIGHT -->
+
+                <div class="session-card">
+
+                    <div class="session-card-top">
+
+                        <div class="session-icon night">
+
+                            <i class="fa-solid fa-moon"></i>
+
+                        </div>
+
+
+                        <span class="session-status upcoming-status">
+
+                            Upcoming
+
+                        </span>
+
+                    </div>
+
+
+                    <h3>
+                        Night Attendance
+                    </h3>
+
+
+                    <p>
+                        8:00 PM Attendance Session
+                    </p>
+
+
+                    <div class="next-session">
+
+                        <i class="fa-regular fa-clock"></i>
+
+                        <div>
+
+                            <span>
+                                Session starts in
+                            </span>
+
+                            <strong>
+                                05h 24m
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="session-meta">
+
+                        <span>
+
+                            <i class="fa-solid fa-location-dot"></i>
+
+                            GPS Required
+
+                        </span>
+
+
+                        <span>
+
+                            <i class="fa-solid fa-bell"></i>
+
+                            Reminder Active
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             FILTER SECTION
+        ================================================= -->
+
+        <section class="filter-section">
+
+
+            <div class="section-heading">
+
+                <div>
+
+                    <h2>
+                        Student Attendance Records
+                    </h2>
+
+                    <p>
+                        Search and filter student attendance
+                    </p>
+
+                </div>
+
+
+                <div class="filter-actions">
+
+                    <button
+                        class="secondary-btn"
+                        id="refreshAttendance">
+
+                        <i class="fa-solid fa-rotate"></i>
+
+                        Refresh
+
+                    </button>
+
+
+                    <button
+                        class="primary-btn"
+                        id="exportAttendance">
+
+                        <i class="fa-solid fa-file-export"></i>
+
+                        Export CSV
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- FILTER BOX -->
+
+            <div class="filter-box">
+
+
+                <div class="filter-item search-filter">
+
+                    <label>
+                        Search Student
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <i class="fa-solid fa-magnifying-glass"></i>
+
+                        <input
+                            type="text"
+                            id="studentSearch"
+                            placeholder="Name, ID or room number">
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="filter-item">
+
+                    <label>
+                        Department
+                    </label>
+
+                    <select id="departmentFilter">
+
+                        <option value="">
+                            All Departments
+                        </option>
+
+                        <option value="CSE">
+                            CSE
+                        </option>
+
+                        <option value="ECE">
+                            ECE
+                        </option>
+
+                        <option value="EEE">
+                            EEE
+                        </option>
+
+                        <option value="MECH">
+                            MECH
+                        </option>
+
+                        <option value="CIVIL">
+                            CIVIL
+                        </option>
+
+                        <option value="IT">
+                            IT
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <div class="filter-item">
+
+                    <label>
+                        Year
+                    </label>
+
+                    <select id="yearFilter">
+
+                        <option value="">
+                            All Years
+                        </option>
+
+                        <option value="I Year">
+                            I Year
+                        </option>
+
+                        <option value="II Year">
+                            II Year
+                        </option>
+
+                        <option value="III Year">
+                            III Year
+                        </option>
+
+                        <option value="IV Year">
+                            IV Year
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <div class="filter-item">
+
+                    <label>
+                        Session
+                    </label>
+
+                    <select id="sessionFilter">
+
+                        <option value="">
+                            All Sessions
+                        </option>
+
+                        <option value="Morning">
+                            Morning
+                        </option>
+
+                        <option value="Night">
+                            Night
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <div class="filter-item">
+
+                    <label>
+                        Status
+                    </label>
+
+                    <select id="statusFilter">
+
+                        <option value="">
+                            All Status
+                        </option>
+
+                        <option value="Present">
+                            Present
+                        </option>
+
+                        <option value="Absent">
+                            Absent
+                        </option>
+
+                        <option value="Leave">
+                            Leave
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <button
+                    class="clear-filter-btn"
+                    id="clearFilters">
+
+                    <i class="fa-solid fa-filter-circle-xmark"></i>
+
+                    Clear
+
+                </button>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             ATTENDANCE TABLE
+        ================================================= -->
+
+        <section class="table-section">
+
+
+            <div class="table-header">
+
+                <div>
+
+                    <h3>
+                        Attendance Records
+                    </h3>
+
+                    <p>
+                        Showing
+                        <strong class="visible-count">
+                            10
+                        </strong>
+                        student records
+                    </p>
+
+                </div>
+
+
+                <div class="table-legend">
+
+                    <span>
+
+                        <i class="fa-solid fa-circle present-dot"></i>
+
+                        Present
+
+                    </span>
+
+
+                    <span>
+
+                        <i class="fa-solid fa-circle absent-dot"></i>
+
+                        Absent
+
+                    </span>
+
+
+                    <span>
+
+                        <i class="fa-solid fa-circle leave-dot"></i>
+
+                        Leave
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="table-container">
+
+
+                <table class="attendance-table">
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Student
+                            </th>
+
+                            <th>
+                                Department
+                            </th>
+
+                            <th>
+                                Year
+                            </th>
+
+                            <th>
+                                Room
+                            </th>
+
+                            <th>
+                                Session
+                            </th>
+
+                            <th>
+                                Check-in
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                GPS
+                            </th>
+
+                            <th>
+                                Location
+                            </th>
+
+                            <th>
+                                Action
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="attendanceTableBody">
+
+                        <!-- JavaScript will insert records here -->
+
+                    </tbody>
+
+
+                </table>
+
+
+            </div>
+
+
+        </section>
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         STUDENT DETAILS MODAL
+    ================================================= -->
+
+    <div class="modal-overlay"
+         id="studentModal">
+
+
+        <div class="student-modal">
+
+
+            <button
+                class="modal-close"
+                id="modalClose">
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </button>
+
+
+            <div class="modal-header">
+
+
+                <div
+                    class="modal-avatar"
+                    id="modalStudentAvatar">
+
+                    AD
+
+                </div>
+
+
+                <div>
+
+                    <h2 id="modalStudentName">
+                        Student Name
+                    </h2>
+
+                    <p id="modalStudentId">
+                        MZ000
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+
+            <div class="modal-grid">
+
+
+                <div class="detail-item">
+
+                    <span>
+                        Department
+                    </span>
+
+                    <strong id="modalDepartment">
+                        CSE
+                    </strong>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <span>
+                        Year
+                    </span>
+
+                    <strong id="modalYear">
+                        III Year
+                    </strong>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <span>
+                        Room
+                    </span>
+
+                    <strong id="modalRoom">
+                        B-204
+                    </strong>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <span>
+                        Attendance
+                    </span>
+
+                    <strong id="modalAttendance">
+                        96%
+                    </strong>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <span>
+                        Status
+                    </span>
+
+                    <strong id="modalStatus">
+                        Present
+                    </strong>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <span>
+                        Check-in
+                    </span>
+
+                    <strong id="modalCheckIn">
+                        07:52 AM
+                    </strong>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <span>
+                        GPS Verification
+                    </span>
+
+                    <strong id="modalGPS">
+                        Verified
+                    </strong>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <span>
+                        Location
+                    </span>
+
+                    <strong id="modalLocation">
+                        Hostel Block A
+                    </strong>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <span>
+                        Parent
+                    </span>
+
+                    <strong id="modalParent">
+                        Parent Name
+                    </strong>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <span>
+                        Parent Phone
+                    </span>
+
+                    <strong id="modalParentPhone">
+                        9876543210
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =================================================
+         FOOTER
+    ================================================= -->
+
+    <footer class="footer">
+
+        <p>
+
+            © 2026 Smart Hostel 360 |
+            Mount Zion College of Engineering & Technology
+
+        </p>
+
+    </footer>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script src="admin-attendance.js"></script>
+
+
+</body>
+
+</html>
