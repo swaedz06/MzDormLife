@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Complaints | Smart Hostel 360 Admin</title>
+
+<link rel="stylesheet" href="styles.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+
+<!-- Mobile Menu -->
+
+<button class="menu-btn" id="hamburgerBtn" aria-label="Toggle menu">
+    <i class="fa-solid fa-bars"></i>
+</button>
+
+<div class="overlay" id="sidebarScrim"></div>
+
+<!-- Loading overlay -->
+<div class="loader-overlay" id="loaderOverlay">
+    <div class="loader-ring"></div>
+    <p>Loading Smart Hostel 360 Admin...</p>
+</div>
+
+<div class="container">
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar" id="sidebar">
+
+        <button class="close-btn" id="sidebarCloseBtn" onclick="document.getElementById('sidebarScrim').click()">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <div class="logo">
+
+            <img src="data:image/png;base64,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" alt="Mount Zion College of Engineering and Technology logo">
+
+            <h2>SMART HOSTEL 360</h2>
+
+            <p>Admin Panel</p>
+
+        </div>
+
+        <ul>
+
+            <li class="sidebar-item">
+                <a href="#">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+
+            <li class="sidebar-item">
+                <a href="#">
+                    <i class="fa-solid fa-user-graduate"></i>
+                    <span>Students</span>
+                </a>
+            </li>
+
+            <li class="sidebar-item">
+                <a href="#">
+                    <i class="fa-solid fa-calendar-check"></i>
+                    <span>Attendance</span>
+                </a>
+            </li>
+
+            <li class="sidebar-item active">
+                <a href="#complaints">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    <span>Complaints</span>
+                </a>
+            </li>
+
+            <li class="sidebar-item">
+                <a href="#">
+                    <i class="fa-solid fa-person-walking"></i>
+                    <span>Outpass</span>
+                </a>
+            </li>
+
+            <li class="sidebar-item">
+                <a href="#">
+                    <i class="fa-solid fa-people-arrows"></i>
+                    <span>Visitors</span>
+                </a>
+            </li>
+
+            <li class="sidebar-item">
+                <a href="#">
+                    <i class="fa-solid fa-calendar-days"></i>
+                    <span>Events</span>
+                </a>
+            </li>
+
+            <li class="sidebar-item">
+                <a href="#">
+                    <i class="fa-solid fa-bed"></i>
+                    <span>Rooms</span>
+                </a>
+            </li>
+
+            <li class="sidebar-item">
+                <a href="#">
+                    <i class="fa-solid fa-helmet-safety"></i>
+                    <span>Maintenance Staff</span>
+                </a>
+            </li>
+
+            <li class="sidebar-item">
+                <a href="#">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span>Reports</span>
+                </a>
+            </li>
+
+            <li class="sidebar-item">
+                <a href="#" id="sidebarNotifLink">
+                    <i class="fa-solid fa-bell"></i>
+                    <span>Notifications</span>
+                </a>
+            </li>
+
+            <li class="sidebar-item">
+                <a href="#">
+                    <i class="fa-solid fa-gear"></i>
+                    <span>Settings</span>
+                </a>
+            </li>
+
+            <li class="sidebar-item">
+                <a href="#">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Logout</span>
+                </a>
+            </li>
+
+        </ul>
+
+    </aside>
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main" id="complaints">
+
+        <!-- ================= TOP BAR ================= -->
+
+        <header class="topbar">
+
+            <div class="page-title">
+
+                <h1>Complaint Management</h1>
+
+                <p>Monitor, assign and resolve hostel complaints</p>
+
+            </div>
+
+            <div class="top-right">
+
+                <div class="search-box">
+
+                    <i class="fa-solid fa-search"></i>
+
+                    <input
+                    type="text"
+                    id="globalSearch"
+                    placeholder="Search complaints, ID, student...">
+
+                </div>
+
+                <div class="notification" id="notifBellBtn">
+
+                    <i class="fa-solid fa-bell"></i>
+
+                    <span id="notifCount">5</span>
+
+                </div>
+
+            </div>
+
+        </header>
+
+        <!-- ================= WELCOME ================= -->
+
+        <section class="welcome">
+
+            <div>
+
+                <h2>Admin Complaints Overview</h2>
+
+                <p>
+                    Review, assign and track every hostel complaint from a single dashboard.
+                    High priority complaints are flagged for immediate staff assignment.
+                </p>
+
+            </div>
+
+            <button id="welcomeReportBtn" onclick="document.getElementById('quickActionsSection').scrollIntoView({behavior:'smooth',block:'start'})">
+
+                <i class="fa-solid fa-chart-line"></i>
+
+                Generate Report
+
+            </button>
+
+        </section>
+
+        <!-- ================= COMPLAINT SUMMARY ================= -->
+
+<section class="summary-grid">
+
+    <div class="summary-card stat-card total-stat">
+        <i class="fa-solid fa-list-check"></i>
+        <div>
+            <h4 class="stat-label">Total Complaints</h4>
+            <h2 class="stat-number" id="statTotal" data-target="0">0</h2>
+            <small>All Time</small>
+        </div>
+    </div>
+
+    <div class="summary-card stat-card pending-stat">
+        <i class="fa-solid fa-hourglass-half"></i>
+        <div>
+            <h4 class="stat-label">Pending Complaints</h4>
+            <h2 class="stat-number" id="statPending" data-target="0">0</h2>
+            <small>Awaiting Action</small>
+        </div>
+    </div>
+
+    <div class="summary-card stat-card assigned-stat">
+        <i class="fa-solid fa-user-plus"></i>
+        <div>
+            <h4 class="stat-label">Assigned Complaints</h4>
+            <h2 class="stat-number" id="statAssigned" data-target="0">0</h2>
+            <small>Staff Assigned</small>
+        </div>
+    </div>
+
+    <div class="summary-card stat-card progress-stat">
+        <i class="fa-solid fa-gears"></i>
+        <div>
+            <h4 class="stat-label">In Progress</h4>
+            <h2 class="stat-number" id="statProgress" data-target="0">0</h2>
+            <small>Being Worked On</small>
+        </div>
+    </div>
+
+    <div class="summary-card stat-card resolved-stat">
+        <i class="fa-solid fa-circle-check"></i>
+        <div>
+            <h4 class="stat-label">Resolved Complaints</h4>
+            <h2 class="stat-number" id="statResolved" data-target="0">0</h2>
+            <small>Successfully Fixed</small>
+        </div>
+    </div>
+
+    <div class="summary-card stat-card closed-stat">
+        <i class="fa-solid fa-box-archive"></i>
+        <div>
+            <h4 class="stat-label">Closed Complaints</h4>
+            <h2 class="stat-number" id="statClosed" data-target="0">0</h2>
+            <small>Fully Closed</small>
+        </div>
+    </div>
+
+    <div class="summary-card stat-card highpriority-stat">
+        <i class="fa-solid fa-circle-exclamation"></i>
+        <div>
+            <h4 class="stat-label">High Priority</h4>
+            <h2 class="stat-number" id="statHighPriority" data-target="0">0</h2>
+            <small>Needs Prompt Attention</small>
+        </div>
+    </div>
+
+    <div class="summary-card stat-card today-stat">
+        <i class="fa-solid fa-calendar-day"></i>
+        <div>
+            <h4 class="stat-label">Today's Complaints</h4>
+            <h2 class="stat-number" id="statToday" data-target="0">0</h2>
+            <small>Raised Today</small>
+        </div>
+    </div>
+
+</section>
+
+<!-- ================= COMPLAINT ANALYTICS ================= -->
+
+<section class="chart-section">
+
+    <div class="section-header">
+        <h2>Complaint Analytics</h2>
+    </div>
+
+    <div class="chart-grid">
+
+        <div class="chart-card">
+            <h3>Monthly Complaints</h3>
+            <canvas id="monthlyChart"></canvas>
+        </div>
+
+        <div class="chart-card">
+            <h3>Complaints by Category</h3>
+            <canvas id="categoryChart"></canvas>
+        </div>
+
+        <div class="chart-card">
+            <h3>Priority Distribution</h3>
+            <canvas id="priorityChart"></canvas>
+        </div>
+
+        <div class="chart-card">
+            <h3>Resolution Rate</h3>
+            <canvas id="resolutionChart"></canvas>
+        </div>
+
+        <div class="chart-card">
+            <h3>Staff Workload</h3>
+            <canvas id="workloadChart"></canvas>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= QUICK ACTIONS ================= -->
+
+<section class="quick-actions" id="quickActionsSection">
+
+    <h2>Quick Actions</h2>
+
+    <div class="action-grid">
+
+        <div class="action-card" id="qaViewAll">
+            <i class="fa-solid fa-list-ul"></i>
+            <h4>View All Complaints</h4>
+        </div>
+
+        <div class="action-card" id="qaPending">
+            <i class="fa-solid fa-hourglass-half"></i>
+            <h4>Pending Complaints</h4>
+        </div>
+
+        <div class="action-card" id="qaAssignStaff">
+            <i class="fa-solid fa-user-plus"></i>
+            <h4>Assign Staff</h4>
+        </div>
+
+        <div class="action-card" id="qaHighPriority">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <h4>High Priority Cases</h4>
+        </div>
+
+        <div class="action-card" id="qaGenerateReport">
+            <i class="fa-solid fa-file-lines"></i>
+            <h4>Generate Report</h4>
+        </div>
+
+        <div class="action-card" id="qaExportPDF">
+            <i class="fa-solid fa-file-pdf"></i>
+            <h4>Export PDF</h4>
+        </div>
+
+        <div class="action-card" id="qaExportExcel">
+            <i class="fa-solid fa-file-excel"></i>
+            <h4>Export Excel</h4>
+        </div>
+
+        <div class="action-card" id="qaSendNotification">
+            <i class="fa-solid fa-paper-plane"></i>
+            <h4>Send Notification</h4>
+        </div>
+
+        <div class="action-card" id="qaAnalytics">
+            <i class="fa-solid fa-chart-pie"></i>
+            <h4>Complaint Analytics</h4>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= RECENT ACTIVITY ================= -->
+
+<section class="activity-section">
+
+    <div class="section-header">
+        <h2>Recent Activity</h2>
+    </div>
+
+    <div class="activity-list" id="activityList"><!-- injected by JS --></div>
+
+</section>
+
+<!-- ================= COMPLAINTS TABLE ================= -->
+
+<section class="history-section" id="allComplaintsSection">
+
+    <div class="section-header">
+
+        <h2>All Complaints</h2>
+
+        <div class="section-actions">
+            <button class="submit-btn" id="csvExportBtn" style="margin-top:0;padding:12px 20px;font-size:13px;">
+                <i class="fa-solid fa-file-csv"></i> Export CSV
+            </button>
+        </div>
+
+    </div>
+
+    <div class="filters">
+
+        <input type="text" id="searchComplaint" placeholder="Search complaint / title / ID">
+
+        <input type="text" id="searchStudent" placeholder="Search student name">
+
+        <select id="filterStatus">
+            <option value="">All Status</option>
+            <option>Pending</option>
+            <option>Assigned</option>
+            <option>In Progress</option>
+            <option>Waiting for Student</option>
+            <option>Resolved</option>
+            <option>Closed</option>
+            <option>Reopened</option>
+        </select>
+
+        <select id="filterPriority">
+            <option value="">All Priorities</option>
+            <option>Low</option>
+            <option>Medium</option>
+            <option>High</option>
+        </select>
+
+        <select id="filterCategory">
+            <option value="">All Categories</option>
+            <option>Electrical</option>
+            <option>Bathroom</option>
+            <option>Furniture</option>
+            <option>Plumbing</option>
+            <option>Cleaning</option>
+            <option>Internet</option>
+            <option>Mess Food</option>
+            <option>Security</option>
+            <option>Water Supply</option>
+            <option>Pest Control</option>
+            <option>Other</option>
+        </select>
+
+        <select id="filterBlock">
+            <option value="">All Blocks</option>
+            <option>Block A - Shiva</option>
+            <option>Block B - Nandhi</option>
+            <option>Block C - Ganga</option>
+            <option>Block D - Saraswati</option>
+        </select>
+
+        <select id="filterStaff">
+            <option value="">All Staff</option>
+        </select>
+
+        <input type="date" id="filterDateFrom" title="From date">
+
+        <input type="date" id="filterDateTo" title="To date">
+
+        <button class="reset-btn" id="resetFiltersBtn"><i class="fa-solid fa-rotate-left"></i> Reset Filters</button>
+
+    </div>
+
+    <div class="table-wrap table-responsive">
+
+        <table id="complaintsTable">
+
+            <thead>
+
+                <tr>
+                    <th class="sortable" data-sort="id">Complaint ID <i class="fa-solid fa-sort"></i></th>
+                    <th class="sortable" data-sort="studentName">Student Name <i class="fa-solid fa-sort"></i></th>
+                    <th>Register No.</th>
+                    <th>Room No.</th>
+                    <th>Hostel Block</th>
+                    <th>Category</th>
+                    <th>Title</th>
+                    <th class="sortable" data-sort="priority">Priority <i class="fa-solid fa-sort"></i></th>
+                    <th>Assigned Staff</th>
+                    <th class="sortable" data-sort="status">Status <i class="fa-solid fa-sort"></i></th>
+                    <th class="sortable" data-sort="dateSubmitted">Date Submitted <i class="fa-solid fa-sort"></i></th>
+                    <th>Last Updated</th>
+                    <th>Action</th>
+                </tr>
+
+            </thead>
+
+            <tbody id="complaintsTbody"><!-- rows injected by JS --></tbody>
+
+        </table>
+
+    </div>
+
+    <!-- EMPTY STATE -->
+    <div class="empty-state" id="emptyState" hidden>
+
+        <svg viewBox="0 0 200 160" class="empty-illustration">
+            <rect x="35" y="30" width="130" height="100" rx="12" fill="none" stroke="currentColor" stroke-width="3"/>
+            <path d="M55 60h90M55 80h90M55 100h60" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="150" cy="115" r="22" fill="none" stroke="currentColor" stroke-width="3"/>
+            <path d="M142 115h16M150 107v16" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+
+        <h4>No Complaints Found</h4>
+
+        <p>No complaints match the current filters. Try adjusting or resetting your filters.</p>
+
+        <button class="submit-btn" id="emptyStateResetBtn">Reset Filters</button>
+
+    </div>
+
+    <div class="pagination" id="paginationWrap">
+        <div class="pagination-info" id="paginationInfo"></div>
+        <div class="pagination-controls" id="paginationControls"></div>
+    </div>
+
+</section>
+
+<!-- ================= GUIDELINES ================= -->
+
+<section class="reminder-section">
+
+    <div class="section-header">
+        <h2>Complaint Handling Guidelines</h2>
+    </div>
+
+    <div class="reminder-card">
+
+        <div class="reminder-item">
+            <i class="fa-solid fa-bolt"></i>
+            <div>
+                <h4>High Priority Complaints</h4>
+                <p>Assign staff within 2 hours of submission</p>
+            </div>
+        </div>
+
+        <div class="reminder-item">
+            <i class="fa-solid fa-clock"></i>
+            <div>
+                <h4>Standard Complaints</h4>
+                <p>Resolve within 24-48 hours of assignment</p>
+            </div>
+        </div>
+
+        <div class="info-box">
+            Complaints left unresolved for more than 48 hours are automatically flagged as Overdue
+            and appear in the Notifications panel.
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= FOOTER ================= -->
+
+<footer class="footer">
+
+    <p>
+
+        &copy; 2026 Smart Hostel 360 Admin | Mount Zion College of Engineering &amp; Technology
+
+    </p>
+
+</footer>
+
+    </main>
+
+</div>
+
+<!-- ============================== -->
+<!-- NOTIFICATION SLIDE PANEL -->
+<!-- ============================== -->
+<div class="notif-overlay" id="notifOverlay"></div>
+<aside class="notif-panel" id="notifPanel">
+    <div class="notif-panel-head">
+        <h3>Notifications</h3>
+        <button class="notif-close-btn" id="notifCloseBtn">&times;</button>
+    </div>
+    <div class="notif-list" id="notifList"></div>
+</aside>
+
+<!-- ============================== -->
+<!-- VIEW COMPLAINT MODAL -->
+<!-- ============================== -->
+<div class="modal-overlay" id="viewModalOverlay">
+    <div class="modal-card wide" role="dialog" aria-modal="true">
+        <button class="modal-close" id="viewModalCloseBtn">&times;</button>
+
+        <div class="modal-header">
+            <h3 id="viewComplaintId">Complaint #HC-0000</h3>
+            <span class="badge priority-badge" id="viewPriorityBadge">Priority</span>
+        </div>
+
+        <div class="modal-body">
+
+            <div class="modal-section-title">Student Information</div>
+            <div class="modal-two-col">
+                <div class="modal-row"><span class="label">Student Name</span><span class="value" id="viewStudentName">-</span></div>
+                <div class="modal-row"><span class="label">Register No.</span><span class="value" id="viewRegNo">-</span></div>
+                <div class="modal-row"><span class="label">Room Number</span><span class="value" id="viewRoom">-</span></div>
+                <div class="modal-row"><span class="label">Hostel Block</span><span class="value" id="viewBlock">-</span></div>
+            </div>
+
+            <div class="modal-section-title">Complaint Details</div>
+            <div class="modal-two-col">
+                <div class="modal-row"><span class="label">Category</span><span class="value" id="viewCategory">-</span></div>
+                <div class="modal-row"><span class="label">Current Status</span><span class="value" id="viewStatus">-</span></div>
+                <div class="modal-row"><span class="label">Created Date</span><span class="value" id="viewCreatedDate">-</span></div>
+                <div class="modal-row"><span class="label">Expected Completion</span><span class="value" id="viewExpectedDate">-</span></div>
+                <div class="modal-row"><span class="label">Assigned Staff</span><span class="value" id="viewStaff">-</span></div>
+            </div>
+            <div class="modal-row full">
+                <span class="label">Title</span>
+                <p class="value" id="viewTitle">-</p>
+            </div>
+            <div class="modal-row full">
+                <span class="label">Description</span>
+                <p class="value" id="viewDescription">-</p>
+            </div>
+            <div class="modal-image-wrap" id="viewImageWrap"></div>
+            <div class="modal-row full">
+                <span class="label">Admin Notes</span>
+                <p class="value" id="viewAdminNotes">-</p>
+            </div>
+
+            <div class="modal-timeline">
+                <h4>Complaint Timeline</h4>
+                <ul class="timeline" id="viewTimeline"></ul>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- ============================== -->
+<!-- ASSIGN STAFF MODAL -->
+<!-- ============================== -->
+<div class="modal-overlay" id="assignModalOverlay">
+    <div class="modal-card" role="dialog" aria-modal="true">
+        <button class="modal-close" id="assignModalCloseBtn">&times;</button>
+
+        <div class="modal-header">
+            <h3>Assign Staff <span id="assignComplaintId"></span></h3>
+        </div>
+
+        <form id="assignForm">
+
+            <div class="form-field" style="margin-bottom:16px;">
+                <label for="assignStaffSelect">Select Maintenance Staff</label>
+                <select id="assignStaffSelect" required>
+                    <option value="" disabled selected>Select staff</option>
+                    <optgroup label="Warden">
+                        <option>Warden - Mr. Suresh Nair</option>
+                        <option>Warden - Mrs. Latha Menon</option>
+                    </optgroup>
+                    <optgroup label="Electrician">
+                        <option>Electrician - Mr. Ravi Kumar</option>
+                        <option>Electrician - Mr. Anand Babu</option>
+                    </optgroup>
+                    <optgroup label="Plumber">
+                        <option>Plumber - Mr. Joseph Mathew</option>
+                        <option>Plumber - Mr. Selvam Raj</option>
+                    </optgroup>
+                    <optgroup label="Other">
+                        <option>Carpenter - Mr. Dinesh Kumar</option>
+                        <option>Housekeeping - Mrs. Meena Devi</option>
+                        <option>Security - Mr. Arun Prakash</option>
+                        <option>IT Support - Mr. Vignesh S</option>
+                    </optgroup>
+                </select>
+            </div>
+
+            <div class="form-field" style="margin-bottom:16px;">
+                <label for="assignExpectedDate">Expected Completion Date</label>
+                <input type="date" id="assignExpectedDate" required>
+            </div>
+
+            <div class="form-field" style="margin-bottom:16px;">
+                <label for="assignRemarks">Remarks</label>
+                <textarea id="assignRemarks" rows="3" placeholder="Any instructions for the assigned staff..."></textarea>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="submit-btn secondary" id="assignCancelBtn">Cancel</button>
+                <button type="submit" class="submit-btn">Save Assignment</button>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+<!-- ============================== -->
+<!-- UPDATE STATUS MODAL -->
+<!-- ============================== -->
+<div class="modal-overlay" id="statusModalOverlay">
+    <div class="modal-card narrow" role="dialog" aria-modal="true">
+        <button class="modal-close" id="statusModalCloseBtn">&times;</button>
+
+        <div class="modal-header">
+            <h3>Update Status <span id="statusComplaintId"></span></h3>
+        </div>
+
+        <form id="statusForm">
+
+            <div class="form-field" style="margin-bottom:16px;">
+                <label for="statusSelect">New Status</label>
+                <select id="statusSelect" required>
+                    <option>Pending</option>
+                    <option>Assigned</option>
+                    <option>In Progress</option>
+                    <option>Waiting for Student</option>
+                    <option>Resolved</option>
+                    <option>Closed</option>
+                    <option>Reopened</option>
+                </select>
+            </div>
+
+            <div class="form-field" style="margin-bottom:16px;">
+                <label for="statusRemarks">Remarks</label>
+                <textarea id="statusRemarks" rows="3" placeholder="Add a note about this status change..."></textarea>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="submit-btn secondary" id="statusCancelBtn">Cancel</button>
+                <button type="submit" class="submit-btn">Update Status</button>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+<!-- ============================== -->
+<!-- EDIT COMPLAINT MODAL -->
+<!-- ============================== -->
+<div class="modal-overlay" id="editModalOverlay">
+    <div class="modal-card" role="dialog" aria-modal="true">
+        <button class="modal-close" id="editModalCloseBtn">&times;</button>
+
+        <div class="modal-header">
+            <h3>Edit Complaint <span id="editComplaintId"></span></h3>
+        </div>
+
+        <form id="editForm">
+
+            <div class="form-field" style="margin-bottom:16px;">
+                <label for="editTitle">Title</label>
+                <input type="text" id="editTitle" required>
+            </div>
+
+            <div class="form-field" style="margin-bottom:16px;">
+                <label for="editCategory">Category</label>
+                <select id="editCategory" required>
+                    <option>Electrical</option>
+                    <option>Bathroom</option>
+                    <option>Furniture</option>
+                    <option>Plumbing</option>
+                    <option>Cleaning</option>
+                    <option>Internet</option>
+                    <option>Mess Food</option>
+                    <option>Security</option>
+                    <option>Water Supply</option>
+                    <option>Pest Control</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <div class="form-field" style="margin-bottom:16px;">
+                <label for="editPriority">Priority</label>
+                <select id="editPriority" required>
+                    <option>Low</option>
+                    <option>Medium</option>
+                    <option>High</option>
+                </select>
+            </div>
+
+            <div class="form-field" style="margin-bottom:16px;">
+                <label for="editDescription">Description</label>
+                <textarea id="editDescription" rows="4" required></textarea>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="submit-btn secondary" id="editCancelBtn">Cancel</button>
+                <button type="submit" class="submit-btn">Save Changes</button>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+<!-- ============================== -->
+<!-- DELETE CONFIRMATION MODAL -->
+<!-- ============================== -->
+<div class="modal-overlay" id="deleteModalOverlay">
+    <div class="modal-card narrow" role="dialog" aria-modal="true">
+        <button class="modal-close" id="deleteModalCloseBtn">&times;</button>
+
+        <div class="modal-header">
+            <h3>Delete Complaint</h3>
+        </div>
+
+        <p class="confirm-text">
+            Are you sure you want to delete complaint <strong id="deleteComplaintId"></strong>?
+            This action cannot be undone.
+        </p>
+
+        <div class="confirm-actions">
+            <button type="button" class="submit-btn secondary" id="deleteCancelBtn">Cancel</button>
+            <button type="button" class="btn-danger" id="deleteConfirmBtn">Delete</button>
+        </div>
+
+    </div>
+</div>
+
+<!-- ============================== -->
+<!-- TOAST -->
+<!-- ============================== -->
+<div class="toast" id="toast"></div>
+
+<script src="script.js"></script>
+
+</body>
+</html>

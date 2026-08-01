@@ -3,536 +3,2366 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Outpass | Smart Hostel 360</title>
-
-<!-- Google Fonts: Poppins -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-<!-- Font Awesome -->
+<title>Outpass Management | Smart Hostel 360</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+/*==========================================
+        SMART HOSTEL 360
+        ADMIN OUTPASS MANAGEMENT
+        (Design system matched 1:1 to the existing Admin modules —
+         white/blue theme, same sidebar, topbar, cards, tables, modal)
+===========================================*/
 
-<!-- Module stylesheet -->
-<link rel="stylesheet" href="admin-outpass.css">
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#f4f7fb;
+    color:#333;
+    overflow-x:hidden;
+}
+
+a,
+a:link,
+a:visited,
+a:hover,
+a:active,
+a:focus{
+    text-decoration:none;
+    color:inherit;
+}
+
+.container{
+    display:flex;
+    min-height:100vh;
+}
+
+/*================ SIDEBAR ================*/
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:280px;
+    height:100vh;
+    background:#0056d6;
+    color:#fff;
+    overflow-y:auto;
+    transition:.3s;
+    z-index:1000;
+}
+
+.logo{
+    text-align:center;
+    padding:25px 20px;
+    border-bottom:1px solid rgba(255,255,255,.15);
+}
+
+.logo img{
+    width:80px;
+    height:80px;
+    border-radius:50%;
+    background:#fff;
+    padding:5px;
+    margin-bottom:10px;
+}
+
+.logo h2{
+    font-size:20px;
+    margin-bottom:6px;
+}
+
+.logo p{
+    font-size:13px;
+    opacity:.9;
+}
+
+.close-btn{
+    display:none;
+    position:absolute;
+    top:18px;
+    right:18px;
+    background:none;
+    border:none;
+    color:#fff;
+    font-size:22px;
+    cursor:pointer;
+}
+
+.sidebar ul{
+    list-style:none;
+    padding:18px;
+}
+
+.sidebar-item{
+    margin-bottom:8px;
+}
+
+.sidebar-item a{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:15px;
+    border-radius:12px;
+    cursor:pointer;
+    transition:.3s;
+    color:#fff;
+    text-decoration:none;
+}
+
+.sidebar-item a:hover{
+    background:rgba(255,255,255,.15);
+    text-decoration:none;
+}
+
+.sidebar-item.active a{
+    background:#fff;
+    color:#0056d6;
+    font-weight:600;
+}
+
+.sidebar-item i{
+    width:20px;
+    text-align:center;
+}
+
+/*================ MAIN ================*/
+
+.main{
+    margin-left:280px;
+    width:calc(100% - 280px);
+    padding:25px;
+}
+
+/*================ TOPBAR ================*/
+
+.topbar{
+    background:#fff;
+    border-radius:18px;
+    padding:20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+.page-title h1{
+    color:#0056d6;
+    margin-bottom:5px;
+}
+
+.page-title p{
+    color:#666;
+}
+
+.top-right{
+    display:flex;
+    align-items:center;
+    gap:18px;
+}
+
+.search-box{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    background:#eef3ff;
+    padding:12px 18px;
+    border-radius:30px;
+}
+
+.search-box input{
+    border:none;
+    outline:none;
+    background:none;
+    width:220px;
+}
+
+.notification{
+    position:relative;
+    width:48px;
+    height:48px;
+    border-radius:50%;
+    background:#0056d6;
+    color:#fff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    cursor:pointer;
+}
+
+.notification span{
+    position:absolute;
+    top:-4px;
+    right:-4px;
+    width:20px;
+    height:20px;
+    border-radius:50%;
+    background:red;
+    color:#fff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:11px;
+}
+
+/*================ WELCOME ================*/
+
+.welcome{
+    background:linear-gradient(135deg,#0056d6,#2d7eff);
+    color:#fff;
+    border-radius:18px;
+    padding:30px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+}
+
+.welcome h2{
+    font-size:30px;
+    margin-bottom:10px;
+}
+
+.welcome p{
+    max-width:650px;
+    line-height:1.7;
+}
+
+.welcome button{
+    background:#fff;
+    color:#0056d6;
+    border:none;
+    padding:16px 26px;
+    border-radius:12px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    white-space:nowrap;
+}
+
+.welcome button:hover{
+    transform:translateY(-3px);
+}
+
+/*================ SUMMARY / STAT CARDS ================*/
+
+.summary-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+    margin-bottom:30px;
+}
+
+.summary-card{
+    background:#fff;
+    border-radius:18px;
+    padding:25px;
+    display:flex;
+    gap:20px;
+    align-items:center;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+    transition:.3s;
+}
+
+.summary-card:hover{
+    transform:translateY(-6px);
+}
+
+.summary-card i{
+    width:60px;
+    height:60px;
+    border-radius:16px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:26px;
+    color:#fff;
+    flex-shrink:0;
+}
+
+.total-stat i{ background:#0056d6; }
+.pending-stat i{ background:#f39c12; }
+.approved-stat i{ background:#00b894; }
+.rejected-stat i{ background:#e74c3c; }
+.outside-stat i{ background:#2d9cdb; }
+.returned-stat i{ background:#8e6ef0; }
+
+.summary-card h4,
+.summary-card .stat-label{
+    color:#666;
+    margin-bottom:8px;
+    font-size:14px;
+    font-weight:600;
+}
+
+.summary-card h2,
+.summary-card .stat-number{
+    font-size:28px;
+    margin-bottom:4px;
+}
+
+.summary-card small{
+    color:#999;
+}
+
+/*================ SECTION CARD SHELL ================*/
+
+.panel{
+    background:#fff;
+    border-radius:18px;
+    padding:25px;
+    margin-bottom:30px;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+.section-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+    flex-wrap:wrap;
+    gap:12px;
+}
+
+.section-header h2{
+    color:#0056d6;
+    font-size:19px;
+}
+
+.section-header p{
+    color:#777;
+    font-size:13px;
+    margin-top:4px;
+}
+
+/*================ FILTERS ================*/
+
+.filters{
+    display:flex;
+    gap:15px;
+    flex-wrap:wrap;
+    margin-bottom:5px;
+}
+
+.filters input,
+.filters select{
+    padding:12px 14px;
+    border:1px solid #ddd;
+    border-radius:10px;
+    outline:none;
+    font-family:'Poppins',sans-serif;
+    font-size:13px;
+    min-width:150px;
+    flex:1 1 150px;
+}
+
+.filters input:focus,
+.filters select:focus{
+    border-color:#0056d6;
+}
+
+.filters .reset-btn{
+    background:#eef3ff;
+    color:#0056d6;
+    border:1px solid #cddcff;
+    padding:12px 18px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:600;
+    font-size:13px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    flex:0 0 auto;
+    transition:.2s;
+}
+
+.filters .reset-btn:hover{
+    background:#dfe8ff;
+}
+
+/*================ TABLE ================*/
+
+.table-responsive{
+    overflow-x:auto;
+    margin-top:20px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:1200px;
+}
+
+th{
+    background:#0056d6;
+    color:#fff;
+    padding:14px;
+    text-align:left;
+    font-size:13px;
+    white-space:nowrap;
+}
+
+th:first-child{ border-radius:10px 0 0 10px; }
+th:last-child{ border-radius:0 10px 10px 0; }
+
+td{
+    padding:14px;
+    border-bottom:1px solid #eee;
+    font-size:13.5px;
+    vertical-align:middle;
+}
+
+tbody tr:hover{
+    background:#f8fbff;
+}
+
+tbody tr.overdue-row{
+    background:#fff3f2;
+}
+
+tbody tr.overdue-row:hover{
+    background:#ffe8e6;
+}
+
+.student-photo{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    object-fit:cover;
+    background:#eef3ff;
+}
+
+.name-cell strong{
+    display:block;
+}
+
+.name-cell span{
+    font-size:12px;
+    color:#888;
+}
+
+.badge{
+    display:inline-block;
+    padding:6px 14px;
+    border-radius:30px;
+    font-size:12.5px;
+    font-weight:600;
+    white-space:nowrap;
+}
+
+.status-pending{ background:#fff4d6; color:#b7791f; }
+.status-approved{ background:#d4f8e8; color:#009966; }
+.status-rejected{ background:#ffe1de; color:#e74c3c; }
+.status-outside{ background:#dceeff; color:#2d9cdb; }
+.status-returned{ background:#e6def9; color:#6a4fd0; }
+.status-overdue{ background:#ffe1de; color:#e74c3c; }
+
+.action-btn{
+    background:#0056d6;
+    color:#fff;
+    border:none;
+    padding:8px 14px;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:12.5px;
+    font-weight:600;
+    transition:.3s;
+    white-space:nowrap;
+}
+
+.action-btn:hover{
+    background:#0043aa;
+    transform:translateY(-2px);
+}
+
+.action-btn.approve-btn{ background:#00b894; }
+.action-btn.approve-btn:hover{ background:#009873; }
+
+.action-btn.reject-btn{ background:#e74c3c; }
+.action-btn.reject-btn:hover{ background:#c8382a; }
+
+.action-btn.ghost-btn{
+    background:#eef3ff;
+    color:#0056d6;
+}
+
+.action-btn.ghost-btn:hover{
+    background:#dfe8ff;
+    transform:translateY(-2px);
+}
+
+.row-actions{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+/*---------------- Empty state ----------------*/
+
+.empty-state{
+    text-align:center;
+    padding:50px 20px;
+    color:#666;
+}
+
+.empty-state i{
+    font-size:46px;
+    color:#dfe8ff;
+    margin-bottom:16px;
+}
+
+.empty-state h4{
+    color:#0056d6;
+    margin-bottom:6px;
+    font-size:17px;
+}
+
+/*================ REPORTS ================*/
+
+.report-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:18px;
+    margin-bottom:22px;
+}
+
+.report-card{
+    background:#f8fbff;
+    border:1px solid #eef3ff;
+    border-radius:14px;
+    padding:20px;
+    text-align:center;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.report-card:hover{
+    transform:translateY(-4px);
+    border-color:#0056d6;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+.report-card i{
+    font-size:28px;
+    color:#0056d6;
+    margin-bottom:10px;
+}
+
+.report-card h4{
+    font-size:14px;
+    margin-bottom:4px;
+}
+
+.report-card p{
+    font-size:12px;
+    color:#888;
+}
+
+.export-row{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+    align-items:center;
+    padding-top:18px;
+    border-top:1px solid #eee;
+}
+
+.export-row span{
+    font-size:13px;
+    color:#666;
+    font-weight:600;
+}
+
+.export-btn{
+    background:#fff;
+    border:1px solid #ddd;
+    padding:10px 18px;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:13px;
+    font-weight:600;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    transition:.2s;
+    color:#333;
+}
+
+.export-btn:hover{
+    border-color:#0056d6;
+    color:#0056d6;
+}
+
+.export-btn.pdf i{ color:#e74c3c; }
+.export-btn.excel i{ color:#00b894; }
+.export-btn.csv i{ color:#0056d6; }
+
+/*================ FOOTER ================*/
+
+.footer{
+    background:#fff;
+    border-radius:18px;
+    padding:20px;
+    text-align:center;
+    color:#666;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+    margin-bottom:30px;
+    font-size:13px;
+}
+
+/*================ TOAST ================*/
+
+.toast{
+    position:fixed;
+    bottom:30px;
+    left:50%;
+    transform:translateX(-50%) translateY(20px);
+    background:#0f172a;
+    color:#fff;
+    padding:14px 26px;
+    border-radius:12px;
+    font-size:14px;
+    font-weight:500;
+    opacity:0;
+    pointer-events:none;
+    transition:.3s;
+    z-index:10000;
+    box-shadow:0 8px 20px rgba(0,0,0,.2);
+}
+
+.toast.show{
+    opacity:1;
+    transform:translateX(-50%) translateY(0);
+    pointer-events:auto;
+}
+
+/*================ LOADER ================*/
+
+.loader-overlay{
+    position:fixed;
+    inset:0;
+    z-index:99999;
+    background:#fff;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:18px;
+    transition:opacity .5s ease, visibility .5s ease;
+}
+
+.loader-overlay.hidden{
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+}
+
+.loader-ring{
+    width:52px;
+    height:52px;
+    border:4px solid #eef3ff;
+    border-top-color:#0056d6;
+    border-radius:50%;
+    animation:spin .8s linear infinite;
+}
+
+.loader-overlay p{
+    font-weight:500;
+    color:#666;
+}
+
+@keyframes spin{
+    to{ transform:rotate(360deg); }
+}
+
+/*================ MOBILE MENU BUTTON / SCRIM ================*/
+
+.menu-btn{
+    display:none;
+    position:fixed;
+    top:20px;
+    left:20px;
+    z-index:1100;
+    width:48px;
+    height:48px;
+    border-radius:50%;
+    background:#0056d6;
+    color:#fff;
+    border:none;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+    cursor:pointer;
+    box-shadow:0 8px 20px rgba(0,0,0,.15);
+}
+
+.overlay{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.45);
+    z-index:999;
+}
+
+.overlay.active{
+    display:block;
+}
+
+/*==================================================
+                MODAL (Outpass Details)
+==================================================*/
+
+.modal-overlay{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.45);
+    z-index:9999;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+
+.modal-overlay.open{
+    display:flex;
+}
+
+.modal-card{
+    background:#fff;
+    width:100%;
+    max-width:680px;
+    max-height:88vh;
+    overflow-y:auto;
+    border-radius:18px;
+    padding:30px;
+    position:relative;
+    animation:popup .3s ease;
+    box-shadow:0 15px 35px rgba(0,0,0,.2);
+}
+
+@keyframes popup{
+    from{ transform:scale(.8); opacity:0; }
+    to{ transform:scale(1); opacity:1; }
+}
+
+.modal-close{
+    position:absolute;
+    top:18px;
+    right:22px;
+    font-size:28px;
+    cursor:pointer;
+    color:#666;
+    background:none;
+    border:none;
+}
+
+.modal-close:hover{
+    color:#0056d6;
+}
+
+.modal-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    margin-bottom:20px;
+    padding-right:32px;
+    gap:12px;
+}
+
+.modal-header-student{
+    display:flex;
+    align-items:center;
+    gap:16px;
+}
+
+.modal-header-student img{
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    object-fit:cover;
+    background:#eef3ff;
+}
+
+.modal-header-student h3{
+    color:#0056d6;
+    font-size:18px;
+}
+
+.modal-header-student span{
+    font-size:13px;
+    color:#777;
+}
+
+.modal-section-title{
+    color:#0056d6;
+    font-size:14px;
+    font-weight:600;
+    margin:20px 0 10px;
+    text-transform:uppercase;
+    letter-spacing:.4px;
+}
+
+.modal-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:0 20px;
+}
+
+.modal-row{
+    display:flex;
+    justify-content:space-between;
+    padding:10px 0;
+    border-bottom:1px solid #eee;
+    gap:12px;
+}
+
+.modal-row .label{
+    color:#666;
+    font-weight:500;
+    font-size:13px;
+}
+
+.modal-row .value{
+    font-weight:600;
+    color:#333;
+    text-align:right;
+    font-size:13px;
+}
+
+.modal-row.full{
+    grid-column:1/-1;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:8px;
+}
+
+.modal-row.full .value{
+    text-align:left;
+    font-weight:400;
+    color:#555;
+    line-height:1.6;
+}
+
+.modal-doc-link{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    background:#eef3ff;
+    color:#0056d6;
+    padding:8px 14px;
+    border-radius:8px;
+    font-size:13px;
+    font-weight:600;
+    margin-top:4px;
+}
+
+.modal-actions{
+    display:flex;
+    gap:12px;
+    margin-top:26px;
+    flex-wrap:wrap;
+}
+
+.modal-actions button{
+    flex:1;
+    padding:13px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:14px;
+    font-weight:600;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    transition:.2s;
+    color:#fff;
+}
+
+.modal-actions .btn-approve{ background:#00b894; }
+.modal-actions .btn-approve:hover{ background:#009873; }
+
+.modal-actions .btn-reject{ background:#e74c3c; }
+.modal-actions .btn-reject:hover{ background:#c8382a; }
+
+.modal-actions .btn-pending{ background:#94a3b8; }
+.modal-actions .btn-pending:hover{ background:#748097; }
+
+.modal-actions .btn-return{ background:#0056d6; }
+.modal-actions .btn-return:hover{ background:#0043aa; }
+
+.approval-meta{
+    margin-top:16px;
+    background:#f0fbf6;
+    border-left:4px solid #00b894;
+    padding:14px 16px;
+    border-radius:10px;
+    font-size:13px;
+    color:#0a7a55;
+}
+
+.reject-meta{
+    margin-top:16px;
+    background:#fff4f3;
+    border-left:4px solid #e74c3c;
+    padding:14px 16px;
+    border-radius:10px;
+    font-size:13px;
+    color:#b0301f;
+}
+
+/*---------------- Reject reason form (inline within modal) ----------------*/
+
+.reject-form{
+    display:none;
+    margin-top:18px;
+    background:#fff8f7;
+    border:1px solid #ffd9d5;
+    border-radius:12px;
+    padding:18px;
+}
+
+.reject-form.open{
+    display:block;
+}
+
+.reject-form label{
+    display:block;
+    font-size:13px;
+    font-weight:600;
+    margin-bottom:6px;
+    color:#333;
+}
+
+.reject-form select,
+.reject-form textarea{
+    width:100%;
+    padding:12px;
+    border:1px solid #ddd;
+    border-radius:10px;
+    outline:none;
+    resize:none;
+    font-family:'Poppins',sans-serif;
+    margin-bottom:14px;
+}
+
+.reject-form select:focus,
+.reject-form textarea:focus{
+    border-color:#e74c3c;
+}
+
+.reject-form .reject-form-actions{
+    display:flex;
+    gap:10px;
+}
+
+.reject-form .reject-form-actions button{
+    flex:1;
+    padding:11px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:600;
+    font-size:13px;
+}
+
+.reject-form .confirm-reject-btn{
+    background:#e74c3c;
+    color:#fff;
+}
+
+.reject-form .confirm-reject-btn:hover{
+    background:#c8382a;
+}
+
+.reject-form .cancel-reject-btn{
+    background:#eee;
+    color:#555;
+}
+
+@media(max-width:600px){
+    .modal-card{ padding:22px; }
+    .modal-grid{ grid-template-columns:1fr; }
+}
+
+/*==================================================
+            NOTIFICATION SLIDE PANEL
+==================================================*/
+
+.notif-overlay{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.45);
+    z-index:1998;
+}
+
+.notif-overlay.open{
+    display:block;
+}
+
+.notif-panel{
+    position:fixed;
+    top:0;
+    right:-380px;
+    width:360px;
+    max-width:90vw;
+    height:100vh;
+    background:#fff;
+    z-index:1999;
+    box-shadow:-10px 0 30px rgba(0,0,0,.15);
+    transition:right .3s ease;
+    display:flex;
+    flex-direction:column;
+}
+
+.notif-panel.open{
+    right:0;
+}
+
+.notif-panel-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:22px 25px;
+    border-bottom:1px solid #eee;
+}
+
+.notif-panel-head h3{
+    color:#0056d6;
+}
+
+.notif-close-btn{
+    background:none;
+    border:none;
+    font-size:26px;
+    cursor:pointer;
+    color:#666;
+}
+
+.notif-close-btn:hover{
+    color:#0056d6;
+}
+
+.notif-list{
+    padding:18px;
+    overflow-y:auto;
+    flex:1;
+}
+
+.notif-item{
+    display:flex;
+    gap:14px;
+    padding:16px;
+    border-radius:14px;
+    margin-bottom:14px;
+    background:#f8fbff;
+    animation:slideUp .3s ease both;
+}
+
+.notif-item.unread{
+    background:#eef4ff;
+    border-left:4px solid #0056d6;
+}
+
+.notif-icon{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:#0056d6;
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+}
+
+.notif-content{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+    font-size:13px;
+    color:#333;
+}
+
+.notif-content strong{
+    font-size:14px;
+    color:#0056d6;
+}
+
+.notif-content span{
+    font-size:11px;
+    color:#999;
+}
+
+@keyframes slideUp{
+    from{ opacity:0; transform:translateY(10px); }
+    to{ opacity:1; transform:translateY(0); }
+}
+
+/*==================================================
+            MOBILE RESPONSIVE
+==================================================*/
+
+@media(max-width:992px){
+
+.menu-btn{ display:flex; }
+.close-btn{ display:block; }
+.sidebar{ left:-300px; }
+.sidebar.active{ left:0; }
+
+.main{
+    margin-left:0;
+    width:100%;
+    padding:90px 20px 20px;
+}
+
+.topbar{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:20px;
+}
+
+.top-right{
+    width:100%;
+    flex-wrap:wrap;
+}
+
+.search-box{ width:100%; }
+.search-box input{ width:100%; }
+
+.welcome{
+    flex-direction:column;
+    gap:20px;
+    align-items:flex-start;
+}
+
+}
+
+@media(max-width:768px){
+
+.summary-grid{ grid-template-columns:1fr; }
+.report-grid{ grid-template-columns:repeat(2,1fr); }
+
+}
+
+@media(max-width:480px){
+
+.logo img{ width:65px; height:65px; }
+.logo h2{ font-size:18px; }
+.report-grid{ grid-template-columns:1fr; }
+
+}
+
+</style>
 </head>
 <body>
 
-<!-- ============ SIDEBAR OVERLAY (mobile) ============ -->
-<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<!-- ============ LOADER ============ -->
+<div class="loader-overlay" id="loaderOverlay">
+  <div class="loader-ring"></div>
+  <p>Loading Outpass Management…</p>
+</div>
 
-<!-- ============ SIDEBAR ============ -->
-<aside class="sidebar" id="sidebar">
-  <div class="sidebar-brand">
-    <div class="brand-mark"><i class="fa-solid fa-shield-halved"></i></div>
-    <div class="brand-text">
-      <span class="brand-title">Smart Hostel <em>360</em></span>
-      <span class="brand-sub">Admin Portal</span>
+<!-- ============ MOBILE MENU BUTTON ============ -->
+<button class="menu-btn" id="hamburgerBtn" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button>
+
+<!-- ============ SIDEBAR SCRIM ============ -->
+<div class="overlay" id="sidebarScrim"></div>
+
+<div class="container">
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="sidebar" id="sidebar">
+    <button class="close-btn" id="sidebarCloseBtn" aria-label="Close menu"><i class="fa-solid fa-xmark"></i></button>
+    <div class="logo">
+      <img src="https://api.dicebear.com/7.x/shapes/svg?seed=SmartHostel360&backgroundColor=ffffff" alt="Smart Hostel 360 logo">
+      <h2>Smart Hostel 360</h2>
+      <p>Admin Console</p>
     </div>
+    <ul>
+      <li class="sidebar-item"><a href="#"><i class="fa-solid fa-grip"></i> Dashboard</a></li>
+      <li class="sidebar-item"><a href="#"><i class="fa-solid fa-users"></i> Students</a></li>
+      <li class="sidebar-item"><a href="#"><i class="fa-solid fa-bed"></i> Room Allotment</a></li>
+      <li class="sidebar-item active"><a href="#"><i class="fa-solid fa-door-open"></i> Outpass Requests</a></li>
+      <li class="sidebar-item"><a href="#"><i class="fa-solid fa-utensils"></i> Mess Management</a></li>
+      <li class="sidebar-item"><a href="#"><i class="fa-solid fa-triangle-exclamation"></i> Complaints</a></li>
+      <li class="sidebar-item"><a href="#"><i class="fa-solid fa-chart-line"></i> Reports</a></li>
+      <li class="sidebar-item"><a href="#"><i class="fa-solid fa-gear"></i> Settings</a></li>
+      <li class="sidebar-item"><a href="#"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</a></li>
+    </ul>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <main class="main">
+
+    <!-- TOP BAR -->
+    <div class="topbar">
+      <div class="page-title">
+        <h1>Outpass Management</h1>
+        <p>Review, approve and track every student outpass request</p>
+      </div>
+      <div class="top-right">
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass" style="color:#0056d6;"></i>
+          <input type="text" placeholder="Quick search…" id="quickSearch" oninput="document.getElementById('searchName').value=this.value; renderRequestsTable();">
+        </div>
+        <div class="notification" id="notifBellBtn">
+          <i class="fa-regular fa-bell"></i>
+          <span id="notifCount">0</span>
+        </div>
+        <img src="https://api.dicebear.com/7.x/initials/svg?seed=Warden%20Nithya&backgroundColor=0056d6&textColor=ffffff" alt="Admin avatar" style="width:48px;height:48px;border-radius:50%;">
+      </div>
+    </div>
+
+    <!-- WELCOME BANNER -->
+    <section class="welcome">
+      <div>
+        <h2>Good day, Warden R. Nithya 👋</h2>
+        <p>Here's what's happening with hostel outpasses today. Review pending requests, keep an eye on students who are currently outside, and mark returns as they happen.</p>
+      </div>
+      <button onclick="document.getElementById('requestsTableWrap').scrollIntoView({behavior:'smooth'})">
+        <i class="fa-solid fa-clipboard-list"></i> Review Pending
+      </button>
+    </section>
+
+    <!-- ============ SUMMARY CARDS ============ -->
+    <section class="summary-grid" aria-label="Outpass summary">
+      <div class="summary-card total-stat">
+        <i class="fa-solid fa-file-lines"></i>
+        <div>
+          <h4 class="stat-label">Total Outpass Requests</h4>
+          <h2 class="stat-number" data-stat="total" data-target="0">0</h2>
+        </div>
+      </div>
+      <div class="summary-card pending-stat">
+        <i class="fa-solid fa-hourglass-half"></i>
+        <div>
+          <h4 class="stat-label">Pending Requests</h4>
+          <h2 class="stat-number" data-stat="pending" data-target="0">0</h2>
+        </div>
+      </div>
+      <div class="summary-card approved-stat">
+        <i class="fa-solid fa-circle-check"></i>
+        <div>
+          <h4 class="stat-label">Approved Requests</h4>
+          <h2 class="stat-number" data-stat="approved" data-target="0">0</h2>
+        </div>
+      </div>
+      <div class="summary-card rejected-stat">
+        <i class="fa-solid fa-circle-xmark"></i>
+        <div>
+          <h4 class="stat-label">Rejected Requests</h4>
+          <h2 class="stat-number" data-stat="rejected" data-target="0">0</h2>
+        </div>
+      </div>
+      <div class="summary-card outside-stat">
+        <i class="fa-solid fa-person-walking-arrow-right"></i>
+        <div>
+          <h4 class="stat-label">Students Currently Outside</h4>
+          <h2 class="stat-number" data-stat="outside" data-target="0">0</h2>
+        </div>
+      </div>
+      <div class="summary-card returned-stat">
+        <i class="fa-solid fa-house-circle-check"></i>
+        <div>
+          <h4 class="stat-label">Students Returned Today</h4>
+          <h2 class="stat-number" data-stat="returned" data-target="0">0</h2>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FILTERS ============ -->
+    <section class="panel">
+      <div class="section-header">
+        <div>
+          <h2>Search &amp; Filter</h2>
+          <p>Narrow down requests by student or request details</p>
+        </div>
+      </div>
+      <div class="filters">
+        <input type="text" id="searchName" placeholder="Search by student name">
+        <input type="text" id="searchReg" placeholder="Search by register number">
+        <select id="filterDept">
+          <option value="">All Departments</option>
+          <option>Computer Science</option>
+          <option>Electronics & Comm.</option>
+          <option>Electrical</option>
+          <option>Mechanical</option>
+          <option>Civil</option>
+          <option>Information Tech.</option>
+        </select>
+        <select id="filterYear">
+          <option value="">All Years</option>
+          <option>1st Year</option>
+          <option>2nd Year</option>
+          <option>3rd Year</option>
+          <option>4th Year</option>
+        </select>
+        <select id="filterBlock">
+          <option value="">All Hostel Blocks</option>
+          <option>Block A - Ganga</option>
+          <option>Block B - Nandhi</option>
+          <option>Block C - Kaveri</option>
+        </select>
+        <select id="filterStatus">
+          <option value="">All Statuses</option>
+          <option value="pending">Pending</option>
+          <option value="approved">Approved</option>
+          <option value="rejected">Rejected</option>
+          <option value="outside">Outside</option>
+          <option value="overdue">Overdue</option>
+          <option value="returned">Returned</option>
+        </select>
+        <input type="date" id="filterDate">
+        <button class="reset-btn" id="resetFiltersBtn"><i class="fa-solid fa-rotate-left"></i> Reset Filters</button>
+      </div>
+    </section>
+
+    <!-- ============ OUTPASS REQUESTS TABLE ============ -->
+    <section class="panel">
+      <div class="section-header">
+        <div>
+          <h2>Outpass Requests</h2>
+          <p>Every request submitted by students, newest first</p>
+        </div>
+      </div>
+      <div class="table-responsive" id="requestsTableWrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Request ID</th>
+              <th>Photo</th>
+              <th>Student Name</th>
+              <th>Register No.</th>
+              <th>Department</th>
+              <th>Year</th>
+              <th>Room No.</th>
+              <th>Hostel Block</th>
+              <th>Purpose</th>
+              <th>Destination</th>
+              <th>Out Date</th>
+              <th>Return Date</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="requestsTableBody"></tbody>
+        </table>
+      </div>
+      <div class="empty-state" id="requestsEmptyState" style="display:none;">
+        <i class="fa-regular fa-folder-open"></i>
+        <h4>No matching requests</h4>
+        <p>Try adjusting or resetting your filters.</p>
+      </div>
+    </section>
+
+    <!-- ============ STUDENTS CURRENTLY OUTSIDE ============ -->
+    <section class="panel">
+      <div class="section-header">
+        <div>
+          <h2>Students Currently Outside</h2>
+          <p>Live tracking — overdue students are automatically highlighted</p>
+        </div>
+      </div>
+      <div class="table-responsive" id="outsideTableWrap">
+        <table style="min-width:900px;">
+          <thead>
+            <tr>
+              <th>Student Name</th>
+              <th>Department</th>
+              <th>Room No.</th>
+              <th>Out Time</th>
+              <th>Expected Return</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="outsideTableBody"></tbody>
+        </table>
+      </div>
+      <div class="empty-state" id="outsideEmptyState" style="display:none;">
+        <i class="fa-solid fa-house-circle-check"></i>
+        <h4>Everyone is inside</h4>
+        <p>No students are currently outside the hostel.</p>
+      </div>
+    </section>
+
+    <!-- ============ HISTORY ============ -->
+    <section class="panel">
+      <div class="section-header">
+        <div>
+          <h2>Outpass History</h2>
+          <p>Complete record of past outpass activity</p>
+        </div>
+      </div>
+      <div class="filters" style="margin-bottom:15px;">
+        <input type="text" id="historySearch" placeholder="Search history by name or request ID">
+        <select id="historyStatusFilter">
+          <option value="">All Statuses</option>
+          <option value="approved">Approved</option>
+          <option value="rejected">Rejected</option>
+          <option value="returned">Returned</option>
+        </select>
+      </div>
+      <div class="table-responsive" id="historyTableWrap">
+        <table style="min-width:900px;">
+          <thead>
+            <tr>
+              <th>Student Name</th>
+              <th>Request Date</th>
+              <th>Purpose</th>
+              <th>Status</th>
+              <th>Approved By</th>
+              <th>Return Time</th>
+              <th>Remarks</th>
+            </tr>
+          </thead>
+          <tbody id="historyTableBody"></tbody>
+        </table>
+      </div>
+      <div class="empty-state" id="historyEmptyState" style="display:none;">
+        <i class="fa-solid fa-clock-rotate-left"></i>
+        <h4>No history yet</h4>
+        <p>Processed requests will appear here.</p>
+      </div>
+    </section>
+
+    <!-- ============ REPORTS ============ -->
+    <section class="panel">
+      <div class="section-header">
+        <div>
+          <h2>Reports</h2>
+          <p>Generate a report and export it in the format you need</p>
+        </div>
+      </div>
+      <div class="report-grid">
+        <div class="report-card" data-scope="daily">
+          <i class="fa-solid fa-calendar-day"></i>
+          <h4>Daily Report</h4>
+          <p>Today's outpass activity</p>
+        </div>
+        <div class="report-card" data-scope="weekly">
+          <i class="fa-solid fa-calendar-week"></i>
+          <h4>Weekly Report</h4>
+          <p>Last 7 days of activity</p>
+        </div>
+        <div class="report-card" data-scope="monthly">
+          <i class="fa-solid fa-calendar"></i>
+          <h4>Monthly Report</h4>
+          <p>Full month summary</p>
+        </div>
+        <div class="report-card" data-scope="department">
+          <i class="fa-solid fa-layer-group"></i>
+          <h4>Department-wise</h4>
+          <p>Grouped by department</p>
+        </div>
+        <div class="report-card" data-scope="student">
+          <i class="fa-solid fa-user-graduate"></i>
+          <h4>Student-wise</h4>
+          <p>Grouped by student</p>
+        </div>
+      </div>
+      <div class="export-row">
+        <span>Export all requests:</span>
+        <button class="export-btn pdf" id="exportPdfBtn"><i class="fa-solid fa-file-pdf"></i> PDF</button>
+        <button class="export-btn excel" id="exportExcelBtn"><i class="fa-solid fa-file-excel"></i> Excel</button>
+        <button class="export-btn csv" id="exportCsvBtn"><i class="fa-solid fa-file-csv"></i> CSV</button>
+      </div>
+    </section>
+
+    <footer class="footer">
+      Smart Hostel 360 — Admin Outpass Management &middot; Built for the Hostel Administration Office
+    </footer>
+
+  </main>
+</div>
+
+<!-- ============ NOTIFICATION PANEL ============ -->
+<div class="notif-overlay" id="notifOverlay"></div>
+<aside class="notif-panel" id="notifPanel">
+  <div class="notif-panel-head">
+    <h3>Notifications</h3>
+    <button class="notif-close-btn" id="notifCloseBtn" aria-label="Close notifications"><i class="fa-solid fa-xmark"></i></button>
   </div>
-
-  <nav class="sidebar-nav">
-    <span class="nav-label">Overview</span>
-    <a href="#" class="nav-item active" data-page="dashboard">
-      <i class="fa-solid fa-house"></i><span>Dashboard</span>
-    </a>
-
-    <span class="nav-label">Outpass</span>
-    <a href="#" class="nav-item" data-page="requests">
-      <i class="fa-solid fa-clipboard-list"></i><span>Outpass Requests</span>
-      <span class="nav-badge nav-badge--accent" id="navPendingBadge">0</span>
-    </a>
-    <a href="#" class="nav-item" data-page="outside">
-      <i class="fa-solid fa-person-walking-arrow-right"></i><span>Students Outside</span>
-      <span class="nav-badge" id="navOutsideBadge">0</span>
-    </a>
-    <a href="#" class="nav-item" data-page="history">
-      <i class="fa-solid fa-clock-rotate-left"></i><span>Outpass History</span>
-    </a>
-    <a href="#" class="nav-item" data-page="reports">
-      <i class="fa-solid fa-chart-column"></i><span>Reports</span>
-    </a>
-
-    <span class="nav-label">Updates</span>
-    <a href="#" class="nav-item" data-page="notifications">
-      <i class="fa-solid fa-bell"></i><span>Notifications</span>
-      <span class="nav-badge nav-badge--danger" id="navNotifBadge">0</span>
-    </a>
-  </nav>
-
-  <div class="sidebar-footer">
-    <a href="#" class="nav-item nav-item--logout" id="logoutBtn">
-      <i class="fa-solid fa-right-from-bracket"></i><span>Logout</span>
-    </a>
-  </div>
+  <div class="notif-list" id="notifList"></div>
 </aside>
 
-<!-- ============ MAIN ============ -->
-<div class="main-wrapper">
+<!-- ============ OUTPASS DETAILS MODAL ============ -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-card">
+    <button class="modal-close" id="modalCloseBtn" aria-label="Close">&times;</button>
 
-  <div class="content">
-
-    <!-- ============ TOPBAR ============ -->
-    <div class="topbar">
-      <div class="topbar-left">
-        <button class="hamburger" id="hamburgerBtn"><i class="fa-solid fa-bars"></i></button>
-        <div class="search-box">
-          <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" id="globalSearch" placeholder="Search by name, register no. or request ID...">
+    <div class="modal-header">
+      <div class="modal-header-student">
+        <img id="modalStudentPhoto" src="" alt="Student photo">
+        <div>
+          <h3 id="modalStudentName">-</h3>
+          <span id="modalStudentMeta">-</span>
         </div>
       </div>
-      <div class="topbar-right">
-        <div class="live-clock">
-          <i class="fa-solid fa-clock"></i>
-          <div class="clock-text">
-            <span id="clockTime">--:--:--</span>
-            <span id="clockDate">--</span>
-          </div>
-        </div>
-        <button class="icon-btn" id="notifBellBtn" title="Notifications">
-          <i class="fa-solid fa-bell"></i>
-          <span class="icon-dot pulse" id="bellDot"></span>
-        </button>
-        <div class="topbar-profile" id="topbarProfile">
-          <div class="profile-avatar avatar-initials" style="width:48px;height:48px;">AD</div>
-          <div class="profile-meta">
-            <span class="profile-name">Mrs. Kavitha Rao</span>
-            <span class="profile-reg">Hostel Warden</span>
-          </div>
-          <i class="fa-solid fa-chevron-down profile-caret"></i>
+      <div><span id="modalStatusBadge"></span></div>
+    </div>
 
-          <div class="profile-dropdown">
-            <div class="dropdown-header">
-              <div class="avatar-initials">AD</div>
-              <div>
-                <strong>Mrs. Kavitha Rao</strong>
-                <span>Hostel Warden · Block A &amp; B</span>
-              </div>
-            </div>
-            <ul>
-              <li><i class="fa-solid fa-envelope"></i> kavitha.rao@smarthostel360.edu</li>
-              <li><i class="fa-solid fa-phone"></i> +91 98765 43210</li>
-            </ul>
-            <a href="#" class="dropdown-link">My Profile</a>
-            <a href="#" class="dropdown-link" id="dropdownLogout">Logout</a>
-          </div>
-        </div>
+    <div style="font-size:13px;color:#888;">Request ID: <strong id="modalRequestId" style="color:#0056d6;">-</strong></div>
+
+    <h4 class="modal-section-title">Student Information</h4>
+    <div class="modal-grid">
+      <div class="modal-row"><span class="label">Year</span><span class="value" id="modalYear">-</span></div>
+      <div class="modal-row"><span class="label">Section</span><span class="value" id="modalSection">-</span></div>
+      <div class="modal-row"><span class="label">Hostel Block</span><span class="value" id="modalBlock">-</span></div>
+      <div class="modal-row"><span class="label">Room Number</span><span class="value" id="modalRoom">-</span></div>
+      <div class="modal-row"><span class="label">Mobile Number</span><span class="value" id="modalMobile">-</span></div>
+      <div class="modal-row"><span class="label">Parent Name</span><span class="value" id="modalParentName">-</span></div>
+      <div class="modal-row"><span class="label">Parent Phone</span><span class="value" id="modalParentPhone">-</span></div>
+    </div>
+
+    <h4 class="modal-section-title">Outpass Information</h4>
+    <div class="modal-grid">
+      <div class="modal-row"><span class="label">Purpose</span><span class="value" id="modalPurpose">-</span></div>
+      <div class="modal-row"><span class="label">Destination</span><span class="value" id="modalDestination">-</span></div>
+      <div class="modal-row"><span class="label">Out Date &amp; Time</span><span class="value" id="modalOutDateTime">-</span></div>
+      <div class="modal-row"><span class="label">Expected Return</span><span class="value" id="modalReturnDateTime">-</span></div>
+      <div class="modal-row full">
+        <span class="label">Student Reason</span>
+        <span class="value" id="modalReason">-</span>
+      </div>
+      <div class="modal-row full">
+        <span class="label">Supporting Document</span>
+        <div class="value" id="modalDocWrap">-</div>
       </div>
     </div>
 
-    <!-- ============ PAGE: DASHBOARD ============ -->
-    <section class="page active" id="page-dashboard">
+    <div id="modalMeta"></div>
 
-      <div class="welcome-card">
-        <div class="welcome-glass">
-          <div class="welcome-text">
-            <span class="welcome-eyebrow">Admin Outpass Console</span>
-            <h1>Welcome back, Warden 👋</h1>
-            <p>Here's a real-time snapshot of every outpass request across the hostel. Review, approve and track student movement — all in one place.</p>
-          </div>
-          <div class="welcome-status">
-            <div class="welcome-status-item">
-              <span class="dot dot--live"></span>
-              <div>
-                <strong id="welcomeTime">--:--:--</strong>
-                <small>Live server time</small>
-              </div>
-            </div>
-            <div class="welcome-status-item">
-              <i class="fa-solid fa-triangle-exclamation"></i>
-              <div>
-                <strong id="welcomeOverdue">0</strong>
-                <small>Overdue right now</small>
-              </div>
-            </div>
-          </div>
-        </div>
+    <div class="modal-actions" id="modalActions"></div>
+
+    <div class="reject-form" id="rejectForm">
+      <label for="rejectReasonSelect">Rejection Reason</label>
+      <select id="rejectReasonSelect">
+        <option value="">Select a reason…</option>
+        <option>Insufficient notice period</option>
+        <option>Incomplete information</option>
+        <option>Parent approval not confirmed</option>
+        <option>Conflicts with hostel schedule</option>
+        <option>Other</option>
+      </select>
+      <label for="rejectRemarksInput">Additional Remarks</label>
+      <textarea id="rejectRemarksInput" rows="3" placeholder="Add any additional remarks for the student…"></textarea>
+      <div class="reject-form-actions">
+        <button class="cancel-reject-btn" id="cancelRejectBtn">Cancel</button>
+        <button class="confirm-reject-btn" id="confirmRejectBtn"><i class="fa-solid fa-xmark"></i> Confirm Rejection</button>
       </div>
-
-      <div class="grid grid-6 stat-grid" id="statGrid">
-        <div class="stat-card" data-goto="requests">
-          <div class="stat-icon stat-icon--blue"><i class="fa-solid fa-clipboard-list"></i></div>
-          <div class="stat-info">
-            <span class="stat-value" data-counter="total">0</span>
-            <span class="stat-label">Total Requests</span>
-          </div>
-        </div>
-        <div class="stat-card" data-goto="requests" data-filter-status="Pending">
-          <div class="stat-icon stat-icon--amber"><i class="fa-solid fa-hourglass-half"></i></div>
-          <div class="stat-info">
-            <span class="stat-value" data-counter="pending">0</span>
-            <span class="stat-label">Pending Requests</span>
-          </div>
-        </div>
-        <div class="stat-card" data-goto="requests" data-filter-status="Approved">
-          <div class="stat-icon stat-icon--green"><i class="fa-solid fa-circle-check"></i></div>
-          <div class="stat-info">
-            <span class="stat-value" data-counter="approved">0</span>
-            <span class="stat-label">Approved Requests</span>
-          </div>
-        </div>
-        <div class="stat-card" data-goto="requests" data-filter-status="Rejected">
-          <div class="stat-icon stat-icon--red"><i class="fa-solid fa-circle-xmark"></i></div>
-          <div class="stat-info">
-            <span class="stat-value" data-counter="rejected">0</span>
-            <span class="stat-label">Rejected Requests</span>
-          </div>
-        </div>
-        <div class="stat-card" data-goto="outside">
-          <div class="stat-icon stat-icon--purple"><i class="fa-solid fa-person-walking-arrow-right"></i></div>
-          <div class="stat-info">
-            <span class="stat-value" data-counter="outside">0</span>
-            <span class="stat-label">Currently Outside</span>
-          </div>
-        </div>
-        <div class="stat-card" data-goto="history">
-          <div class="stat-icon stat-icon--teal"><i class="fa-solid fa-door-open"></i></div>
-          <div class="stat-info">
-            <span class="stat-value" data-counter="returnedToday">0</span>
-            <span class="stat-label">Returned Today</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="grid grid-2 gap-lg">
-        <div class="card chart-card">
-          <div class="card-head">
-            <h3><i class="fa-solid fa-chart-pie"></i> Request Status Breakdown</h3>
-          </div>
-          <canvas id="statusChart"></canvas>
-        </div>
-
-        <div class="card">
-          <div class="card-head">
-            <h3><i class="fa-solid fa-person-walking-arrow-right"></i> Students Currently Outside</h3>
-            <button class="btn btn-outline btn-sm" data-goto="outside">View All</button>
-          </div>
-          <ul class="current-outpass-list" id="dashOutsideList" style="display:flex;flex-direction:column;gap:12px;">
-            <!-- injected -->
-          </ul>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-head">
-          <h3><i class="fa-solid fa-list-check"></i> Recent Outpass Requests</h3>
-          <button class="btn btn-primary btn-sm" data-goto="requests"><i class="fa-solid fa-eye"></i> View All Requests</button>
-        </div>
-        <div class="table-scroll">
-          <table class="data-table" id="recentRequestsTable" style="min-width:1100px;">
-            <thead>
-              <tr>
-                <th>Req. ID</th><th>Student</th><th>Reg. No.</th><th>Department</th><th>Destination</th><th>Out Date</th><th>Status</th><th>Actions</th>
-              </tr>
-            </thead>
-            <tbody></tbody>
-          </table>
-        </div>
-      </div>
-
-    </section>
-
-    <!-- ============ PAGE: OUTPASS REQUESTS ============ -->
-    <section class="page" id="page-requests">
-      <div class="page-head">
-        <div>
-          <h1>Outpass Requests</h1>
-          <p class="page-sub">Review, verify and act on every student outpass request in real time.</p>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="history-toolbar">
-          <div class="search-box search-box--table">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="text" id="reqSearch" placeholder="Search name or register no.">
-          </div>
-          <div class="toolbar-filters">
-            <select class="filter-input" id="reqDeptFilter">
-              <option value="">All Departments</option>
-            </select>
-            <select class="filter-input" id="reqYearFilter">
-              <option value="">All Years</option>
-            </select>
-            <select class="filter-input" id="reqStatusFilter">
-              <option value="">All Status</option>
-              <option value="Pending">Pending</option>
-              <option value="Approved">Approved</option>
-              <option value="Rejected">Rejected</option>
-              <option value="Completed">Completed</option>
-            </select>
-            <input type="date" class="filter-input" id="reqDateFilter">
-            <select class="filter-input" id="reqSort">
-              <option value="latest">Sort: Latest First</option>
-              <option value="oldest">Sort: Oldest First</option>
-              <option value="name">Sort: Student Name</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="table-scroll">
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>Req. ID</th>
-                <th>Photo</th>
-                <th>Student Name</th>
-                <th>Reg. No.</th>
-                <th>Department</th>
-                <th>Year</th>
-                <th>Room No.</th>
-                <th>Block</th>
-                <th>Purpose</th>
-                <th>Destination</th>
-                <th>Out Date</th>
-                <th>Out Time</th>
-                <th>Exp. Return Date</th>
-                <th>Exp. Return Time</th>
-                <th>Parent Contact</th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody id="requestsTbody"></tbody>
-          </table>
-          <div class="table-empty" id="requestsEmptyState" style="display:none;">
-            <i class="fa-solid fa-inbox"></i>
-            No outpass requests match your search or filters.
-          </div>
-        </div>
-
-        <div class="pagination">
-          <span class="pagination-info" id="reqPaginationInfo">Showing 0 of 0</span>
-          <div class="pagination-controls" id="reqPaginationControls"></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ PAGE: STUDENTS OUTSIDE ============ -->
-    <section class="page" id="page-outside">
-      <div class="page-head">
-        <div>
-          <h1>Students Currently Outside</h1>
-          <p class="page-sub">Live tracking of every student who is out on an approved outpass. Overdue students are highlighted automatically.</p>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-head">
-          <h3><i class="fa-solid fa-person-walking-arrow-right"></i> Live Outside List</h3>
-          <span class="badge badge--overdue" id="overdueCountBadge">0 Overdue</span>
-        </div>
-        <div class="table-scroll">
-          <table class="data-table" style="min-width:1100px;">
-            <thead>
-              <tr>
-                <th>Student Name</th><th>Department</th><th>Year</th><th>Room No.</th><th>Out Time</th><th>Expected Return</th><th>Status</th><th>Actions</th>
-              </tr>
-            </thead>
-            <tbody id="outsideTbody"></tbody>
-          </table>
-          <div class="table-empty" id="outsideEmptyState" style="display:none;">
-            <i class="fa-solid fa-house-circle-check"></i>
-            No students are currently outside the hostel.
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ PAGE: HISTORY ============ -->
-    <section class="page" id="page-history">
-      <div class="page-head">
-        <div>
-          <h1>Outpass History</h1>
-          <p class="page-sub">Complete record of every outpass request ever raised, with approvals and return status.</p>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="history-toolbar">
-          <div class="search-box search-box--table">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="text" id="historySearch" placeholder="Search name, reg. no. or purpose">
-          </div>
-          <div class="toolbar-filters">
-            <select class="filter-input" id="historyStatusFilter">
-              <option value="">All Status</option>
-              <option value="Approved">Approved</option>
-              <option value="Rejected">Rejected</option>
-              <option value="Completed">Completed</option>
-              <option value="Pending">Pending</option>
-            </select>
-            <input type="date" class="filter-input" id="historyDateFilter">
-          </div>
-        </div>
-
-        <div class="table-scroll">
-          <table class="data-table" style="min-width:1200px;">
-            <thead>
-              <tr>
-                <th>Req. ID</th><th>Student</th><th>Request Date</th><th>Purpose</th><th>Status</th><th>Approved By</th><th>Return Status</th><th>Remarks</th>
-              </tr>
-            </thead>
-            <tbody id="historyTbody"></tbody>
-          </table>
-          <div class="table-empty" id="historyEmptyState" style="display:none;">
-            <i class="fa-solid fa-clock-rotate-left"></i>
-            No history records match your search or filters.
-          </div>
-        </div>
-
-        <div class="export-row">
-          <button class="btn btn-outline btn-sm" id="exportPdfBtn"><i class="fa-solid fa-file-pdf"></i> Export PDF</button>
-          <button class="btn btn-outline btn-sm" id="exportExcelBtn"><i class="fa-solid fa-file-excel"></i> Export Excel</button>
-          <button class="btn btn-outline btn-sm" id="exportCsvBtn"><i class="fa-solid fa-file-csv"></i> Export CSV</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ PAGE: REPORTS ============ -->
-    <section class="page" id="page-reports">
-      <div class="page-head">
-        <div>
-          <h1>Reports</h1>
-          <p class="page-sub">Generate and export outpass reports for administration and records.</p>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-head">
-          <h3><i class="fa-solid fa-chart-column"></i> Generate a Report</h3>
-        </div>
-        <div class="report-grid">
-          <div class="report-card">
-            <i class="fa-solid fa-calendar-day"></i>
-            <strong>Daily Outpass Report</strong>
-            <p>Every request raised today, with current status and return details.</p>
-            <button class="btn btn-primary btn-sm report-generate-btn" data-report="Daily">Generate</button>
-          </div>
-          <div class="report-card">
-            <i class="fa-solid fa-calendar-week"></i>
-            <strong>Weekly Outpass Report</strong>
-            <p>Summary of all outpass activity across the current week.</p>
-            <button class="btn btn-primary btn-sm report-generate-btn" data-report="Weekly">Generate</button>
-          </div>
-          <div class="report-card">
-            <i class="fa-solid fa-calendar"></i>
-            <strong>Monthly Outpass Report</strong>
-            <p>Consolidated monthly view for hostel administration review.</p>
-            <button class="btn btn-primary btn-sm report-generate-btn" data-report="Monthly">Generate</button>
-          </div>
-          <div class="report-card">
-            <i class="fa-solid fa-building-columns"></i>
-            <strong>Department-wise Report</strong>
-            <p>Breakdown of outpass requests grouped by department.</p>
-            <button class="btn btn-primary btn-sm report-generate-btn" data-report="Department-wise">Generate</button>
-          </div>
-          <div class="report-card">
-            <i class="fa-solid fa-user-graduate"></i>
-            <strong>Student-wise History</strong>
-            <p>Full outpass history for an individual student.</p>
-            <button class="btn btn-primary btn-sm report-generate-btn" data-report="Student-wise">Generate</button>
-          </div>
-        </div>
-
-        <div class="export-row">
-          <button class="btn btn-outline btn-sm" id="reportsExportPdf"><i class="fa-solid fa-file-pdf"></i> Export as PDF</button>
-          <button class="btn btn-outline btn-sm" id="reportsExportExcel"><i class="fa-solid fa-file-excel"></i> Export as Excel</button>
-          <button class="btn btn-outline btn-sm" id="reportsExportCsv"><i class="fa-solid fa-file-csv"></i> Export as CSV</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ PAGE: NOTIFICATIONS ============ -->
-    <section class="page" id="page-notifications">
-      <div class="page-head">
-        <div>
-          <h1>Notifications</h1>
-          <p class="page-sub">Real-time alerts for new requests, returns, overdue students and cancellations.</p>
-        </div>
-        <button class="btn btn-outline btn-sm" id="markAllReadBtn"><i class="fa-solid fa-check-double"></i> Mark all as read</button>
-      </div>
-
-      <div class="card">
-        <div class="notif-list" id="notifList"></div>
-      </div>
-    </section>
-
-  </div>
-
-  <!-- ============ FOOTER ============ -->
-  <footer class="app-footer">
-    <span>© 2026 Smart Hostel 360. All rights reserved.</span>
-    <span>Admin Outpass Module v1.0</span>
-  </footer>
-</div>
-
-<!-- ============ VIEW / APPROVAL MODAL ============ -->
-<div class="modal-overlay" id="viewModal">
-  <div class="modal-box">
-    <div class="modal-head">
-      <h3><i class="fa-solid fa-clipboard-list"></i> Outpass Request Details</h3>
-      <button class="modal-close" id="modalCloseBtn"><i class="fa-solid fa-xmark"></i></button>
-    </div>
-    <div class="modal-body">
-
-      <div class="modal-student-head">
-        <div class="modal-student-photo avatar-initials" id="modalPhoto">--</div>
-        <div>
-          <h4 id="modalName">--</h4>
-          <p id="modalMeta">--</p>
-        </div>
-        <span class="badge" id="modalStatusBadge">--</span>
-      </div>
-
-      <div class="modal-section-title"><i class="fa-solid fa-id-card"></i> Student Information</div>
-      <div class="detail-grid">
-        <div class="detail-item"><span>Register Number</span><strong id="dRegNo">--</strong></div>
-        <div class="detail-item"><span>Department</span><strong id="dDept">--</strong></div>
-        <div class="detail-item"><span>Year</span><strong id="dYear">--</strong></div>
-        <div class="detail-item"><span>Room Number</span><strong id="dRoom">--</strong></div>
-        <div class="detail-item"><span>Hostel Block</span><strong id="dBlock">--</strong></div>
-        <div class="detail-item"><span>Mobile Number</span><strong id="dMobile">--</strong></div>
-        <div class="detail-item"><span>Parent Name</span><strong id="dParentName">--</strong></div>
-        <div class="detail-item"><span>Parent Mobile</span><strong id="dParentMobile">--</strong></div>
-      </div>
-
-      <div class="modal-section-title"><i class="fa-solid fa-route"></i> Outpass Details</div>
-      <div class="detail-grid">
-        <div class="detail-item"><span>Purpose of Leave</span><strong id="dPurpose">--</strong></div>
-        <div class="detail-item"><span>Destination</span><strong id="dDestination">--</strong></div>
-        <div class="detail-item"><span>Out Date &amp; Time</span><strong id="dOut">--</strong></div>
-        <div class="detail-item"><span>Expected Return</span><strong id="dReturn">--</strong></div>
-        <div class="detail-item" style="grid-column:1/-1;"><span>Student Remarks</span><strong id="dStudentRemarks">--</strong></div>
-      </div>
-
-      <div class="doc-preview">
-        <i class="fa-solid fa-file-lines"></i>
-        <span id="dDocument">No supporting document uploaded.</span>
-      </div>
-
-      <div class="modal-section-title"><i class="fa-solid fa-stamp"></i> Admin Approval</div>
-
-      <div class="approval-actions">
-        <button class="btn btn-success" id="approveBtn"><i class="fa-solid fa-check"></i> Approve Request</button>
-        <button class="btn btn-danger" id="rejectBtn"><i class="fa-solid fa-xmark"></i> Reject Request</button>
-        <button class="btn btn-amber" id="pendingBtn"><i class="fa-regular fa-hourglass-half"></i> Keep Pending</button>
-      </div>
-
-      <div class="remark-field">
-        <label for="adminRemarkInput">Approval Remarks / Rejection Reason / Additional Instructions</label>
-        <textarea id="adminRemarkInput" placeholder="Add a remark for the student (optional for approvals, recommended for rejections)..."></textarea>
-      </div>
-
     </div>
   </div>
 </div>
 
-<!-- ============ TOASTS ============ -->
-<div class="toast-container" id="toastContainer"></div>
+<!-- ============ TOAST ============ -->
+<div class="toast" id="toast"></div>
 
-<!-- Chart.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
-<!-- Module script -->
-<script src="admin-outpass.js"></script>
+<script>
+/* ==========================================================================
+   admin-outpass.js
+   Smart Hostel 360 — Admin Outpass Management
+   ========================================================================== */
+
+/* ---------- Sample data ---------- */
+const AVATAR = (seed) =>
+  `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(seed)}&backgroundColor=0056d6&textColor=ffffff`;
+
+let OUTPASS_DATA = [
+  {
+    id: "OP-1042",
+    name: "Aarav Krishnan",
+    regNo: "21CS0142",
+    dept: "Computer Science",
+    year: "3rd Year",
+    section: "A",
+    room: "B-214",
+    block: "Block B - Nandhi",
+    mobile: "+91 98765 43210",
+    parentName: "Suresh Krishnan",
+    parentPhone: "+91 98765 11111",
+    purpose: "Home Visit",
+    destination: "Coimbatore",
+    outDate: "2026-08-01",
+    outTime: "09:00",
+    returnDate: "2026-08-03",
+    returnTime: "18:00",
+    reason: "Attending a family function over the weekend.",
+    document: null,
+    status: "pending",
+  },
+  {
+    id: "OP-1041",
+    name: "Meera Suresh",
+    regNo: "21EC0087",
+    dept: "Electronics & Comm.",
+    year: "2nd Year",
+    section: "B",
+    room: "A-108",
+    block: "Block A - Ganga",
+    mobile: "+91 98765 43211",
+    parentName: "Suresh Kumar",
+    parentPhone: "+91 98765 22222",
+    purpose: "Medical",
+    destination: "Kovai Medical Center",
+    outDate: "2026-07-31",
+    outTime: "10:30",
+    returnDate: "2026-07-31",
+    returnTime: "16:00",
+    reason: "Follow-up dental appointment.",
+    document: "Medical appointment slip",
+    status: "approved",
+    approvedBy: "Warden R. Nithya",
+    approvalDate: "2026-07-31",
+    approvalTime: "08:45",
+  },
+  {
+    id: "OP-1040",
+    name: "Karthik Raja",
+    regNo: "22ME0119",
+    dept: "Mechanical",
+    year: "1st Year",
+    section: "C",
+    room: "C-302",
+    block: "Block C - Kaveri",
+    mobile: "+91 98765 43212",
+    parentName: "Raja Mohan",
+    parentPhone: "+91 98765 33333",
+    purpose: "Personal Work",
+    destination: "RS Puram",
+    outDate: "2026-07-30",
+    outTime: "14:00",
+    returnDate: "2026-07-30",
+    returnTime: "19:00",
+    reason: "Bank work — Aadhaar update.",
+    document: null,
+    status: "rejected",
+    rejectReason: "Insufficient notice period",
+    rejectRemarks: "Please submit outpass requests at least 24 hours in advance next time.",
+  },
+  {
+    id: "OP-1039",
+    name: "Divya Prakash",
+    regNo: "21IT0056",
+    dept: "Information Tech.",
+    year: "3rd Year",
+    section: "A",
+    room: "A-215",
+    block: "Block A - Ganga",
+    mobile: "+91 98765 43213",
+    parentName: "Prakash Iyer",
+    parentPhone: "+91 98765 44444",
+    purpose: "Home Visit",
+    destination: "Erode",
+    outDate: "2026-07-29",
+    outTime: "09:00",
+    returnDate: "2026-07-29",
+    returnTime: "20:00",
+    reason: "Grandmother's birthday celebration.",
+    document: null,
+    status: "outside",
+    approvedBy: "Warden R. Nithya",
+    approvalDate: "2026-07-29",
+    approvalTime: "08:10",
+  },
+  {
+    id: "OP-1038",
+    name: "Rohit Balan",
+    regNo: "20CS0033",
+    dept: "Computer Science",
+    year: "4th Year",
+    section: "B",
+    room: "B-101",
+    block: "Block B - Nandhi",
+    mobile: "+91 98765 43214",
+    parentName: "Balan Nair",
+    parentPhone: "+91 98765 55555",
+    purpose: "Interview",
+    destination: "Tidel Park, Coimbatore",
+    outDate: "2026-08-01",
+    outTime: "08:00",
+    returnDate: "2026-08-01",
+    returnTime: "14:00",
+    reason: "Placement interview with a hiring company.",
+    document: "Interview call letter",
+    status: "outside",
+    approvedBy: "Chief Warden S. Bala",
+    approvalDate: "2026-08-01",
+    approvalTime: "07:30",
+  },
+  {
+    id: "OP-1037",
+    name: "Sneha Ramesh",
+    regNo: "22EE0071",
+    dept: "Electrical",
+    year: "1st Year",
+    section: "A",
+    room: "A-310",
+    block: "Block A - Ganga",
+    mobile: "+91 98765 43215",
+    parentName: "Ramesh Babu",
+    parentPhone: "+91 98765 66666",
+    purpose: "Shopping",
+    destination: "Brookefields Mall",
+    outDate: "2026-07-31",
+    outTime: "15:00",
+    returnDate: "2026-07-31",
+    returnTime: "19:00",
+    reason: "Buying hostel essentials.",
+    document: null,
+    status: "returned",
+    approvedBy: "Warden R. Nithya",
+    approvalDate: "2026-07-31",
+    approvalTime: "14:20",
+    actualReturnTime: "18:40",
+  },
+  {
+    id: "OP-1036",
+    name: "Vignesh Kumar",
+    regNo: "21CE0029",
+    dept: "Civil",
+    year: "3rd Year",
+    section: "C",
+    room: "C-118",
+    block: "Block C - Kaveri",
+    mobile: "+91 98765 43216",
+    parentName: "Kumar Swamy",
+    parentPhone: "+91 98765 77777",
+    purpose: "Home Visit",
+    destination: "Salem",
+    outDate: "2026-07-28",
+    outTime: "09:00",
+    returnDate: "2026-07-28",
+    returnTime: "21:00",
+    reason: "Weekend trip home.",
+    document: null,
+    status: "returned",
+    approvedBy: "Chief Warden S. Bala",
+    approvalDate: "2026-07-28",
+    approvalTime: "08:15",
+    actualReturnTime: "20:50",
+  },
+  {
+    id: "OP-1035",
+    name: "Priya Dharshini",
+    regNo: "22CS0210",
+    dept: "Computer Science",
+    year: "1st Year",
+    section: "D",
+    room: "A-402",
+    block: "Block A - Ganga",
+    mobile: "+91 98765 43217",
+    parentName: "Dharshini Rajan",
+    parentPhone: "+91 98765 88888",
+    purpose: "Personal Work",
+    destination: "Gandhipuram",
+    outDate: "2026-08-01",
+    outTime: "07:00",
+    returnDate: "2026-08-01",
+    returnTime: "11:00",
+    reason: "Passport office visit.",
+    document: "Passport appointment confirmation",
+    status: "pending",
+  },
+];
+
+const CURRENT_ADMIN = "Warden R. Nithya";
+
+const STATUS_LABEL = {
+  pending: "Pending",
+  approved: "Approved",
+  rejected: "Rejected",
+  outside: "Outside",
+  returned: "Returned",
+};
+
+const STATUS_CLASS = {
+  pending: "status-pending",
+  approved: "status-approved",
+  rejected: "status-rejected",
+  outside: "status-outside",
+  returned: "status-returned",
+};
+
+let NOTIFICATIONS = [
+  { icon: "fa-solid fa-circle-plus", title: "New Outpass Request", text: "Priya Dharshini submitted a new outpass request.", unread: true },
+  { icon: "fa-solid fa-triangle-exclamation", title: "Return Overdue", text: "Divya Prakash has not returned by the expected time.", unread: true },
+  { icon: "fa-solid fa-circle-check", title: "Student Returned", text: "Sneha Ramesh has returned to the hostel.", unread: false },
+];
+
+/* ---------- Helpers ---------- */
+function fmtDate(d) {
+  if (!d) return "-";
+  const dt = new Date(d + "T00:00:00");
+  return dt.toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
+}
+
+function isOverdue(req) {
+  if (req.status !== "outside") return false;
+  const expected = new Date(`${req.returnDate}T${req.returnTime}:00`);
+  return Date.now() > expected.getTime();
+}
+
+function effectiveStatus(req) {
+  return isOverdue(req) ? "overdue" : req.status;
+}
+
+/* ---------- Stats ---------- */
+function computeStats() {
+  const today = new Date().toISOString().slice(0, 10);
+  return {
+    total: OUTPASS_DATA.length,
+    pending: OUTPASS_DATA.filter((r) => r.status === "pending").length,
+    approved: OUTPASS_DATA.filter((r) => r.status === "approved").length,
+    rejected: OUTPASS_DATA.filter((r) => r.status === "rejected").length,
+    outside: OUTPASS_DATA.filter((r) => r.status === "outside").length,
+    returnedToday: OUTPASS_DATA.filter((r) => r.status === "returned" && r.approvalDate === today).length,
+  };
+}
+
+function renderStats() {
+  const s = computeStats();
+  document.querySelector('[data-stat="total"]').setAttribute("data-target", s.total);
+  document.querySelector('[data-stat="pending"]').setAttribute("data-target", s.pending);
+  document.querySelector('[data-stat="approved"]').setAttribute("data-target", s.approved);
+  document.querySelector('[data-stat="rejected"]').setAttribute("data-target", s.rejected);
+  document.querySelector('[data-stat="outside"]').setAttribute("data-target", s.outside);
+  document.querySelector('[data-stat="returned"]').setAttribute("data-target", s.returnedToday);
+}
+
+function animateCounters() {
+  document.querySelectorAll(".stat-number").forEach((el) => {
+    const target = parseInt(el.getAttribute("data-target"), 10) || 0;
+    let current = 0;
+    const duration = 900;
+    const stepTime = Math.max(Math.floor(duration / Math.max(target, 1)), 20);
+    const timer = setInterval(() => {
+      current += 1;
+      el.textContent = current;
+      if (current >= target) clearInterval(timer);
+    }, stepTime);
+  });
+}
+
+/* ---------- Filters ---------- */
+function getFilterValues() {
+  return {
+    search: document.getElementById("searchName").value.trim().toLowerCase(),
+    regNo: document.getElementById("searchReg").value.trim().toLowerCase(),
+    dept: document.getElementById("filterDept").value,
+    year: document.getElementById("filterYear").value,
+    block: document.getElementById("filterBlock").value,
+    status: document.getElementById("filterStatus").value,
+    date: document.getElementById("filterDate").value,
+  };
+}
+
+function getFilteredRequests() {
+  const f = getFilterValues();
+  return OUTPASS_DATA.filter((r) => {
+    const matchesSearch = !f.search || r.name.toLowerCase().includes(f.search);
+    const matchesReg = !f.regNo || r.regNo.toLowerCase().includes(f.regNo);
+    const matchesDept = !f.dept || r.dept === f.dept;
+    const matchesYear = !f.year || r.year === f.year;
+    const matchesBlock = !f.block || r.block === f.block;
+    const matchesStatus = !f.status || effectiveStatus(r) === f.status;
+    const matchesDate = !f.date || r.outDate === f.date;
+    return matchesSearch && matchesReg && matchesDept && matchesYear && matchesBlock && matchesStatus && matchesDate;
+  });
+}
+
+function resetFilters() {
+  document.getElementById("searchName").value = "";
+  document.getElementById("searchReg").value = "";
+  document.getElementById("filterDept").value = "";
+  document.getElementById("filterYear").value = "";
+  document.getElementById("filterBlock").value = "";
+  document.getElementById("filterStatus").value = "";
+  document.getElementById("filterDate").value = "";
+  refreshAll();
+}
+
+/* ---------- Table renderers ---------- */
+function statusBadge(req) {
+  const eff = effectiveStatus(req);
+  const label = eff === "overdue" ? "Overdue" : STATUS_LABEL[req.status];
+  const cls = eff === "overdue" ? "status-overdue" : STATUS_CLASS[req.status];
+  return `<span class="badge ${cls}">${label}</span>`;
+}
+
+function rowActionsFor(req) {
+  if (req.status === "pending") {
+    return `
+      <button class="action-btn ghost-btn" onclick="openOutpassModal('${req.id}')"><i class="fa-solid fa-eye"></i> View</button>
+      <button class="action-btn approve-btn" onclick="quickApprove('${req.id}')"><i class="fa-solid fa-check"></i> Approve</button>
+      <button class="action-btn reject-btn" onclick="openOutpassModal('${req.id}', true)"><i class="fa-solid fa-xmark"></i> Reject</button>
+    `;
+  }
+  if (req.status === "outside") {
+    return `
+      <button class="action-btn ghost-btn" onclick="openOutpassModal('${req.id}')"><i class="fa-solid fa-eye"></i> View</button>
+      <button class="action-btn" onclick="markReturned('${req.id}')"><i class="fa-solid fa-door-open"></i> Mark Returned</button>
+    `;
+  }
+  return `<button class="action-btn ghost-btn" onclick="openOutpassModal('${req.id}')"><i class="fa-solid fa-eye"></i> View</button>`;
+}
+
+function renderRequestsTable() {
+  const rows = getFilteredRequests();
+  const tbody = document.getElementById("requestsTableBody");
+  const emptyState = document.getElementById("requestsEmptyState");
+  const wrap = document.getElementById("requestsTableWrap");
+
+  if (rows.length === 0) {
+    wrap.style.display = "none";
+    emptyState.style.display = "block";
+    return;
+  }
+  wrap.style.display = "block";
+  emptyState.style.display = "none";
+
+  tbody.innerHTML = rows
+    .map(
+      (r) => `
+    <tr class="${isOverdue(r) ? "overdue-row" : ""}">
+      <td>${r.id}</td>
+      <td><img class="student-photo" src="${AVATAR(r.name)}" alt="${r.name}"></td>
+      <td class="name-cell"><strong>${r.name}</strong><span>${r.section} Section</span></td>
+      <td>${r.regNo}</td>
+      <td>${r.dept}</td>
+      <td>${r.year}</td>
+      <td>${r.room}</td>
+      <td>${r.block}</td>
+      <td>${r.purpose}</td>
+      <td>${r.destination}</td>
+      <td>${fmtDate(r.outDate)}</td>
+      <td>${fmtDate(r.returnDate)}</td>
+      <td>${statusBadge(r)}</td>
+      <td><div class="row-actions">${rowActionsFor(r)}</div></td>
+    </tr>
+  `
+    )
+    .join("");
+}
+
+function renderOutsideTable() {
+  const rows = OUTPASS_DATA.filter((r) => r.status === "outside");
+  const tbody = document.getElementById("outsideTableBody");
+  const emptyState = document.getElementById("outsideEmptyState");
+  const wrap = document.getElementById("outsideTableWrap");
+
+  if (rows.length === 0) {
+    wrap.style.display = "none";
+    emptyState.style.display = "block";
+    return;
+  }
+  wrap.style.display = "block";
+  emptyState.style.display = "none";
+
+  tbody.innerHTML = rows
+    .map((r) => {
+      const overdue = isOverdue(r);
+      return `
+      <tr class="${overdue ? "overdue-row" : ""}">
+        <td class="name-cell"><strong>${r.name}</strong><span>${r.regNo}</span></td>
+        <td>${r.dept}</td>
+        <td>${r.room}</td>
+        <td>${r.outTime}</td>
+        <td>${r.returnTime} <span style="color:#999;font-size:11px;">(${fmtDate(r.returnDate)})</span></td>
+        <td><span class="badge ${overdue ? "status-overdue" : "status-outside"}">${overdue ? "Overdue" : "Outside"}</span></td>
+        <td><button class="action-btn" onclick="markReturned('${r.id}')"><i class="fa-solid fa-door-open"></i> Mark Returned</button></td>
+      </tr>
+    `;
+    })
+    .join("");
+}
+
+function renderHistoryTable() {
+  const search = document.getElementById("historySearch").value.trim().toLowerCase();
+  const status = document.getElementById("historyStatusFilter").value;
+
+  const rows = OUTPASS_DATA.filter((r) => ["approved", "rejected", "returned"].includes(r.status))
+    .filter((r) => !search || r.name.toLowerCase().includes(search) || r.id.toLowerCase().includes(search))
+    .filter((r) => !status || r.status === status);
+
+  const tbody = document.getElementById("historyTableBody");
+  const emptyState = document.getElementById("historyEmptyState");
+  const wrap = document.getElementById("historyTableWrap");
+
+  if (rows.length === 0) {
+    wrap.style.display = "none";
+    emptyState.style.display = "block";
+    return;
+  }
+  wrap.style.display = "block";
+  emptyState.style.display = "none";
+
+  tbody.innerHTML = rows
+    .map((r) => {
+      const remarks = r.status === "rejected" ? r.rejectRemarks || "-" : "-";
+      const approvedBy = r.approvedBy || "-";
+      const returnTime = r.actualReturnTime ? `${r.actualReturnTime} (${fmtDate(r.returnDate)})` : "-";
+      return `
+      <tr>
+        <td class="name-cell"><strong>${r.name}</strong><span>${r.regNo}</span></td>
+        <td>${fmtDate(r.outDate)}</td>
+        <td>${r.purpose}</td>
+        <td>${statusBadge(r)}</td>
+        <td>${approvedBy}</td>
+        <td>${returnTime}</td>
+        <td>${remarks}</td>
+      </tr>
+    `;
+    })
+    .join("");
+}
+
+function refreshAll() {
+  renderStats();
+  renderRequestsTable();
+  renderOutsideTable();
+  renderHistoryTable();
+}
+
+/* ---------- Modal ---------- */
+let activeRequestId = null;
+
+function buildTimelineMeta(req) {
+  if (req.status === "rejected") {
+    return `<div class="reject-meta"><strong>Rejected</strong><br>Reason: ${req.rejectReason || "-"}<br>Remarks: ${req.rejectRemarks || "-"}</div>`;
+  }
+  if (["approved", "outside", "returned"].includes(req.status)) {
+    const bits = [`Approved by <strong>${req.approvedBy || "-"}</strong>`];
+    if (req.approvalDate) bits.push(`on ${fmtDate(req.approvalDate)} at ${req.approvalTime || "-"}`);
+    if (req.status === "returned" && req.actualReturnTime) bits.push(`· Returned at ${req.actualReturnTime}`);
+    return `<div class="approval-meta">${bits.join(" ")}</div>`;
+  }
+  return "";
+}
+
+function modalActionsFor(req) {
+  if (req.status === "pending") {
+    return `
+      <button class="btn-approve" onclick="quickApprove('${req.id}')"><i class="fa-solid fa-check"></i> Approve</button>
+      <button class="btn-reject" onclick="toggleRejectForm(true)"><i class="fa-solid fa-xmark"></i> Reject</button>
+      <button class="btn-pending" onclick="keepPending('${req.id}')"><i class="fa-solid fa-hourglass-half"></i> Keep Pending</button>
+    `;
+  }
+  if (req.status === "outside") {
+    return `<button class="btn-return" onclick="markReturned('${req.id}'); closeOutpassModal();"><i class="fa-solid fa-door-open"></i> Mark Returned</button>`;
+  }
+  return "";
+}
+
+function openOutpassModal(id, jumpToReject) {
+  const req = OUTPASS_DATA.find((r) => r.id === id);
+  if (!req) return;
+  activeRequestId = id;
+
+  document.getElementById("modalRequestId").textContent = req.id;
+  document.getElementById("modalStudentPhoto").src = AVATAR(req.name);
+  document.getElementById("modalStudentName").textContent = req.name;
+  document.getElementById("modalStudentMeta").textContent = `${req.regNo} · ${req.dept}`;
+  document.getElementById("modalStatusBadge").innerHTML = statusBadge(req);
+
+  document.getElementById("modalYear").textContent = req.year;
+  document.getElementById("modalSection").textContent = req.section;
+  document.getElementById("modalBlock").textContent = req.block;
+  document.getElementById("modalRoom").textContent = req.room;
+  document.getElementById("modalMobile").textContent = req.mobile;
+  document.getElementById("modalParentName").textContent = req.parentName;
+  document.getElementById("modalParentPhone").textContent = req.parentPhone;
+
+  document.getElementById("modalPurpose").textContent = req.purpose;
+  document.getElementById("modalDestination").textContent = req.destination;
+  document.getElementById("modalOutDateTime").textContent = `${fmtDate(req.outDate)}, ${req.outTime}`;
+  document.getElementById("modalReturnDateTime").textContent = `${fmtDate(req.returnDate)}, ${req.returnTime}`;
+  document.getElementById("modalReason").textContent = req.reason || "-";
+
+  const docWrap = document.getElementById("modalDocWrap");
+  docWrap.innerHTML = req.document
+    ? `<div class="modal-doc-link"><i class="fa-solid fa-paperclip"></i> ${req.document}</div>`
+    : `<span style="color:#999;font-size:13px;">No document uploaded</span>`;
+
+  document.getElementById("modalMeta").innerHTML = buildTimelineMeta(req);
+  document.getElementById("modalActions").innerHTML = modalActionsFor(req);
+  toggleRejectForm(false);
+
+  document.getElementById("modalOverlay").classList.add("open");
+  document.body.style.overflow = "hidden";
+
+  if (jumpToReject) toggleRejectForm(true);
+}
+
+function closeOutpassModal() {
+  document.getElementById("modalOverlay").classList.remove("open");
+  document.body.style.overflow = "";
+  activeRequestId = null;
+}
+
+function toggleRejectForm(show) {
+  const form = document.getElementById("rejectForm");
+  form.classList.toggle("open", !!show);
+  if (show) {
+    document.getElementById("rejectReasonSelect").value = "";
+    document.getElementById("rejectRemarksInput").value = "";
+  }
+}
+
+/* ---------- Admin actions ---------- */
+function notify(icon, title, text) {
+  NOTIFICATIONS.unshift({ icon, title, text, unread: true });
+  renderNotifications();
+}
+
+function quickApprove(id) {
+  const req = OUTPASS_DATA.find((r) => r.id === id);
+  if (!req) return;
+  const now = new Date();
+  req.status = "approved";
+  req.approvedBy = CURRENT_ADMIN;
+  req.approvalDate = now.toISOString().slice(0, 10);
+  req.approvalTime = now.toTimeString().slice(0, 5);
+
+  refreshAll();
+  showToast(`${req.name}'s outpass has been approved`);
+  notify("fa-solid fa-circle-check", "Outpass Approved", `${req.name}'s outpass request was approved.`);
+
+  if (document.getElementById("modalOverlay").classList.contains("open") && activeRequestId === id) {
+    closeOutpassModal();
+  }
+}
+
+function keepPending(id) {
+  showToast("Request kept pending for further verification");
+  closeOutpassModal();
+}
+
+function confirmReject() {
+  const req = OUTPASS_DATA.find((r) => r.id === activeRequestId);
+  if (!req) return;
+  const reason = document.getElementById("rejectReasonSelect").value;
+  const remarks = document.getElementById("rejectRemarksInput").value.trim();
+
+  if (!reason) {
+    document.getElementById("rejectReasonSelect").style.borderColor = "#e74c3c";
+    if (window.showToast) showToast("Please select a rejection reason");
+    return;
+  }
+
+  req.status = "rejected";
+  req.rejectReason = reason;
+  req.rejectRemarks = remarks || "No additional remarks.";
+
+  refreshAll();
+  showToast(`${req.name}'s outpass has been rejected`);
+  notify("fa-solid fa-circle-xmark", "Outpass Rejected", `${req.name}'s outpass request was rejected.`);
+  closeOutpassModal();
+}
+
+function markReturned(id) {
+  const req = OUTPASS_DATA.find((r) => r.id === id);
+  if (!req) return;
+  const now = new Date();
+  req.status = "returned";
+  req.actualReturnTime = now.toTimeString().slice(0, 5);
+
+  refreshAll();
+  showToast(`${req.name} has been marked as returned`);
+  notify("fa-solid fa-door-open", "Student Returned", `${req.name} has returned to the hostel.`);
+}
+
+/* ---------- Notifications panel ---------- */
+function renderNotifications() {
+  const list = document.getElementById("notifList");
+  const unreadCount = NOTIFICATIONS.filter((n) => n.unread).length;
+  document.getElementById("notifCount").textContent = unreadCount;
+  document.getElementById("notifCount").style.display = unreadCount ? "flex" : "none";
+
+  list.innerHTML = NOTIFICATIONS.map(
+    (n) => `
+    <div class="notif-item ${n.unread ? "unread" : ""}">
+      <div class="notif-icon"><i class="${n.icon}"></i></div>
+      <div class="notif-content">
+        <strong>${n.title}</strong>
+        <span style="color:#333;font-size:12.5px;">${n.text}</span>
+      </div>
+    </div>
+  `
+  ).join("");
+}
+
+function openNotifPanel() {
+  document.getElementById("notifOverlay").classList.add("open");
+  document.getElementById("notifPanel").classList.add("open");
+  NOTIFICATIONS.forEach((n) => (n.unread = false));
+  setTimeout(renderNotifications, 400);
+}
+
+function closeNotifPanel() {
+  document.getElementById("notifOverlay").classList.remove("open");
+  document.getElementById("notifPanel").classList.remove("open");
+}
+
+/* ---------- Toast ---------- */
+let toastTimer = null;
+window.showToast = function showToast(message) {
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+  toast.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove("show"), 2600);
+};
+
+/* ---------- Reports / Export ---------- */
+function buildReportRows(scope) {
+  const today = new Date().toISOString().slice(0, 10);
+  let rows = OUTPASS_DATA;
+  if (scope === "daily") rows = rows.filter((r) => r.outDate === today);
+  if (scope === "department") rows = [...rows].sort((a, b) => a.dept.localeCompare(b.dept));
+  if (scope === "student") rows = [...rows].sort((a, b) => a.name.localeCompare(b.name));
+  return rows;
+}
+
+function toCSV(rows) {
+  const header = ["Request ID", "Name", "Reg No", "Department", "Year", "Room", "Block", "Purpose", "Destination", "Out Date", "Return Date", "Status"];
+  const lines = rows.map((r) =>
+    [r.id, r.name, r.regNo, r.dept, r.year, r.room, r.block, r.purpose, r.destination, r.outDate, r.returnDate, STATUS_LABEL[r.status]]
+      .map((v) => `"${String(v).replace(/"/g, '""')}"`)
+      .join(",")
+  );
+  return [header.join(","), ...lines].join("\n");
+}
+
+function downloadBlob(content, filename, mime) {
+  const blob = new Blob([content], { type: mime });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
+function exportCSV(scope) {
+  const rows = buildReportRows(scope || "all");
+  downloadBlob(toCSV(rows), `outpass-report-${scope || "all"}.csv`, "text/csv");
+  showToast("CSV report downloaded");
+}
+
+function exportPDF() {
+  showToast("Preparing PDF report…");
+  window.print();
+}
+
+function exportExcel(scope) {
+  const rows = buildReportRows(scope || "all");
+  downloadBlob(toCSV(rows), `outpass-report-${scope || "all"}.xls`, "application/vnd.ms-excel");
+  showToast("Excel report downloaded");
+}
+
+/* ---------- Init ---------- */
+document.addEventListener("DOMContentLoaded", () => {
+  renderNotifications();
+  refreshAll();
+  animateCounters();
+
+  [
+    "searchName",
+    "searchReg",
+    "filterDept",
+    "filterYear",
+    "filterBlock",
+    "filterStatus",
+    "filterDate",
+  ].forEach((id) => {
+    const el = document.getElementById(id);
+    el.addEventListener(el.tagName === "SELECT" ? "change" : "input", renderRequestsTable);
+  });
+
+  document.getElementById("resetFiltersBtn").addEventListener("click", resetFilters);
+
+  document.getElementById("historySearch").addEventListener("input", renderHistoryTable);
+  document.getElementById("historyStatusFilter").addEventListener("change", renderHistoryTable);
+
+  // Modal
+  document.getElementById("modalCloseBtn").addEventListener("click", closeOutpassModal);
+  document.getElementById("modalOverlay").addEventListener("click", (e) => {
+    if (e.target.id === "modalOverlay") closeOutpassModal();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      closeOutpassModal();
+      closeNotifPanel();
+    }
+  });
+
+  document.getElementById("confirmRejectBtn").addEventListener("click", confirmReject);
+  document.getElementById("cancelRejectBtn").addEventListener("click", () => toggleRejectForm(false));
+
+  // Notifications
+  document.getElementById("notifBellBtn").addEventListener("click", openNotifPanel);
+  document.getElementById("notifCloseBtn").addEventListener("click", closeNotifPanel);
+  document.getElementById("notifOverlay").addEventListener("click", closeNotifPanel);
+
+  // Export buttons
+  document.getElementById("exportCsvBtn").addEventListener("click", () => exportCSV("all"));
+  document.getElementById("exportPdfBtn").addEventListener("click", exportPDF);
+  document.getElementById("exportExcelBtn").addEventListener("click", () => exportExcel("all"));
+
+  document.querySelectorAll(".report-card").forEach((card) => {
+    card.addEventListener("click", () => {
+      const scope = card.getAttribute("data-scope");
+      exportCSV(scope);
+    });
+  });
+
+  // Overdue re-check every 30s so rows flip to "Overdue" live
+  setInterval(() => {
+    renderRequestsTable();
+    renderOutsideTable();
+  }, 30000);
+
+  // Sidebar mobile toggle
+  const sidebar = document.getElementById("sidebar");
+  const scrim = document.getElementById("sidebarScrim");
+  const hamburgerBtn = document.getElementById("hamburgerBtn");
+  function openSidebar() {
+    sidebar.classList.add("active");
+    scrim.classList.add("active");
+  }
+  function closeSidebar() {
+    sidebar.classList.remove("active");
+    scrim.classList.remove("active");
+  }
+  hamburgerBtn.addEventListener("click", () => {
+    sidebar.classList.contains("active") ? closeSidebar() : openSidebar();
+  });
+  scrim.addEventListener("click", closeSidebar);
+  document.getElementById("sidebarCloseBtn").addEventListener("click", closeSidebar);
+});
+
+/* ---------- Loader ---------- */
+window.addEventListener("load", () => {
+  const overlay = document.getElementById("loaderOverlay");
+  setTimeout(() => overlay.classList.add("hidden"), 500);
+});
+
+</script>
 </body>
 </html>

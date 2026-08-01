@@ -1,725 +1,790 @@
-/*==========================================
-        SMART HOSTEL 360
-        ADMIN OUTPASS MODULE — LOGIC
-===========================================*/
+/* ==========================================================================
+   admin-outpass.js
+   Smart Hostel 360 — Admin Outpass Management
+   ========================================================================== */
 
-(function () {
+/* ---------- Sample data ---------- */
+const AVATAR = (seed) =>
+  `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(seed)}&backgroundColor=0056d6&textColor=ffffff`;
 
-  /* ---------------------------------------------------------
-     DATE / TIME HELPERS
-  --------------------------------------------------------- */
-  const DAY = 24 * 60 * 60 * 1000;
+let OUTPASS_DATA = [
+  {
+    id: "OP-1042",
+    name: "Aarav Krishnan",
+    regNo: "21CS0142",
+    dept: "Computer Science",
+    year: "3rd Year",
+    section: "A",
+    room: "B-214",
+    block: "Block B - Nandhi",
+    mobile: "+91 98765 43210",
+    parentName: "Suresh Krishnan",
+    parentPhone: "+91 98765 11111",
+    purpose: "Home Visit",
+    destination: "Coimbatore",
+    outDate: "2026-08-01",
+    outTime: "09:00",
+    returnDate: "2026-08-03",
+    returnTime: "18:00",
+    reason: "Attending a family function over the weekend.",
+    document: null,
+    status: "pending",
+  },
+  {
+    id: "OP-1041",
+    name: "Meera Suresh",
+    regNo: "21EC0087",
+    dept: "Electronics & Comm.",
+    year: "2nd Year",
+    section: "B",
+    room: "A-108",
+    block: "Block A - Ganga",
+    mobile: "+91 98765 43211",
+    parentName: "Suresh Kumar",
+    parentPhone: "+91 98765 22222",
+    purpose: "Medical",
+    destination: "Kovai Medical Center",
+    outDate: "2026-07-31",
+    outTime: "10:30",
+    returnDate: "2026-07-31",
+    returnTime: "16:00",
+    reason: "Follow-up dental appointment.",
+    document: "Medical appointment slip",
+    status: "approved",
+    approvedBy: "Warden R. Nithya",
+    approvalDate: "2026-07-31",
+    approvalTime: "08:45",
+  },
+  {
+    id: "OP-1040",
+    name: "Karthik Raja",
+    regNo: "22ME0119",
+    dept: "Mechanical",
+    year: "1st Year",
+    section: "C",
+    room: "C-302",
+    block: "Block C - Kaveri",
+    mobile: "+91 98765 43212",
+    parentName: "Raja Mohan",
+    parentPhone: "+91 98765 33333",
+    purpose: "Personal Work",
+    destination: "RS Puram",
+    outDate: "2026-07-30",
+    outTime: "14:00",
+    returnDate: "2026-07-30",
+    returnTime: "19:00",
+    reason: "Bank work — Aadhaar update.",
+    document: null,
+    status: "rejected",
+    rejectReason: "Insufficient notice period",
+    rejectRemarks: "Please submit outpass requests at least 24 hours in advance next time.",
+  },
+  {
+    id: "OP-1039",
+    name: "Divya Prakash",
+    regNo: "21IT0056",
+    dept: "Information Tech.",
+    year: "3rd Year",
+    section: "A",
+    room: "A-215",
+    block: "Block A - Ganga",
+    mobile: "+91 98765 43213",
+    parentName: "Prakash Iyer",
+    parentPhone: "+91 98765 44444",
+    purpose: "Home Visit",
+    destination: "Erode",
+    outDate: "2026-07-29",
+    outTime: "09:00",
+    returnDate: "2026-07-29",
+    returnTime: "20:00",
+    reason: "Grandmother's birthday celebration.",
+    document: null,
+    status: "outside",
+    approvedBy: "Warden R. Nithya",
+    approvalDate: "2026-07-29",
+    approvalTime: "08:10",
+  },
+  {
+    id: "OP-1038",
+    name: "Rohit Balan",
+    regNo: "20CS0033",
+    dept: "Computer Science",
+    year: "4th Year",
+    section: "B",
+    room: "B-101",
+    block: "Block B - Nandhi",
+    mobile: "+91 98765 43214",
+    parentName: "Balan Nair",
+    parentPhone: "+91 98765 55555",
+    purpose: "Interview",
+    destination: "Tidel Park, Coimbatore",
+    outDate: "2026-08-01",
+    outTime: "08:00",
+    returnDate: "2026-08-01",
+    returnTime: "14:00",
+    reason: "Placement interview with a hiring company.",
+    document: "Interview call letter",
+    status: "outside",
+    approvedBy: "Chief Warden S. Bala",
+    approvalDate: "2026-08-01",
+    approvalTime: "07:30",
+  },
+  {
+    id: "OP-1037",
+    name: "Sneha Ramesh",
+    regNo: "22EE0071",
+    dept: "Electrical",
+    year: "1st Year",
+    section: "A",
+    room: "A-310",
+    block: "Block A - Ganga",
+    mobile: "+91 98765 43215",
+    parentName: "Ramesh Babu",
+    parentPhone: "+91 98765 66666",
+    purpose: "Shopping",
+    destination: "Brookefields Mall",
+    outDate: "2026-07-31",
+    outTime: "15:00",
+    returnDate: "2026-07-31",
+    returnTime: "19:00",
+    reason: "Buying hostel essentials.",
+    document: null,
+    status: "returned",
+    approvedBy: "Warden R. Nithya",
+    approvalDate: "2026-07-31",
+    approvalTime: "14:20",
+    actualReturnTime: "18:40",
+  },
+  {
+    id: "OP-1036",
+    name: "Vignesh Kumar",
+    regNo: "21CE0029",
+    dept: "Civil",
+    year: "3rd Year",
+    section: "C",
+    room: "C-118",
+    block: "Block C - Kaveri",
+    mobile: "+91 98765 43216",
+    parentName: "Kumar Swamy",
+    parentPhone: "+91 98765 77777",
+    purpose: "Home Visit",
+    destination: "Salem",
+    outDate: "2026-07-28",
+    outTime: "09:00",
+    returnDate: "2026-07-28",
+    returnTime: "21:00",
+    reason: "Weekend trip home.",
+    document: null,
+    status: "returned",
+    approvedBy: "Chief Warden S. Bala",
+    approvalDate: "2026-07-28",
+    approvalTime: "08:15",
+    actualReturnTime: "20:50",
+  },
+  {
+    id: "OP-1035",
+    name: "Priya Dharshini",
+    regNo: "22CS0210",
+    dept: "Computer Science",
+    year: "1st Year",
+    section: "D",
+    room: "A-402",
+    block: "Block A - Ganga",
+    mobile: "+91 98765 43217",
+    parentName: "Dharshini Rajan",
+    parentPhone: "+91 98765 88888",
+    purpose: "Personal Work",
+    destination: "Gandhipuram",
+    outDate: "2026-08-01",
+    outTime: "07:00",
+    returnDate: "2026-08-01",
+    returnTime: "11:00",
+    reason: "Passport office visit.",
+    document: "Passport appointment confirmation",
+    status: "pending",
+  },
+];
+
+const CURRENT_ADMIN = "Warden R. Nithya";
+
+const STATUS_LABEL = {
+  pending: "Pending",
+  approved: "Approved",
+  rejected: "Rejected",
+  outside: "Outside",
+  returned: "Returned",
+};
+
+const STATUS_CLASS = {
+  pending: "status-pending",
+  approved: "status-approved",
+  rejected: "status-rejected",
+  outside: "status-outside",
+  returned: "status-returned",
+};
+
+let NOTIFICATIONS = [
+  { icon: "fa-solid fa-circle-plus", title: "New Outpass Request", text: "Priya Dharshini submitted a new outpass request.", unread: true },
+  { icon: "fa-solid fa-triangle-exclamation", title: "Return Overdue", text: "Divya Prakash has not returned by the expected time.", unread: true },
+  { icon: "fa-solid fa-circle-check", title: "Student Returned", text: "Sneha Ramesh has returned to the hostel.", unread: false },
+];
+
+/* ---------- Helpers ---------- */
+function fmtDate(d) {
+  if (!d) return "-";
+  const dt = new Date(d + "T00:00:00");
+  return dt.toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
+}
+
+function isOverdue(req) {
+  if (req.status !== "outside") return false;
+  const expected = new Date(`${req.returnDate}T${req.returnTime}:00`);
+  return Date.now() > expected.getTime();
+}
+
+function effectiveStatus(req) {
+  return isOverdue(req) ? "overdue" : req.status;
+}
+
+/* ---------- Stats ---------- */
+function computeStats() {
+  const today = new Date().toISOString().slice(0, 10);
+  return {
+    total: OUTPASS_DATA.length,
+    pending: OUTPASS_DATA.filter((r) => r.status === "pending").length,
+    approved: OUTPASS_DATA.filter((r) => r.status === "approved").length,
+    rejected: OUTPASS_DATA.filter((r) => r.status === "rejected").length,
+    outside: OUTPASS_DATA.filter((r) => r.status === "outside").length,
+    returnedToday: OUTPASS_DATA.filter((r) => r.status === "returned" && r.approvalDate === today).length,
+  };
+}
+
+function renderStats() {
+  const s = computeStats();
+  document.querySelector('[data-stat="total"]').setAttribute("data-target", s.total);
+  document.querySelector('[data-stat="pending"]').setAttribute("data-target", s.pending);
+  document.querySelector('[data-stat="approved"]').setAttribute("data-target", s.approved);
+  document.querySelector('[data-stat="rejected"]').setAttribute("data-target", s.rejected);
+  document.querySelector('[data-stat="outside"]').setAttribute("data-target", s.outside);
+  document.querySelector('[data-stat="returned"]').setAttribute("data-target", s.returnedToday);
+}
+
+function animateCounters() {
+  document.querySelectorAll(".stat-number").forEach((el) => {
+    const target = parseInt(el.getAttribute("data-target"), 10) || 0;
+    let current = 0;
+    const duration = 900;
+    const stepTime = Math.max(Math.floor(duration / Math.max(target, 1)), 20);
+    const timer = setInterval(() => {
+      current += 1;
+      el.textContent = current;
+      if (current >= target) clearInterval(timer);
+    }, stepTime);
+  });
+}
+
+/* ---------- Filters ---------- */
+function getFilterValues() {
+  return {
+    search: document.getElementById("searchName").value.trim().toLowerCase(),
+    regNo: document.getElementById("searchReg").value.trim().toLowerCase(),
+    dept: document.getElementById("filterDept").value,
+    year: document.getElementById("filterYear").value,
+    block: document.getElementById("filterBlock").value,
+    status: document.getElementById("filterStatus").value,
+    date: document.getElementById("filterDate").value,
+  };
+}
+
+function getFilteredRequests() {
+  const f = getFilterValues();
+  return OUTPASS_DATA.filter((r) => {
+    const matchesSearch = !f.search || r.name.toLowerCase().includes(f.search);
+    const matchesReg = !f.regNo || r.regNo.toLowerCase().includes(f.regNo);
+    const matchesDept = !f.dept || r.dept === f.dept;
+    const matchesYear = !f.year || r.year === f.year;
+    const matchesBlock = !f.block || r.block === f.block;
+    const matchesStatus = !f.status || effectiveStatus(r) === f.status;
+    const matchesDate = !f.date || r.outDate === f.date;
+    return matchesSearch && matchesReg && matchesDept && matchesYear && matchesBlock && matchesStatus && matchesDate;
+  });
+}
+
+function resetFilters() {
+  document.getElementById("searchName").value = "";
+  document.getElementById("searchReg").value = "";
+  document.getElementById("filterDept").value = "";
+  document.getElementById("filterYear").value = "";
+  document.getElementById("filterBlock").value = "";
+  document.getElementById("filterStatus").value = "";
+  document.getElementById("filterDate").value = "";
+  refreshAll();
+}
+
+/* ---------- Table renderers ---------- */
+function statusBadge(req) {
+  const eff = effectiveStatus(req);
+  const label = eff === "overdue" ? "Overdue" : STATUS_LABEL[req.status];
+  const cls = eff === "overdue" ? "status-overdue" : STATUS_CLASS[req.status];
+  return `<span class="badge ${cls}">${label}</span>`;
+}
+
+function rowActionsFor(req) {
+  if (req.status === "pending") {
+    return `
+      <button class="action-btn ghost-btn" onclick="openOutpassModal('${req.id}')"><i class="fa-solid fa-eye"></i> View</button>
+      <button class="action-btn approve-btn" onclick="quickApprove('${req.id}')"><i class="fa-solid fa-check"></i> Approve</button>
+      <button class="action-btn reject-btn" onclick="openOutpassModal('${req.id}', true)"><i class="fa-solid fa-xmark"></i> Reject</button>
+    `;
+  }
+  if (req.status === "outside") {
+    return `
+      <button class="action-btn ghost-btn" onclick="openOutpassModal('${req.id}')"><i class="fa-solid fa-eye"></i> View</button>
+      <button class="action-btn" onclick="markReturned('${req.id}')"><i class="fa-solid fa-door-open"></i> Mark Returned</button>
+    `;
+  }
+  return `<button class="action-btn ghost-btn" onclick="openOutpassModal('${req.id}')"><i class="fa-solid fa-eye"></i> View</button>`;
+}
+
+function renderRequestsTable() {
+  const rows = getFilteredRequests();
+  const tbody = document.getElementById("requestsTableBody");
+  const emptyState = document.getElementById("requestsEmptyState");
+  const wrap = document.getElementById("requestsTableWrap");
+
+  if (rows.length === 0) {
+    wrap.style.display = "none";
+    emptyState.style.display = "block";
+    return;
+  }
+  wrap.style.display = "block";
+  emptyState.style.display = "none";
+
+  tbody.innerHTML = rows
+    .map(
+      (r) => `
+    <tr class="${isOverdue(r) ? "overdue-row" : ""}">
+      <td>${r.id}</td>
+      <td><img class="student-photo" src="${AVATAR(r.name)}" alt="${r.name}"></td>
+      <td class="name-cell"><strong>${r.name}</strong><span>${r.section} Section</span></td>
+      <td>${r.regNo}</td>
+      <td>${r.dept}</td>
+      <td>${r.year}</td>
+      <td>${r.room}</td>
+      <td>${r.block}</td>
+      <td>${r.purpose}</td>
+      <td>${r.destination}</td>
+      <td>${fmtDate(r.outDate)}</td>
+      <td>${fmtDate(r.returnDate)}</td>
+      <td>${statusBadge(r)}</td>
+      <td><div class="row-actions">${rowActionsFor(r)}</div></td>
+    </tr>
+  `
+    )
+    .join("");
+}
+
+function renderOutsideTable() {
+  const rows = OUTPASS_DATA.filter((r) => r.status === "outside");
+  const tbody = document.getElementById("outsideTableBody");
+  const emptyState = document.getElementById("outsideEmptyState");
+  const wrap = document.getElementById("outsideTableWrap");
+
+  if (rows.length === 0) {
+    wrap.style.display = "none";
+    emptyState.style.display = "block";
+    return;
+  }
+  wrap.style.display = "block";
+  emptyState.style.display = "none";
+
+  tbody.innerHTML = rows
+    .map((r) => {
+      const overdue = isOverdue(r);
+      return `
+      <tr class="${overdue ? "overdue-row" : ""}">
+        <td class="name-cell"><strong>${r.name}</strong><span>${r.regNo}</span></td>
+        <td>${r.dept}</td>
+        <td>${r.room}</td>
+        <td>${r.outTime}</td>
+        <td>${r.returnTime} <span style="color:#999;font-size:11px;">(${fmtDate(r.returnDate)})</span></td>
+        <td><span class="badge ${overdue ? "status-overdue" : "status-outside"}">${overdue ? "Overdue" : "Outside"}</span></td>
+        <td><button class="action-btn" onclick="markReturned('${r.id}')"><i class="fa-solid fa-door-open"></i> Mark Returned</button></td>
+      </tr>
+    `;
+    })
+    .join("");
+}
+
+function renderHistoryTable() {
+  const search = document.getElementById("historySearch").value.trim().toLowerCase();
+  const status = document.getElementById("historyStatusFilter").value;
+
+  const rows = OUTPASS_DATA.filter((r) => ["approved", "rejected", "returned"].includes(r.status))
+    .filter((r) => !search || r.name.toLowerCase().includes(search) || r.id.toLowerCase().includes(search))
+    .filter((r) => !status || r.status === status);
+
+  const tbody = document.getElementById("historyTableBody");
+  const emptyState = document.getElementById("historyEmptyState");
+  const wrap = document.getElementById("historyTableWrap");
+
+  if (rows.length === 0) {
+    wrap.style.display = "none";
+    emptyState.style.display = "block";
+    return;
+  }
+  wrap.style.display = "block";
+  emptyState.style.display = "none";
+
+  tbody.innerHTML = rows
+    .map((r) => {
+      const remarks = r.status === "rejected" ? r.rejectRemarks || "-" : "-";
+      const approvedBy = r.approvedBy || "-";
+      const returnTime = r.actualReturnTime ? `${r.actualReturnTime} (${fmtDate(r.returnDate)})` : "-";
+      return `
+      <tr>
+        <td class="name-cell"><strong>${r.name}</strong><span>${r.regNo}</span></td>
+        <td>${fmtDate(r.outDate)}</td>
+        <td>${r.purpose}</td>
+        <td>${statusBadge(r)}</td>
+        <td>${approvedBy}</td>
+        <td>${returnTime}</td>
+        <td>${remarks}</td>
+      </tr>
+    `;
+    })
+    .join("");
+}
+
+function refreshAll() {
+  renderStats();
+  renderRequestsTable();
+  renderOutsideTable();
+  renderHistoryTable();
+}
+
+/* ---------- Modal ---------- */
+let activeRequestId = null;
+
+function buildTimelineMeta(req) {
+  if (req.status === "rejected") {
+    return `<div class="reject-meta"><strong>Rejected</strong><br>Reason: ${req.rejectReason || "-"}<br>Remarks: ${req.rejectRemarks || "-"}</div>`;
+  }
+  if (["approved", "outside", "returned"].includes(req.status)) {
+    const bits = [`Approved by <strong>${req.approvedBy || "-"}</strong>`];
+    if (req.approvalDate) bits.push(`on ${fmtDate(req.approvalDate)} at ${req.approvalTime || "-"}`);
+    if (req.status === "returned" && req.actualReturnTime) bits.push(`· Returned at ${req.actualReturnTime}`);
+    return `<div class="approval-meta">${bits.join(" ")}</div>`;
+  }
+  return "";
+}
+
+function modalActionsFor(req) {
+  if (req.status === "pending") {
+    return `
+      <button class="btn-approve" onclick="quickApprove('${req.id}')"><i class="fa-solid fa-check"></i> Approve</button>
+      <button class="btn-reject" onclick="toggleRejectForm(true)"><i class="fa-solid fa-xmark"></i> Reject</button>
+      <button class="btn-pending" onclick="keepPending('${req.id}')"><i class="fa-solid fa-hourglass-half"></i> Keep Pending</button>
+    `;
+  }
+  if (req.status === "outside") {
+    return `<button class="btn-return" onclick="markReturned('${req.id}'); closeOutpassModal();"><i class="fa-solid fa-door-open"></i> Mark Returned</button>`;
+  }
+  return "";
+}
+
+function openOutpassModal(id, jumpToReject) {
+  const req = OUTPASS_DATA.find((r) => r.id === id);
+  if (!req) return;
+  activeRequestId = id;
+
+  document.getElementById("modalRequestId").textContent = req.id;
+  document.getElementById("modalStudentPhoto").src = AVATAR(req.name);
+  document.getElementById("modalStudentName").textContent = req.name;
+  document.getElementById("modalStudentMeta").textContent = `${req.regNo} · ${req.dept}`;
+  document.getElementById("modalStatusBadge").innerHTML = statusBadge(req);
+
+  document.getElementById("modalYear").textContent = req.year;
+  document.getElementById("modalSection").textContent = req.section;
+  document.getElementById("modalBlock").textContent = req.block;
+  document.getElementById("modalRoom").textContent = req.room;
+  document.getElementById("modalMobile").textContent = req.mobile;
+  document.getElementById("modalParentName").textContent = req.parentName;
+  document.getElementById("modalParentPhone").textContent = req.parentPhone;
+
+  document.getElementById("modalPurpose").textContent = req.purpose;
+  document.getElementById("modalDestination").textContent = req.destination;
+  document.getElementById("modalOutDateTime").textContent = `${fmtDate(req.outDate)}, ${req.outTime}`;
+  document.getElementById("modalReturnDateTime").textContent = `${fmtDate(req.returnDate)}, ${req.returnTime}`;
+  document.getElementById("modalReason").textContent = req.reason || "-";
+
+  const docWrap = document.getElementById("modalDocWrap");
+  docWrap.innerHTML = req.document
+    ? `<div class="modal-doc-link"><i class="fa-solid fa-paperclip"></i> ${req.document}</div>`
+    : `<span style="color:#999;font-size:13px;">No document uploaded</span>`;
+
+  document.getElementById("modalMeta").innerHTML = buildTimelineMeta(req);
+  document.getElementById("modalActions").innerHTML = modalActionsFor(req);
+  toggleRejectForm(false);
+
+  document.getElementById("modalOverlay").classList.add("open");
+  document.body.style.overflow = "hidden";
+
+  if (jumpToReject) toggleRejectForm(true);
+}
+
+function closeOutpassModal() {
+  document.getElementById("modalOverlay").classList.remove("open");
+  document.body.style.overflow = "";
+  activeRequestId = null;
+}
+
+function toggleRejectForm(show) {
+  const form = document.getElementById("rejectForm");
+  form.classList.toggle("open", !!show);
+  if (show) {
+    document.getElementById("rejectReasonSelect").value = "";
+    document.getElementById("rejectRemarksInput").value = "";
+  }
+}
+
+/* ---------- Admin actions ---------- */
+function notify(icon, title, text) {
+  NOTIFICATIONS.unshift({ icon, title, text, unread: true });
+  renderNotifications();
+}
+
+function quickApprove(id) {
+  const req = OUTPASS_DATA.find((r) => r.id === id);
+  if (!req) return;
   const now = new Date();
+  req.status = "approved";
+  req.approvedBy = CURRENT_ADMIN;
+  req.approvalDate = now.toISOString().slice(0, 10);
+  req.approvalTime = now.toTimeString().slice(0, 5);
 
-  function atTime(dateObj, hh, mm) {
-    const d = new Date(dateObj);
-    d.setHours(hh, mm, 0, 0);
-    return d;
-  }
-  function addDays(dateObj, n) {
-    return new Date(dateObj.getTime() + n * DAY);
-  }
-  function fmtDate(d) {
-    return d.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
-  }
-  function fmtTime(d) {
-    return d.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true });
-  }
-  function initialsOf(name) {
-    return name.split(' ').filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase();
-  }
+  refreshAll();
+  showToast(`${req.name}'s outpass has been approved`);
+  notify("fa-solid fa-circle-check", "Outpass Approved", `${req.name}'s outpass request was approved.`);
 
-  /* ---------------------------------------------------------
-     MOCK DATA
-  --------------------------------------------------------- */
-  const departments = ['Computer Science', 'Electronics & Comm.', 'Mechanical', 'Civil', 'Electrical', 'Information Tech.'];
-  const blocks = ['Block A', 'Block B', 'Block C'];
-
-  let requestSeq = 1042;
-  function nextId() { return 'OP-' + (requestSeq++); }
-
-  const raw = [
-    // [name, regNo, dept, year, room, block, purpose, destination, outOffsetDays, outHH, outMM, retOffsetDays, retHH, retMM, status, returnedOffsetDays(null=not returned), mobile, parentName, parentMobile, hasDoc]
-    ['Ananya Sharma', '21CS114', departments[0], '3rd Year', 'A-214', blocks[0], 'Visiting home', 'Chennai', 0, 9, 0, 0, 20, 0, 'Approved', null, '9840011223', 'Mr. Ramesh Sharma', '9840099887', false],
-    ['Rohit Verma', '21EC088', departments[1], '2nd Year', 'B-108', blocks[1], 'Medical appointment', 'City Hospital', 0, 8, 30, 0, 10, 30, 'Approved', null, '9940022334', 'Mrs. Sunita Verma', '9940088776', true],
-    ['Divya Krishnan', '20ME045', departments[2], '4th Year', 'C-302', blocks[2], 'Family function', 'Coimbatore', -1, 7, 0, -1, 19, 0, 'Approved', -1, '9944033445', 'Mr. Krishnan Iyer', '9944077665', false],
-    ['Aravind Kumar', '22CV021', departments[3], '1st Year', 'A-110', blocks[0], 'Shopping', 'Brookefields Mall', 0, 14, 0, 1, 20, 0, 'Pending', null, '9843044556', 'Mrs. Lalitha Kumar', '9843066554', false],
-    ['Sneha Reddy', '21EE067', departments[4], '3rd Year', 'B-215', blocks[1], 'Bank work', 'SBI Main Branch', 0, 10, 0, 0, 13, 0, 'Pending', null, '9845055667', 'Mr. Reddy Prasad', '9845055443', false],
-    ['Karthik Raj', '21IT032', departments[5], '2nd Year', 'C-118', blocks[2], 'Personal work', 'Home Town', -2, 9, 0, -2, 18, 0, 'Rejected', null, '9842066778', 'Mrs. Meena Raj', '9842044332', false],
-    ['Priya Nair', '20CS156', departments[0], '4th Year', 'A-305', blocks[0], 'Sister\'s wedding', 'Trivandrum', -3, 6, 0, -1, 20, 0, 'Approved', -1, '9846077889', 'Mr. Nair Suresh', '9846033221', true],
-    ['Vishal Menon', '22EC009', departments[1], '1st Year', 'B-102', blocks[1], 'Doctor visit', 'Apollo Clinic', 0, 11, 0, -0.02, 15, 0, 'Approved', null, '9847088990', 'Mrs. Menon Radha', '9847022110', true],
-    ['Meera Iyer', '21ME099', departments[2], '3rd Year', 'C-210', blocks[2], 'Weekend home visit', 'Madurai', -4, 9, 0, -3, 19, 0, 'Completed', -3, '9848099001', 'Mr. Iyer Gopal', '9848011009', false],
-    ['Suresh Babu', '22CV054', departments[3], '1st Year', 'A-117', blocks[0], 'Sports event', 'District Stadium', 1, 8, 0, 1, 18, 0, 'Pending', null, '9849000112', 'Mrs. Babu Kamala', '9849099008', false],
-    ['Nandini Rao', '20EE023', departments[4], '4th Year', 'B-301', blocks[1], 'Interview', 'Tech Park', 0, 8, 0, -0.04, 17, 0, 'Approved', null, '9830011223', 'Mr. Rao Venkat', '9830088007', true],
-    ['Arjun Pillai', '21IT077', departments[5], '2nd Year', 'C-119', blocks[2], 'Family emergency', 'Trichy', -5, 6, 0, -4, 21, 0, 'Rejected', null, '9831022334', 'Mrs. Pillai Devi', '9831077006', false],
-    ['Kavya Sundaram', '21CS201', departments[0], '3rd Year', 'A-220', blocks[0], 'Cultural fest', 'Chennai Trade Centre', -6, 7, 0, -5, 22, 0, 'Completed', -5, '9832033445', 'Mr. Sundaram Raj', '9832066005', false],
-    ['Yash Malhotra', '22EC061', departments[1], '1st Year', 'B-115', blocks[1], 'Personal work', 'City Centre', 0, 13, 0, 0, 19, 0, 'Pending', null, '9833044556', 'Mrs. Malhotra Neha', '9833055004', false],
-    ['Pooja Das', '20ME112', departments[2], '4th Year', 'C-306', blocks[2], 'Home visit', 'Salem', -8, 8, 0, -6, 20, 0, 'Completed', -6, '9834055667', 'Mr. Das Bikash', '9834044003', true],
-    ['Harish Chandran', '21CV088', departments[3], '2nd Year', 'A-128', blocks[0], 'Vehicle service', 'Local Garage', 0, 9, 30, 0, 12, 0, 'Approved', null, '9835066778', 'Mrs. Chandran Latha', '9835033002', false],
-  ];
-
-  const outpassRecords = raw.map((r, i) => {
-    const [name, regNo, dept, year, room, block, purpose, destination,
-      outOff, outHH, outMM, retOff, retHH, retMM, status, returnedOff,
-      mobile, parentName, parentMobile, hasDoc] = r;
-
-    const outDT = atTime(addDays(now, outOff), outHH, outMM);
-    const retDT = atTime(addDays(now, retOff), retHH, retMM);
-    const returnedDT = returnedOff === null ? null : atTime(addDays(now, returnedOff), retHH, Math.min(retMM + 15, 59));
-
-    return {
-      id: nextId(),
-      name, regNo, dept, year, room, block, purpose, destination,
-      initials: initialsOf(name),
-      outDT, retDT, returnedDT,
-      status,
-      remarks: status === 'Rejected' ? 'Reason not sufficiently justified as per hostel policy.' :
-               status === 'Completed' ? 'Returned to hostel and verified at the gate.' :
-               status === 'Approved' ? 'Approved. Please carry your ID card.' : '',
-      approvedBy: status === 'Pending' ? '—' : 'Mrs. Kavitha Rao',
-      mobile, parentName, parentMobile, hasDoc,
-      studentRemarks: 'Kindly approve at the earliest, thank you.',
-      requestedAt: addDays(outDT, -0.3),
-    };
-  });
-
-  /* ---------------------------------------------------------
-     DERIVED STATE HELPERS
-  --------------------------------------------------------- */
-  function isOutside(r) {
-    return r.status === 'Approved' && !r.returnedDT;
+  if (document.getElementById("modalOverlay").classList.contains("open") && activeRequestId === id) {
+    closeOutpassModal();
   }
-  function isOverdue(r) {
-    return isOutside(r) && new Date() > r.retDT;
-  }
-  function outsideSubStatus(r) {
-    if (!isOutside(r)) return null;
-    return isOverdue(r) ? 'Overdue' : 'Outside';
-  }
-  function returnedToday(r) {
-    if (!r.returnedDT) return false;
-    const t = new Date();
-    return r.returnedDT.toDateString() === t.toDateString();
+}
+
+function keepPending(id) {
+  showToast("Request kept pending for further verification");
+  closeOutpassModal();
+}
+
+function confirmReject() {
+  const req = OUTPASS_DATA.find((r) => r.id === activeRequestId);
+  if (!req) return;
+  const reason = document.getElementById("rejectReasonSelect").value;
+  const remarks = document.getElementById("rejectRemarksInput").value.trim();
+
+  if (!reason) {
+    document.getElementById("rejectReasonSelect").style.borderColor = "#e74c3c";
+    if (window.showToast) showToast("Please select a rejection reason");
+    return;
   }
 
-  /* ---------------------------------------------------------
-     NOTIFICATIONS STATE
-  --------------------------------------------------------- */
-  const notifications = [
-    { icon: 'fa-clipboard-list', type: 'new', title: 'New outpass request', text: 'Aravind Kumar submitted a new outpass request.', time: '10 min ago', unread: true },
-    { icon: 'fa-triangle-exclamation', type: 'warning', title: 'Student overdue', text: 'Vishal Menon has not returned by the expected time.', time: '25 min ago', unread: true },
-    { icon: 'fa-door-open', type: 'return', title: 'Student returned', text: 'Divya Krishnan has returned and been marked complete.', time: '1 hr ago', unread: true },
-    { icon: 'fa-circle-check', type: 'approved', title: 'Request approved', text: 'Rohit Verma\'s outpass request was approved.', time: '2 hr ago', unread: false },
-    { icon: 'fa-circle-xmark', type: 'rejected', title: 'Request rejected', text: 'Karthik Raj\'s outpass request was rejected.', time: '5 hr ago', unread: false },
-  ];
+  req.status = "rejected";
+  req.rejectReason = reason;
+  req.rejectRemarks = remarks || "No additional remarks.";
 
-  function pushNotification(n) {
-    notifications.unshift(Object.assign({ time: 'Just now', unread: true }, n));
-    renderNotifications();
-  }
+  refreshAll();
+  showToast(`${req.name}'s outpass has been rejected`);
+  notify("fa-solid fa-circle-xmark", "Outpass Rejected", `${req.name}'s outpass request was rejected.`);
+  closeOutpassModal();
+}
 
-  /* ---------------------------------------------------------
-     TOAST
-  --------------------------------------------------------- */
-  function showToast(message, type = 'success', icon = 'fa-circle-check') {
-    const container = document.getElementById('toastContainer');
-    const toast = document.createElement('div');
-    toast.className = `toast ${type}`;
-    toast.innerHTML = `<i class="fa-solid ${icon}"></i><span>${message}</span>`;
-    container.appendChild(toast);
-    setTimeout(() => {
-      toast.classList.add('hide');
-      toast.addEventListener('animationend', () => toast.remove());
-    }, 3200);
-  }
+function markReturned(id) {
+  const req = OUTPASS_DATA.find((r) => r.id === id);
+  if (!req) return;
+  const now = new Date();
+  req.status = "returned";
+  req.actualReturnTime = now.toTimeString().slice(0, 5);
 
-  /* ---------------------------------------------------------
-     BADGES
-  --------------------------------------------------------- */
-  function statusBadge(status) {
-    const map = {
-      Approved: 'badge--approved',
-      Pending: 'badge--pending',
-      Rejected: 'badge--rejected',
-      Completed: 'badge--completed',
-    };
-    return `<span class="badge ${map[status] || ''}">${status}</span>`;
-  }
-  function outsideBadge(sub) {
-    const map = { Outside: 'badge--outside', Overdue: 'badge--overdue', Returned: 'badge--returned' };
-    return `<span class="badge ${map[sub] || ''}">${sub}</span>`;
-  }
+  refreshAll();
+  showToast(`${req.name} has been marked as returned`);
+  notify("fa-solid fa-door-open", "Student Returned", `${req.name} has returned to the hostel.`);
+}
 
-  /* ---------------------------------------------------------
-     STAT COUNTER ANIMATION
-  --------------------------------------------------------- */
-  function animateCounter(el, target) {
-    const start = parseInt(el.textContent, 10) || 0;
-    if (start === target) { el.textContent = target; return; }
-    const duration = 600;
-    const startTime = performance.now();
-    function step(t) {
-      const progress = Math.min((t - startTime) / duration, 1);
-      el.textContent = Math.round(start + (target - start) * progress);
-      if (progress < 1) requestAnimationFrame(step);
-    }
-    requestAnimationFrame(step);
-  }
+/* ---------- Notifications panel ---------- */
+function renderNotifications() {
+  const list = document.getElementById("notifList");
+  const unreadCount = NOTIFICATIONS.filter((n) => n.unread).length;
+  document.getElementById("notifCount").textContent = unreadCount;
+  document.getElementById("notifCount").style.display = unreadCount ? "flex" : "none";
 
-  /* ---------------------------------------------------------
-     CHART
-  --------------------------------------------------------- */
-  let statusChart = null;
-  function renderChart(counts) {
-    const ctx = document.getElementById('statusChart');
-    if (!ctx || typeof Chart === 'undefined') return;
-    const data = {
-      labels: ['Pending', 'Approved', 'Rejected', 'Completed'],
-      datasets: [{
-        data: [counts.pending, counts.approved, counts.rejected, counts.completed],
-        backgroundColor: ['#f39c12', '#00b894', '#e74c3c', '#0056d6'],
-        borderWidth: 0,
-        hoverOffset: 6,
-      }],
-    };
-    if (statusChart) {
-      statusChart.data = data;
-      statusChart.update();
-      return;
-    }
-    statusChart = new Chart(ctx, {
-      type: 'doughnut',
-      data,
-      options: {
-        responsive: true,
-        maintainAspectRatio: true,
-        plugins: {
-          legend: { position: 'bottom', labels: { font: { family: 'Poppins', size: 12 }, padding: 16 } },
-        },
-        cutout: '65%',
-      },
-    });
-  }
-
-  /* ---------------------------------------------------------
-     RENDER: STATS + DASHBOARD WIDGETS
-  --------------------------------------------------------- */
-  function renderStats() {
-    const total = outpassRecords.length;
-    const pending = outpassRecords.filter(r => r.status === 'Pending').length;
-    const approved = outpassRecords.filter(r => r.status === 'Approved').length;
-    const rejected = outpassRecords.filter(r => r.status === 'Rejected').length;
-    const completed = outpassRecords.filter(r => r.status === 'Completed').length;
-    const outside = outpassRecords.filter(isOutside).length;
-    const overdue = outpassRecords.filter(isOverdue).length;
-    const returnedTodayCount = outpassRecords.filter(returnedToday).length;
-
-    animateCounter(document.querySelector('[data-counter="total"]'), total);
-    animateCounter(document.querySelector('[data-counter="pending"]'), pending);
-    animateCounter(document.querySelector('[data-counter="approved"]'), approved);
-    animateCounter(document.querySelector('[data-counter="rejected"]'), rejected);
-    animateCounter(document.querySelector('[data-counter="outside"]'), outside);
-    animateCounter(document.querySelector('[data-counter="returnedToday"]'), returnedTodayCount);
-
-    document.getElementById('welcomeOverdue').textContent = overdue;
-    document.getElementById('navPendingBadge').textContent = pending;
-    document.getElementById('navOutsideBadge').textContent = outside;
-    document.getElementById('overdueCountBadge').textContent = `${overdue} Overdue`;
-
-    renderChart({ pending, approved, rejected, completed });
-  }
-
-  function renderDashOutsideList() {
-    const list = document.getElementById('dashOutsideList');
-    const items = outpassRecords.filter(isOutside).slice(0, 5);
-    if (!items.length) {
-      list.innerHTML = `<li style="color:#666;font-size:13px;border:none;padding:0;">No students are currently outside.</li>`;
-      return;
-    }
-    list.innerHTML = items.map(r => `
-      <li>
-        <span>${r.name} · ${r.room}</span>
-        ${outsideBadge(outsideSubStatus(r))}
-      </li>
-    `).join('');
-  }
-
-  function renderRecentRequests() {
-    const tbody = document.querySelector('#recentRequestsTable tbody');
-    const items = [...outpassRecords].sort((a, b) => b.requestedAt - a.requestedAt).slice(0, 5);
-    tbody.innerHTML = items.map(r => `
-      <tr>
-        <td>${r.id}</td>
-        <td>${r.name}</td>
-        <td>${r.regNo}</td>
-        <td>${r.dept}</td>
-        <td>${r.destination}</td>
-        <td>${fmtDate(r.outDT)}</td>
-        <td>${statusBadge(r.status)}</td>
-        <td><button class="table-action-btn" title="View Details" data-view="${r.id}"><i class="fa-solid fa-eye"></i></button></td>
-      </tr>
-    `).join('');
-  }
-
-  /* ---------------------------------------------------------
-     REQUESTS PAGE: FILTERS + PAGINATION
-  --------------------------------------------------------- */
-  const reqState = { page: 1, pageSize: 6 };
-
-  function populateFilterOptions() {
-    const deptSel = document.getElementById('reqDeptFilter');
-    departments.forEach(d => {
-      const opt = document.createElement('option');
-      opt.value = d; opt.textContent = d;
-      deptSel.appendChild(opt);
-    });
-    const years = ['1st Year', '2nd Year', '3rd Year', '4th Year'];
-    const yearSel = document.getElementById('reqYearFilter');
-    years.forEach(y => {
-      const opt = document.createElement('option');
-      opt.value = y; opt.textContent = y;
-      yearSel.appendChild(opt);
-    });
-  }
-
-  function getFilteredRequests() {
-    const q = (document.getElementById('reqSearch').value || '').toLowerCase().trim();
-    const dept = document.getElementById('reqDeptFilter').value;
-    const year = document.getElementById('reqYearFilter').value;
-    const status = document.getElementById('reqStatusFilter').value;
-    const dateVal = document.getElementById('reqDateFilter').value;
-    const sort = document.getElementById('reqSort').value;
-
-    let list = outpassRecords.filter(r => {
-      const matchesQ = !q || r.name.toLowerCase().includes(q) || r.regNo.toLowerCase().includes(q) || r.id.toLowerCase().includes(q);
-      const matchesDept = !dept || r.dept === dept;
-      const matchesYear = !year || r.year === year;
-      const matchesStatus = !status || r.status === status;
-      const matchesDate = !dateVal || r.outDT.toISOString().slice(0, 10) === dateVal;
-      return matchesQ && matchesDept && matchesYear && matchesStatus && matchesDate;
-    });
-
-    if (sort === 'latest') list.sort((a, b) => b.requestedAt - a.requestedAt);
-    else if (sort === 'oldest') list.sort((a, b) => a.requestedAt - b.requestedAt);
-    else if (sort === 'name') list.sort((a, b) => a.name.localeCompare(b.name));
-
-    return list;
-  }
-
-  function renderRequestsTable() {
-    const tbody = document.getElementById('requestsTbody');
-    const emptyState = document.getElementById('requestsEmptyState');
-    const filtered = getFilteredRequests();
-
-    const totalPages = Math.max(1, Math.ceil(filtered.length / reqState.pageSize));
-    reqState.page = Math.min(reqState.page, totalPages);
-    const startIdx = (reqState.page - 1) * reqState.pageSize;
-    const pageItems = filtered.slice(startIdx, startIdx + reqState.pageSize);
-
-    tbody.innerHTML = pageItems.map(r => `
-      <tr>
-        <td>${r.id}</td>
-        <td><div class="table-photo avatar-initials">${r.initials}</div></td>
-        <td>${r.name}</td>
-        <td>${r.regNo}</td>
-        <td>${r.dept}</td>
-        <td>${r.year}</td>
-        <td>${r.room}</td>
-        <td>${r.block}</td>
-        <td>${r.purpose}</td>
-        <td>${r.destination}</td>
-        <td>${fmtDate(r.outDT)}</td>
-        <td>${fmtTime(r.outDT)}</td>
-        <td>${fmtDate(r.retDT)}</td>
-        <td>${fmtTime(r.retDT)}</td>
-        <td>${r.parentMobile}</td>
-        <td>${statusBadge(r.status)}</td>
-        <td><button class="table-action-btn" title="View Details" data-view="${r.id}"><i class="fa-solid fa-eye"></i></button></td>
-      </tr>
-    `).join('');
-
-    emptyState.style.display = filtered.length ? 'none' : 'block';
-
-    document.getElementById('reqPaginationInfo').textContent =
-      filtered.length ? `Showing ${startIdx + 1}–${Math.min(startIdx + reqState.pageSize, filtered.length)} of ${filtered.length}` : 'Showing 0 of 0';
-
-    renderPagination(totalPages);
-  }
-
-  function renderPagination(totalPages) {
-    const controls = document.getElementById('reqPaginationControls');
-    let html = `<button class="page-btn" id="prevPageBtn" ${reqState.page === 1 ? 'disabled' : ''}><i class="fa-solid fa-chevron-left"></i></button>`;
-    for (let i = 1; i <= totalPages; i++) {
-      html += `<button class="page-btn ${i === reqState.page ? 'active' : ''}" data-page-num="${i}">${i}</button>`;
-    }
-    html += `<button class="page-btn" id="nextPageBtn" ${reqState.page === totalPages ? 'disabled' : ''}><i class="fa-solid fa-chevron-right"></i></button>`;
-    controls.innerHTML = html;
-
-    document.getElementById('prevPageBtn')?.addEventListener('click', () => { reqState.page--; renderRequestsTable(); });
-    document.getElementById('nextPageBtn')?.addEventListener('click', () => { reqState.page++; renderRequestsTable(); });
-    controls.querySelectorAll('[data-page-num]').forEach(btn => {
-      btn.addEventListener('click', () => { reqState.page = parseInt(btn.dataset.pageNum, 10); renderRequestsTable(); });
-    });
-  }
-
-  ['reqSearch', 'reqDeptFilter', 'reqYearFilter', 'reqStatusFilter', 'reqDateFilter', 'reqSort'].forEach(id => {
-    document.getElementById(id).addEventListener('input', () => { reqState.page = 1; renderRequestsTable(); });
-    document.getElementById(id).addEventListener('change', () => { reqState.page = 1; renderRequestsTable(); });
-  });
-
-  /* ---------------------------------------------------------
-     OUTSIDE PAGE
-  --------------------------------------------------------- */
-  function renderOutsideTable() {
-    const tbody = document.getElementById('outsideTbody');
-    const emptyState = document.getElementById('outsideEmptyState');
-    const items = outpassRecords.filter(isOutside);
-
-    tbody.innerHTML = items.map(r => {
-      const sub = outsideSubStatus(r);
-      return `
-      <tr class="${sub === 'Overdue' ? 'row-overdue' : ''}">
-        <td>${r.name}</td>
-        <td>${r.dept}</td>
-        <td>${r.year}</td>
-        <td>${r.room}</td>
-        <td>${fmtTime(r.outDT)}</td>
-        <td>${fmtDate(r.retDT)}, ${fmtTime(r.retDT)}</td>
-        <td>${outsideBadge(sub)}</td>
-        <td>
-          <button class="table-action-btn" title="View Details" data-view="${r.id}"><i class="fa-solid fa-eye"></i></button>
-          <button class="table-action-btn act--return" title="Mark Returned" data-return="${r.id}"><i class="fa-solid fa-door-open"></i></button>
-        </td>
-      </tr>`;
-    }).join('');
-
-    emptyState.style.display = items.length ? 'none' : 'block';
-  }
-
-  function markReturned(id) {
-    const r = outpassRecords.find(x => x.id === id);
-    if (!r) return;
-    r.status = 'Completed';
-    r.returnedDT = new Date();
-    r.remarks = (r.remarks ? r.remarks + ' ' : '') + 'Returned to hostel and verified at the gate.';
-    showToast(`${r.name} marked as returned.`, 'success', 'fa-door-open');
-    pushNotification({
-      icon: 'fa-door-open', type: 'return',
-      title: 'Student returned',
-      text: `${r.name}'s outpass has been closed after verifying their return.`,
-    });
-    renderAll();
-  }
-
-  /* ---------------------------------------------------------
-     HISTORY PAGE
-  --------------------------------------------------------- */
-  function renderHistory() {
-    const tbody = document.getElementById('historyTbody');
-    const emptyState = document.getElementById('historyEmptyState');
-    const q = (document.getElementById('historySearch').value || '').toLowerCase().trim();
-    const statusVal = document.getElementById('historyStatusFilter').value;
-    const dateVal = document.getElementById('historyDateFilter').value;
-
-    const filtered = outpassRecords.filter(r => {
-      const matchesQ = !q || [r.name, r.regNo, r.purpose].some(f => f.toLowerCase().includes(q));
-      const matchesStatus = !statusVal || r.status === statusVal;
-      const matchesDate = !dateVal || r.outDT.toISOString().slice(0, 10) === dateVal;
-      return matchesQ && matchesStatus && matchesDate;
-    }).sort((a, b) => b.requestedAt - a.requestedAt);
-
-    tbody.innerHTML = filtered.map(r => {
-      const returnStatus = r.status === 'Completed' ? `Returned ${fmtDate(r.returnedDT)}` :
-                            isOverdue(r) ? 'Overdue' :
-                            isOutside(r) ? 'Still Outside' :
-                            r.status === 'Rejected' ? '—' : 'Not yet due';
-      return `
-      <tr>
-        <td>${r.id}</td>
-        <td>${r.name} (${r.regNo})</td>
-        <td>${fmtDate(r.outDT)}</td>
-        <td>${r.purpose}</td>
-        <td>${statusBadge(r.status)}</td>
-        <td>${r.approvedBy}</td>
-        <td>${returnStatus}</td>
-        <td>${r.remarks || '—'}</td>
-      </tr>`;
-    }).join('');
-
-    emptyState.style.display = filtered.length ? 'none' : 'block';
-  }
-
-  document.getElementById('historySearch').addEventListener('input', renderHistory);
-  document.getElementById('historyStatusFilter').addEventListener('change', renderHistory);
-  document.getElementById('historyDateFilter').addEventListener('change', renderHistory);
-
-  document.getElementById('exportPdfBtn').addEventListener('click', () => showToast('Preparing PDF export…', 'success', 'fa-file-pdf'));
-  document.getElementById('exportExcelBtn').addEventListener('click', () => showToast('Preparing Excel export…', 'success', 'fa-file-excel'));
-  document.getElementById('exportCsvBtn').addEventListener('click', () => showToast('Preparing CSV export…', 'success', 'fa-file-csv'));
-
-  /* ---------------------------------------------------------
-     REPORTS PAGE
-  --------------------------------------------------------- */
-  document.querySelectorAll('.report-generate-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      showToast(`Generating ${btn.dataset.report} Outpass Report…`, 'success', 'fa-chart-column');
-    });
-  });
-  ['reportsExportPdf', 'reportsExportExcel', 'reportsExportCsv'].forEach(id => {
-    document.getElementById(id).addEventListener('click', () => showToast('Preparing export…', 'success', 'fa-download'));
-  });
-
-  /* ---------------------------------------------------------
-     NOTIFICATIONS PAGE
-  --------------------------------------------------------- */
-  function renderNotifications() {
-    const list = document.getElementById('notifList');
-    const iconClassMap = {
-      approved: 'notif-icon--approved',
-      rejected: 'notif-icon--rejected',
-      reminder: 'notif-icon--reminder',
-      new: 'notif-icon--new',
-      warning: 'notif-icon--warning',
-      return: 'notif-icon--return',
-    };
-    list.innerHTML = notifications.map(n => `
-      <div class="notif-item ${n.unread ? 'unread' : ''}">
-        <div class="notif-icon ${iconClassMap[n.type]}"><i class="fa-solid ${n.icon}"></i></div>
-        <div class="notif-body">
-          <strong>${n.title}</strong>
-          <p>${n.text}</p>
-        </div>
-        <span class="notif-time">${n.time}</span>
+  list.innerHTML = NOTIFICATIONS.map(
+    (n) => `
+    <div class="notif-item ${n.unread ? "unread" : ""}">
+      <div class="notif-icon"><i class="${n.icon}"></i></div>
+      <div class="notif-content">
+        <strong>${n.title}</strong>
+        <span style="color:#333;font-size:12.5px;">${n.text}</span>
       </div>
-    `).join('');
+    </div>
+  `
+  ).join("");
+}
 
-    const unreadCount = notifications.filter(n => n.unread).length;
-    const navBadge = document.getElementById('navNotifBadge');
-    navBadge.textContent = unreadCount;
-    navBadge.style.display = unreadCount ? 'inline-flex' : 'none';
-    document.getElementById('bellDot').style.display = unreadCount ? 'block' : 'none';
-  }
+function openNotifPanel() {
+  document.getElementById("notifOverlay").classList.add("open");
+  document.getElementById("notifPanel").classList.add("open");
+  NOTIFICATIONS.forEach((n) => (n.unread = false));
+  setTimeout(renderNotifications, 400);
+}
 
-  document.getElementById('markAllReadBtn').addEventListener('click', () => {
-    notifications.forEach(n => n.unread = false);
-    renderNotifications();
-    showToast('All notifications marked as read', 'success', 'fa-check-double');
+function closeNotifPanel() {
+  document.getElementById("notifOverlay").classList.remove("open");
+  document.getElementById("notifPanel").classList.remove("open");
+}
+
+/* ---------- Toast ---------- */
+let toastTimer = null;
+window.showToast = function showToast(message) {
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+  toast.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove("show"), 2600);
+};
+
+/* ---------- Reports / Export ---------- */
+function buildReportRows(scope) {
+  const today = new Date().toISOString().slice(0, 10);
+  let rows = OUTPASS_DATA;
+  if (scope === "daily") rows = rows.filter((r) => r.outDate === today);
+  if (scope === "department") rows = [...rows].sort((a, b) => a.dept.localeCompare(b.dept));
+  if (scope === "student") rows = [...rows].sort((a, b) => a.name.localeCompare(b.name));
+  return rows;
+}
+
+function toCSV(rows) {
+  const header = ["Request ID", "Name", "Reg No", "Department", "Year", "Room", "Block", "Purpose", "Destination", "Out Date", "Return Date", "Status"];
+  const lines = rows.map((r) =>
+    [r.id, r.name, r.regNo, r.dept, r.year, r.room, r.block, r.purpose, r.destination, r.outDate, r.returnDate, STATUS_LABEL[r.status]]
+      .map((v) => `"${String(v).replace(/"/g, '""')}"`)
+      .join(",")
+  );
+  return [header.join(","), ...lines].join("\n");
+}
+
+function downloadBlob(content, filename, mime) {
+  const blob = new Blob([content], { type: mime });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
+function exportCSV(scope) {
+  const rows = buildReportRows(scope || "all");
+  downloadBlob(toCSV(rows), `outpass-report-${scope || "all"}.csv`, "text/csv");
+  showToast("CSV report downloaded");
+}
+
+function exportPDF() {
+  showToast("Preparing PDF report…");
+  window.print();
+}
+
+function exportExcel(scope) {
+  const rows = buildReportRows(scope || "all");
+  downloadBlob(toCSV(rows), `outpass-report-${scope || "all"}.xls`, "application/vnd.ms-excel");
+  showToast("Excel report downloaded");
+}
+
+/* ---------- Init ---------- */
+document.addEventListener("DOMContentLoaded", () => {
+  renderNotifications();
+  refreshAll();
+  animateCounters();
+
+  [
+    "searchName",
+    "searchReg",
+    "filterDept",
+    "filterYear",
+    "filterBlock",
+    "filterStatus",
+    "filterDate",
+  ].forEach((id) => {
+    const el = document.getElementById(id);
+    el.addEventListener(el.tagName === "SELECT" ? "change" : "input", renderRequestsTable);
   });
 
-  document.getElementById('notifBellBtn').addEventListener('click', () => goToPage('notifications'));
+  document.getElementById("resetFiltersBtn").addEventListener("click", resetFilters);
 
-  /* ---------------------------------------------------------
-     VIEW / APPROVAL MODAL
-  --------------------------------------------------------- */
-  const modal = document.getElementById('viewModal');
-  let activeRecordId = null;
+  document.getElementById("historySearch").addEventListener("input", renderHistoryTable);
+  document.getElementById("historyStatusFilter").addEventListener("change", renderHistoryTable);
 
-  function openModal(id) {
-    const r = outpassRecords.find(x => x.id === id);
-    if (!r) return;
-    activeRecordId = id;
-
-    document.getElementById('modalPhoto').textContent = r.initials;
-    document.getElementById('modalName').textContent = r.name;
-    document.getElementById('modalMeta').textContent = `${r.id} · ${r.regNo} · ${r.dept}, ${r.year}`;
-    document.getElementById('modalStatusBadge').innerHTML = statusBadge(r.status).replace(/^<span class="badge[^"]*">|<\/span>$/g, '');
-    document.getElementById('modalStatusBadge').className = 'badge ' + (
-      { Approved: 'badge--approved', Pending: 'badge--pending', Rejected: 'badge--rejected', Completed: 'badge--completed' }[r.status] || ''
-    );
-
-    document.getElementById('dRegNo').textContent = r.regNo;
-    document.getElementById('dDept').textContent = r.dept;
-    document.getElementById('dYear').textContent = r.year;
-    document.getElementById('dRoom').textContent = r.room;
-    document.getElementById('dBlock').textContent = r.block;
-    document.getElementById('dMobile').textContent = r.mobile;
-    document.getElementById('dParentName').textContent = r.parentName;
-    document.getElementById('dParentMobile').textContent = r.parentMobile;
-
-    document.getElementById('dPurpose').textContent = r.purpose;
-    document.getElementById('dDestination').textContent = r.destination;
-    document.getElementById('dOut').textContent = `${fmtDate(r.outDT)}, ${fmtTime(r.outDT)}`;
-    document.getElementById('dReturn').textContent = `${fmtDate(r.retDT)}, ${fmtTime(r.retDT)}`;
-    document.getElementById('dStudentRemarks').textContent = r.studentRemarks || '—';
-    document.getElementById('dDocument').textContent = r.hasDoc ? 'Supporting document attached (medical_note.pdf)' : 'No supporting document uploaded.';
-
-    document.getElementById('adminRemarkInput').value = r.status === 'Pending' ? '' : r.remarks || '';
-
-    modal.classList.add('show');
-  }
-
-  function closeModal() {
-    modal.classList.remove('show');
-    activeRecordId = null;
-  }
-
-  document.getElementById('modalCloseBtn').addEventListener('click', closeModal);
-  modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
-
-  function actOnRequest(newStatus, verb) {
-    const r = outpassRecords.find(x => x.id === activeRecordId);
-    if (!r) return;
-    const remark = document.getElementById('adminRemarkInput').value.trim();
-    r.status = newStatus;
-    r.approvedBy = 'Mrs. Kavitha Rao';
-    r.remarks = remark || (
-      newStatus === 'Approved' ? 'Approved. Please carry your ID card.' :
-      newStatus === 'Rejected' ? 'Request rejected by hostel administration.' :
-      'Request is currently under review.'
-    );
-
-    const notifText = {
-      Approved: 'Your Outpass Request has been approved by the Hostel Administration.',
-      Rejected: 'Your Outpass Request has been rejected. Please check the remarks provided by the Admin.',
-      Pending: 'Your Outpass Request is currently under review.',
-    }[newStatus];
-
-    pushNotification({
-      icon: newStatus === 'Approved' ? 'fa-circle-check' : newStatus === 'Rejected' ? 'fa-circle-xmark' : 'fa-hourglass-half',
-      type: newStatus === 'Approved' ? 'approved' : newStatus === 'Rejected' ? 'rejected' : 'reminder',
-      title: `Request ${verb}`,
-      text: `${r.name}: ${notifText}`,
-    });
-
-    showToast(`Outpass ${verb} for ${r.name}. Student notified.`, newStatus === 'Rejected' ? 'error' : 'success',
-      newStatus === 'Approved' ? 'fa-circle-check' : newStatus === 'Rejected' ? 'fa-circle-xmark' : 'fa-hourglass-half');
-
-    closeModal();
-    renderAll();
-  }
-
-  document.getElementById('approveBtn').addEventListener('click', () => actOnRequest('Approved', 'approved'));
-  document.getElementById('rejectBtn').addEventListener('click', () => actOnRequest('Rejected', 'rejected'));
-  document.getElementById('pendingBtn').addEventListener('click', () => actOnRequest('Pending', 'kept pending'));
-
-  /* Delegate all [data-view] / [data-return] clicks anywhere in the document */
-  document.addEventListener('click', e => {
-    const viewBtn = e.target.closest('[data-view]');
-    if (viewBtn) { openModal(viewBtn.dataset.view); return; }
-    const returnBtn = e.target.closest('[data-return]');
-    if (returnBtn) { markReturned(returnBtn.dataset.return); return; }
+  // Modal
+  document.getElementById("modalCloseBtn").addEventListener("click", closeOutpassModal);
+  document.getElementById("modalOverlay").addEventListener("click", (e) => {
+    if (e.target.id === "modalOverlay") closeOutpassModal();
   });
-
-  /* ---------------------------------------------------------
-     GLOBAL SEARCH (topbar) -> jumps to Requests page
-  --------------------------------------------------------- */
-  document.getElementById('globalSearch').addEventListener('keydown', e => {
-    if (e.key === 'Enter') {
-      const val = e.target.value;
-      goToPage('requests');
-      document.getElementById('reqSearch').value = val;
-      reqState.page = 1;
-      renderRequestsTable();
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      closeOutpassModal();
+      closeNotifPanel();
     }
   });
 
-  /* ---------------------------------------------------------
-     SPA NAVIGATION
-  --------------------------------------------------------- */
-  function goToPage(pageId) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById(`page-${pageId}`)?.classList.add('active');
-    document.querySelectorAll('.nav-item[data-page]').forEach(item => {
-      item.classList.toggle('active', item.dataset.page === pageId);
-    });
-    closeSidebarOnMobile();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-  window.goToPage = goToPage;
+  document.getElementById("confirmRejectBtn").addEventListener("click", confirmReject);
+  document.getElementById("cancelRejectBtn").addEventListener("click", () => toggleRejectForm(false));
 
-  document.querySelectorAll('.nav-item[data-page]').forEach(item => {
-    item.addEventListener('click', e => {
-      e.preventDefault();
-      goToPage(item.dataset.page);
-    });
-  });
+  // Notifications
+  document.getElementById("notifBellBtn").addEventListener("click", openNotifPanel);
+  document.getElementById("notifCloseBtn").addEventListener("click", closeNotifPanel);
+  document.getElementById("notifOverlay").addEventListener("click", closeNotifPanel);
 
-  document.querySelectorAll('[data-goto]').forEach(el => {
-    el.addEventListener('click', () => {
-      goToPage(el.dataset.goto);
-      if (el.dataset.filterStatus) {
-        document.getElementById('reqStatusFilter').value = el.dataset.filterStatus;
-        reqState.page = 1;
-        renderRequestsTable();
-      }
+  // Export buttons
+  document.getElementById("exportCsvBtn").addEventListener("click", () => exportCSV("all"));
+  document.getElementById("exportPdfBtn").addEventListener("click", exportPDF);
+  document.getElementById("exportExcelBtn").addEventListener("click", () => exportExcel("all"));
+
+  document.querySelectorAll(".report-card").forEach((card) => {
+    card.addEventListener("click", () => {
+      const scope = card.getAttribute("data-scope");
+      exportCSV(scope);
     });
   });
 
-  /* ---------------------------------------------------------
-     SIDEBAR TOGGLE (mobile hamburger + overlay)
-  --------------------------------------------------------- */
-  const sidebar = document.getElementById('sidebar');
-  const overlay = document.getElementById('sidebarOverlay');
-  const hamburgerBtn = document.getElementById('hamburgerBtn');
-
-  function openSidebar() { sidebar.classList.add('open'); overlay.classList.add('show'); }
-  function closeSidebar() { sidebar.classList.remove('open'); overlay.classList.remove('show'); }
-  function closeSidebarOnMobile() { if (window.innerWidth <= 992) closeSidebar(); }
-
-  hamburgerBtn.addEventListener('click', () => {
-    sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
-  });
-  overlay.addEventListener('click', closeSidebar);
-  window.addEventListener('resize', () => { if (window.innerWidth > 992) closeSidebar(); });
-
-  /* ---------------------------------------------------------
-     PROFILE DROPDOWN
-  --------------------------------------------------------- */
-  const topbarProfile = document.getElementById('topbarProfile');
-  topbarProfile.addEventListener('click', e => {
-    e.stopPropagation();
-    topbarProfile.classList.toggle('open');
-  });
-  document.addEventListener('click', () => topbarProfile.classList.remove('open'));
-
-  /* ---------------------------------------------------------
-     LOGOUT
-  --------------------------------------------------------- */
-  ['logoutBtn', 'dropdownLogout'].forEach(id => {
-    document.getElementById(id).addEventListener('click', e => {
-      e.preventDefault();
-      showToast('Logging you out…', 'success', 'fa-right-from-bracket');
-    });
-  });
-
-  /* ---------------------------------------------------------
-     LIVE DATE & TIME
-  --------------------------------------------------------- */
-  const clockTime = document.getElementById('clockTime');
-  const clockDate = document.getElementById('clockDate');
-  const welcomeTime = document.getElementById('welcomeTime');
-
-  function tickClock() {
-    const t = new Date();
-    const timeStr = t.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
-    const dateStr = t.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
-    clockTime.textContent = timeStr;
-    clockDate.textContent = dateStr;
-    welcomeTime.textContent = timeStr;
-  }
-  tickClock();
-  setInterval(tickClock, 1000);
-
-  /* Re-check overdue status every 30s so rows/badges update live */
-  setInterval(renderAll, 30000);
-
-  /* ---------------------------------------------------------
-     RENDER ALL
-  --------------------------------------------------------- */
-  function renderAll() {
-    renderStats();
-    renderDashOutsideList();
-    renderRecentRequests();
+  // Overdue re-check every 30s so rows flip to "Overdue" live
+  setInterval(() => {
     renderRequestsTable();
     renderOutsideTable();
-    renderHistory();
+  }, 30000);
+
+  // Sidebar mobile toggle
+  const sidebar = document.getElementById("sidebar");
+  const scrim = document.getElementById("sidebarScrim");
+  const hamburgerBtn = document.getElementById("hamburgerBtn");
+  function openSidebar() {
+    sidebar.classList.add("active");
+    scrim.classList.add("active");
   }
+  function closeSidebar() {
+    sidebar.classList.remove("active");
+    scrim.classList.remove("active");
+  }
+  hamburgerBtn.addEventListener("click", () => {
+    sidebar.classList.contains("active") ? closeSidebar() : openSidebar();
+  });
+  scrim.addEventListener("click", closeSidebar);
+  document.getElementById("sidebarCloseBtn").addEventListener("click", closeSidebar);
+});
 
-  /* ---------------------------------------------------------
-     INIT
-  --------------------------------------------------------- */
-  populateFilterOptions();
-  renderAll();
-  renderNotifications();
-
-})();
+/* ---------- Loader ---------- */
+window.addEventListener("load", () => {
+  const overlay = document.getElementById("loaderOverlay");
+  setTimeout(() => overlay.classList.add("hidden"), 500);
+});
