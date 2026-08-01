@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Outpass | Smart Hostel 360</title>
+
+<!-- Google Fonts: Poppins -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<!-- Module stylesheet -->
+<link rel="stylesheet" href="admin-outpass.css">
+</head>
+<body>
+
+<!-- ============ SIDEBAR OVERLAY (mobile) ============ -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- ============ SIDEBAR ============ -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-mark"><i class="fa-solid fa-shield-halved"></i></div>
+    <div class="brand-text">
+      <span class="brand-title">Smart Hostel <em>360</em></span>
+      <span class="brand-sub">Admin Portal</span>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <span class="nav-label">Overview</span>
+    <a href="#" class="nav-item active" data-page="dashboard">
+      <i class="fa-solid fa-house"></i><span>Dashboard</span>
+    </a>
+
+    <span class="nav-label">Outpass</span>
+    <a href="#" class="nav-item" data-page="requests">
+      <i class="fa-solid fa-clipboard-list"></i><span>Outpass Requests</span>
+      <span class="nav-badge nav-badge--accent" id="navPendingBadge">0</span>
+    </a>
+    <a href="#" class="nav-item" data-page="outside">
+      <i class="fa-solid fa-person-walking-arrow-right"></i><span>Students Outside</span>
+      <span class="nav-badge" id="navOutsideBadge">0</span>
+    </a>
+    <a href="#" class="nav-item" data-page="history">
+      <i class="fa-solid fa-clock-rotate-left"></i><span>Outpass History</span>
+    </a>
+    <a href="#" class="nav-item" data-page="reports">
+      <i class="fa-solid fa-chart-column"></i><span>Reports</span>
+    </a>
+
+    <span class="nav-label">Updates</span>
+    <a href="#" class="nav-item" data-page="notifications">
+      <i class="fa-solid fa-bell"></i><span>Notifications</span>
+      <span class="nav-badge nav-badge--danger" id="navNotifBadge">0</span>
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <a href="#" class="nav-item nav-item--logout" id="logoutBtn">
+      <i class="fa-solid fa-right-from-bracket"></i><span>Logout</span>
+    </a>
+  </div>
+</aside>
+
+<!-- ============ MAIN ============ -->
+<div class="main-wrapper">
+
+  <div class="content">
+
+    <!-- ============ TOPBAR ============ -->
+    <div class="topbar">
+      <div class="topbar-left">
+        <button class="hamburger" id="hamburgerBtn"><i class="fa-solid fa-bars"></i></button>
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="globalSearch" placeholder="Search by name, register no. or request ID...">
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="live-clock">
+          <i class="fa-solid fa-clock"></i>
+          <div class="clock-text">
+            <span id="clockTime">--:--:--</span>
+            <span id="clockDate">--</span>
+          </div>
+        </div>
+        <button class="icon-btn" id="notifBellBtn" title="Notifications">
+          <i class="fa-solid fa-bell"></i>
+          <span class="icon-dot pulse" id="bellDot"></span>
+        </button>
+        <div class="topbar-profile" id="topbarProfile">
+          <div class="profile-avatar avatar-initials" style="width:48px;height:48px;">AD</div>
+          <div class="profile-meta">
+            <span class="profile-name">Mrs. Kavitha Rao</span>
+            <span class="profile-reg">Hostel Warden</span>
+          </div>
+          <i class="fa-solid fa-chevron-down profile-caret"></i>
+
+          <div class="profile-dropdown">
+            <div class="dropdown-header">
+              <div class="avatar-initials">AD</div>
+              <div>
+                <strong>Mrs. Kavitha Rao</strong>
+                <span>Hostel Warden · Block A &amp; B</span>
+              </div>
+            </div>
+            <ul>
+              <li><i class="fa-solid fa-envelope"></i> kavitha.rao@smarthostel360.edu</li>
+              <li><i class="fa-solid fa-phone"></i> +91 98765 43210</li>
+            </ul>
+            <a href="#" class="dropdown-link">My Profile</a>
+            <a href="#" class="dropdown-link" id="dropdownLogout">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ PAGE: DASHBOARD ============ -->
+    <section class="page active" id="page-dashboard">
+
+      <div class="welcome-card">
+        <div class="welcome-glass">
+          <div class="welcome-text">
+            <span class="welcome-eyebrow">Admin Outpass Console</span>
+            <h1>Welcome back, Warden 👋</h1>
+            <p>Here's a real-time snapshot of every outpass request across the hostel. Review, approve and track student movement — all in one place.</p>
+          </div>
+          <div class="welcome-status">
+            <div class="welcome-status-item">
+              <span class="dot dot--live"></span>
+              <div>
+                <strong id="welcomeTime">--:--:--</strong>
+                <small>Live server time</small>
+              </div>
+            </div>
+            <div class="welcome-status-item">
+              <i class="fa-solid fa-triangle-exclamation"></i>
+              <div>
+                <strong id="welcomeOverdue">0</strong>
+                <small>Overdue right now</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-6 stat-grid" id="statGrid">
+        <div class="stat-card" data-goto="requests">
+          <div class="stat-icon stat-icon--blue"><i class="fa-solid fa-clipboard-list"></i></div>
+          <div class="stat-info">
+            <span class="stat-value" data-counter="total">0</span>
+            <span class="stat-label">Total Requests</span>
+          </div>
+        </div>
+        <div class="stat-card" data-goto="requests" data-filter-status="Pending">
+          <div class="stat-icon stat-icon--amber"><i class="fa-solid fa-hourglass-half"></i></div>
+          <div class="stat-info">
+            <span class="stat-value" data-counter="pending">0</span>
+            <span class="stat-label">Pending Requests</span>
+          </div>
+        </div>
+        <div class="stat-card" data-goto="requests" data-filter-status="Approved">
+          <div class="stat-icon stat-icon--green"><i class="fa-solid fa-circle-check"></i></div>
+          <div class="stat-info">
+            <span class="stat-value" data-counter="approved">0</span>
+            <span class="stat-label">Approved Requests</span>
+          </div>
+        </div>
+        <div class="stat-card" data-goto="requests" data-filter-status="Rejected">
+          <div class="stat-icon stat-icon--red"><i class="fa-solid fa-circle-xmark"></i></div>
+          <div class="stat-info">
+            <span class="stat-value" data-counter="rejected">0</span>
+            <span class="stat-label">Rejected Requests</span>
+          </div>
+        </div>
+        <div class="stat-card" data-goto="outside">
+          <div class="stat-icon stat-icon--purple"><i class="fa-solid fa-person-walking-arrow-right"></i></div>
+          <div class="stat-info">
+            <span class="stat-value" data-counter="outside">0</span>
+            <span class="stat-label">Currently Outside</span>
+          </div>
+        </div>
+        <div class="stat-card" data-goto="history">
+          <div class="stat-icon stat-icon--teal"><i class="fa-solid fa-door-open"></i></div>
+          <div class="stat-info">
+            <span class="stat-value" data-counter="returnedToday">0</span>
+            <span class="stat-label">Returned Today</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-2 gap-lg">
+        <div class="card chart-card">
+          <div class="card-head">
+            <h3><i class="fa-solid fa-chart-pie"></i> Request Status Breakdown</h3>
+          </div>
+          <canvas id="statusChart"></canvas>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <h3><i class="fa-solid fa-person-walking-arrow-right"></i> Students Currently Outside</h3>
+            <button class="btn btn-outline btn-sm" data-goto="outside">View All</button>
+          </div>
+          <ul class="current-outpass-list" id="dashOutsideList" style="display:flex;flex-direction:column;gap:12px;">
+            <!-- injected -->
+          </ul>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <h3><i class="fa-solid fa-list-check"></i> Recent Outpass Requests</h3>
+          <button class="btn btn-primary btn-sm" data-goto="requests"><i class="fa-solid fa-eye"></i> View All Requests</button>
+        </div>
+        <div class="table-scroll">
+          <table class="data-table" id="recentRequestsTable" style="min-width:1100px;">
+            <thead>
+              <tr>
+                <th>Req. ID</th><th>Student</th><th>Reg. No.</th><th>Department</th><th>Destination</th><th>Out Date</th><th>Status</th><th>Actions</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ============ PAGE: OUTPASS REQUESTS ============ -->
+    <section class="page" id="page-requests">
+      <div class="page-head">
+        <div>
+          <h1>Outpass Requests</h1>
+          <p class="page-sub">Review, verify and act on every student outpass request in real time.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="history-toolbar">
+          <div class="search-box search-box--table">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="reqSearch" placeholder="Search name or register no.">
+          </div>
+          <div class="toolbar-filters">
+            <select class="filter-input" id="reqDeptFilter">
+              <option value="">All Departments</option>
+            </select>
+            <select class="filter-input" id="reqYearFilter">
+              <option value="">All Years</option>
+            </select>
+            <select class="filter-input" id="reqStatusFilter">
+              <option value="">All Status</option>
+              <option value="Pending">Pending</option>
+              <option value="Approved">Approved</option>
+              <option value="Rejected">Rejected</option>
+              <option value="Completed">Completed</option>
+            </select>
+            <input type="date" class="filter-input" id="reqDateFilter">
+            <select class="filter-input" id="reqSort">
+              <option value="latest">Sort: Latest First</option>
+              <option value="oldest">Sort: Oldest First</option>
+              <option value="name">Sort: Student Name</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="table-scroll">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Req. ID</th>
+                <th>Photo</th>
+                <th>Student Name</th>
+                <th>Reg. No.</th>
+                <th>Department</th>
+                <th>Year</th>
+                <th>Room No.</th>
+                <th>Block</th>
+                <th>Purpose</th>
+                <th>Destination</th>
+                <th>Out Date</th>
+                <th>Out Time</th>
+                <th>Exp. Return Date</th>
+                <th>Exp. Return Time</th>
+                <th>Parent Contact</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="requestsTbody"></tbody>
+          </table>
+          <div class="table-empty" id="requestsEmptyState" style="display:none;">
+            <i class="fa-solid fa-inbox"></i>
+            No outpass requests match your search or filters.
+          </div>
+        </div>
+
+        <div class="pagination">
+          <span class="pagination-info" id="reqPaginationInfo">Showing 0 of 0</span>
+          <div class="pagination-controls" id="reqPaginationControls"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PAGE: STUDENTS OUTSIDE ============ -->
+    <section class="page" id="page-outside">
+      <div class="page-head">
+        <div>
+          <h1>Students Currently Outside</h1>
+          <p class="page-sub">Live tracking of every student who is out on an approved outpass. Overdue students are highlighted automatically.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <h3><i class="fa-solid fa-person-walking-arrow-right"></i> Live Outside List</h3>
+          <span class="badge badge--overdue" id="overdueCountBadge">0 Overdue</span>
+        </div>
+        <div class="table-scroll">
+          <table class="data-table" style="min-width:1100px;">
+            <thead>
+              <tr>
+                <th>Student Name</th><th>Department</th><th>Year</th><th>Room No.</th><th>Out Time</th><th>Expected Return</th><th>Status</th><th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="outsideTbody"></tbody>
+          </table>
+          <div class="table-empty" id="outsideEmptyState" style="display:none;">
+            <i class="fa-solid fa-house-circle-check"></i>
+            No students are currently outside the hostel.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PAGE: HISTORY ============ -->
+    <section class="page" id="page-history">
+      <div class="page-head">
+        <div>
+          <h1>Outpass History</h1>
+          <p class="page-sub">Complete record of every outpass request ever raised, with approvals and return status.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="history-toolbar">
+          <div class="search-box search-box--table">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="historySearch" placeholder="Search name, reg. no. or purpose">
+          </div>
+          <div class="toolbar-filters">
+            <select class="filter-input" id="historyStatusFilter">
+              <option value="">All Status</option>
+              <option value="Approved">Approved</option>
+              <option value="Rejected">Rejected</option>
+              <option value="Completed">Completed</option>
+              <option value="Pending">Pending</option>
+            </select>
+            <input type="date" class="filter-input" id="historyDateFilter">
+          </div>
+        </div>
+
+        <div class="table-scroll">
+          <table class="data-table" style="min-width:1200px;">
+            <thead>
+              <tr>
+                <th>Req. ID</th><th>Student</th><th>Request Date</th><th>Purpose</th><th>Status</th><th>Approved By</th><th>Return Status</th><th>Remarks</th>
+              </tr>
+            </thead>
+            <tbody id="historyTbody"></tbody>
+          </table>
+          <div class="table-empty" id="historyEmptyState" style="display:none;">
+            <i class="fa-solid fa-clock-rotate-left"></i>
+            No history records match your search or filters.
+          </div>
+        </div>
+
+        <div class="export-row">
+          <button class="btn btn-outline btn-sm" id="exportPdfBtn"><i class="fa-solid fa-file-pdf"></i> Export PDF</button>
+          <button class="btn btn-outline btn-sm" id="exportExcelBtn"><i class="fa-solid fa-file-excel"></i> Export Excel</button>
+          <button class="btn btn-outline btn-sm" id="exportCsvBtn"><i class="fa-solid fa-file-csv"></i> Export CSV</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PAGE: REPORTS ============ -->
+    <section class="page" id="page-reports">
+      <div class="page-head">
+        <div>
+          <h1>Reports</h1>
+          <p class="page-sub">Generate and export outpass reports for administration and records.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <h3><i class="fa-solid fa-chart-column"></i> Generate a Report</h3>
+        </div>
+        <div class="report-grid">
+          <div class="report-card">
+            <i class="fa-solid fa-calendar-day"></i>
+            <strong>Daily Outpass Report</strong>
+            <p>Every request raised today, with current status and return details.</p>
+            <button class="btn btn-primary btn-sm report-generate-btn" data-report="Daily">Generate</button>
+          </div>
+          <div class="report-card">
+            <i class="fa-solid fa-calendar-week"></i>
+            <strong>Weekly Outpass Report</strong>
+            <p>Summary of all outpass activity across the current week.</p>
+            <button class="btn btn-primary btn-sm report-generate-btn" data-report="Weekly">Generate</button>
+          </div>
+          <div class="report-card">
+            <i class="fa-solid fa-calendar"></i>
+            <strong>Monthly Outpass Report</strong>
+            <p>Consolidated monthly view for hostel administration review.</p>
+            <button class="btn btn-primary btn-sm report-generate-btn" data-report="Monthly">Generate</button>
+          </div>
+          <div class="report-card">
+            <i class="fa-solid fa-building-columns"></i>
+            <strong>Department-wise Report</strong>
+            <p>Breakdown of outpass requests grouped by department.</p>
+            <button class="btn btn-primary btn-sm report-generate-btn" data-report="Department-wise">Generate</button>
+          </div>
+          <div class="report-card">
+            <i class="fa-solid fa-user-graduate"></i>
+            <strong>Student-wise History</strong>
+            <p>Full outpass history for an individual student.</p>
+            <button class="btn btn-primary btn-sm report-generate-btn" data-report="Student-wise">Generate</button>
+          </div>
+        </div>
+
+        <div class="export-row">
+          <button class="btn btn-outline btn-sm" id="reportsExportPdf"><i class="fa-solid fa-file-pdf"></i> Export as PDF</button>
+          <button class="btn btn-outline btn-sm" id="reportsExportExcel"><i class="fa-solid fa-file-excel"></i> Export as Excel</button>
+          <button class="btn btn-outline btn-sm" id="reportsExportCsv"><i class="fa-solid fa-file-csv"></i> Export as CSV</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PAGE: NOTIFICATIONS ============ -->
+    <section class="page" id="page-notifications">
+      <div class="page-head">
+        <div>
+          <h1>Notifications</h1>
+          <p class="page-sub">Real-time alerts for new requests, returns, overdue students and cancellations.</p>
+        </div>
+        <button class="btn btn-outline btn-sm" id="markAllReadBtn"><i class="fa-solid fa-check-double"></i> Mark all as read</button>
+      </div>
+
+      <div class="card">
+        <div class="notif-list" id="notifList"></div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="app-footer">
+    <span>© 2026 Smart Hostel 360. All rights reserved.</span>
+    <span>Admin Outpass Module v1.0</span>
+  </footer>
+</div>
+
+<!-- ============ VIEW / APPROVAL MODAL ============ -->
+<div class="modal-overlay" id="viewModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3><i class="fa-solid fa-clipboard-list"></i> Outpass Request Details</h3>
+      <button class="modal-close" id="modalCloseBtn"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+
+      <div class="modal-student-head">
+        <div class="modal-student-photo avatar-initials" id="modalPhoto">--</div>
+        <div>
+          <h4 id="modalName">--</h4>
+          <p id="modalMeta">--</p>
+        </div>
+        <span class="badge" id="modalStatusBadge">--</span>
+      </div>
+
+      <div class="modal-section-title"><i class="fa-solid fa-id-card"></i> Student Information</div>
+      <div class="detail-grid">
+        <div class="detail-item"><span>Register Number</span><strong id="dRegNo">--</strong></div>
+        <div class="detail-item"><span>Department</span><strong id="dDept">--</strong></div>
+        <div class="detail-item"><span>Year</span><strong id="dYear">--</strong></div>
+        <div class="detail-item"><span>Room Number</span><strong id="dRoom">--</strong></div>
+        <div class="detail-item"><span>Hostel Block</span><strong id="dBlock">--</strong></div>
+        <div class="detail-item"><span>Mobile Number</span><strong id="dMobile">--</strong></div>
+        <div class="detail-item"><span>Parent Name</span><strong id="dParentName">--</strong></div>
+        <div class="detail-item"><span>Parent Mobile</span><strong id="dParentMobile">--</strong></div>
+      </div>
+
+      <div class="modal-section-title"><i class="fa-solid fa-route"></i> Outpass Details</div>
+      <div class="detail-grid">
+        <div class="detail-item"><span>Purpose of Leave</span><strong id="dPurpose">--</strong></div>
+        <div class="detail-item"><span>Destination</span><strong id="dDestination">--</strong></div>
+        <div class="detail-item"><span>Out Date &amp; Time</span><strong id="dOut">--</strong></div>
+        <div class="detail-item"><span>Expected Return</span><strong id="dReturn">--</strong></div>
+        <div class="detail-item" style="grid-column:1/-1;"><span>Student Remarks</span><strong id="dStudentRemarks">--</strong></div>
+      </div>
+
+      <div class="doc-preview">
+        <i class="fa-solid fa-file-lines"></i>
+        <span id="dDocument">No supporting document uploaded.</span>
+      </div>
+
+      <div class="modal-section-title"><i class="fa-solid fa-stamp"></i> Admin Approval</div>
+
+      <div class="approval-actions">
+        <button class="btn btn-success" id="approveBtn"><i class="fa-solid fa-check"></i> Approve Request</button>
+        <button class="btn btn-danger" id="rejectBtn"><i class="fa-solid fa-xmark"></i> Reject Request</button>
+        <button class="btn btn-amber" id="pendingBtn"><i class="fa-regular fa-hourglass-half"></i> Keep Pending</button>
+      </div>
+
+      <div class="remark-field">
+        <label for="adminRemarkInput">Approval Remarks / Rejection Reason / Additional Instructions</label>
+        <textarea id="adminRemarkInput" placeholder="Add a remark for the student (optional for approvals, recommended for rejections)..."></textarea>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ============ TOASTS ============ -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- Chart.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+<!-- Module script -->
+<script src="admin-outpass.js"></script>
+</body>
+</html>
